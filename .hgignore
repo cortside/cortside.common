@@ -1,0 +1,5 @@
+syntax: glob
+src/user.config
+src/user.mk
+*.user
+*.suo

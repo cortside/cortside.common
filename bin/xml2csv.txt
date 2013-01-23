@@ -1,0 +1,179 @@
+A7Soft xml2csv is a powerful command line tool for converting XML files to CSV files.
+
+Usage: 
+xml2csv <xml-file> <csv-file> <fields|fields-file> [-A|-E] [-Q] [-D=char] [-X] [-N] [-S] [-F]
+Where: xml-file    - The source xml file to be converted
+       csv-file    - The target csv file to be created
+       fields      - String containing names of elements or attributes separated by comma
+                     or by character you specified in the -S argument
+       fields-file - The text file containing names of elements or attributes separated by comma
+                     or by character you specified in the -S argument
+       -A          - Option to convert only xml attributes to csv values
+       -E          - Option to convert only xml elements to csv values
+                     (defaults: xml2csv converts both elements and attributes)
+       -Q          - Option to enclose csv values by quote   
+       -D          - A character to separate csv fields (defaults:comma[,])
+       -X          - Option to append CSV values to existing file
+                     (defaults: xml2csv overwrites existing file)
+       -N          - Disable namespace processing. (defaults:ON)
+       -S          - Disable schema processing. (defaults:ON)      
+       -F          - Enable full schema constraint checking processing (defaults:OFF)
+
+
+By default xml2csv converts both XML elements and XML attributes to CSV, 
+If you want xml2csv to convert only XML attributes please use the -A option.
+You can use the -E option to convert only XML elements to CSV values.
+
+In all cases you have to specify the list of elements or attributes as a text string separated by comma. 
+The list may be in a text file (recommended) or in a command string.
+
+NOTE! xml2csv is a case sensitive tool, you should specify the names of the elements 
+exactly as they appear within xml file.
+
+If a xml file you want to convert is complicated and has duplicated element 
+names or attributes you can use aliases (see example 5).
+
+You can specify a character to separate fields in the csv file by using the -S=<character> argument.
+In that case please do not forget to use the same character in the field's file 
+or in the list of fields in the arguments (see example 2).
+
+Examples
+The source XML file "elements.xml" has elements and attributes
+......................
+<element uuid="1" name="apple" price="15">
+<description>This is an apple</description>
+<text>Please take it</text>
+</element>
+<element uuid="2" name="green apple" price="20">
+<text>Follow them</text>
+<description>This is green apple</description>
+</element>
+............
+
+Example 1 (xml2csv converts both elements and attributes) 
+--------------------------------------------------------
+Usage: xml2csv elements.xml elements.csv "uuid,name,price,description,text"
+
+CSV file: elements.csv 
+.........................
+uuid,name,price,description,text
+1,apple,15,This is an apple,Please take it
+2,green apple,20,This is green apple,Follow them
+..........................
+
+
+Example 2 (xml2csv converts only elements and separates fileds by semicolon)
+-----------------------------------------
+Usage: xml2csv elements.xml elements.csv "uuid;name;price;description;text" -E -D=;
+
+CSV file:
+
+uuid;name;price;description;text
+;;;This is an apple;Please take it
+;;;This is green apple;Follow them
+
+Example 3 (xml2csv converts only attributes)
+-------------------------------------------
+Usage: xml2csv elements.xml elements.csv "uuid,name,price,description,text" -A
+
+CSV file:
+
+uuid,name,price,description,text
+1,apple,15,,
+2,green apple,20,,
+
+Example 4 (using fields-file)
+-------------------------------------------
+Usage: xml2csv elements.xml elements.csv fields.txt
+
+where "fields.txt" contains a line "uuid,name,price,description,text"
+
+
+Example 5 (duplicate element names and complicated xml structure)
+----------------------------------------------------------------
+Sometimes structure of a xml file is complicated and has duplicated element names or attributes.
+
+<orders>
+........
+<order>
+<seller><fname> Jose </fname></seller> 
+<buyer><fname> Carlos </fname></buyer>
+<assistant fname="Bill"  id="2"/>
+<assistant fname="Scott" id="3"/>
+<product>Box</product>
+</order>
+........
+</orders>
+
+There are three appearances of "fname" in that xml fragment.
+
+The seller element has the "fname" sub-element and the buyer has the "fname" and the assistant element has the “fname” attribute.	
+
+To extract all fields named "fname" you can use aliases in the field's file. 
+
+First line of the field's file contains aliases and real names. 
+
+Each aliase and name should be unique, but xml2csv supports duplicate elements. 
+
+You can mix aliases and simple element and attribute names. 
+
+Next lines contains definition of each alias. Each definition is on one line.
+
+The definition is a line: 
+
+alias=full-element-or-attribute-name.
+
+The full name contains the name of attribute or element and names of all ancestors 
+beginning with the name of the root element. 
+
+Alias of attribute may contain only the element name and the attribute name separated by '|'.
+Each name of elements separated by '>' and the name of an attribute separated by '|'.
+
+The field file for the example:
+-----------------------------------------
+seller_fname,buyer_fname,assistant_fname_1,assistant_fname_2,product
+seller_fname=orders>order>seller>fname
+buyer_fname=orders>order>buyer>fname
+assistant_fname_1=orders>order>assistant|fname
+assistant_fname_2=orders>order>assistant|fname
+-----------------------------------------
+The field file have three aliases and one simple element name.
+
+You can see the last alias "assistant_name" is an attribute name 
+and has '|' character before attribute name.
+
+The name of the "product" element is a simple element name. 
+
+Example 6 (common elements/attributes to be inserted into each row of csv file)
+----------------------------------------------------------------
+Suppose there are some elements or attributes that you want 
+to insert into each row of the csv file.
+
+<order type="FOB">
+   <title>ZUT56</title>
+   <item name="HETZ" price="34.00" />
+   <item name="MJFH" price="20.00" />
+   <item name="HFZG" price="10.70" />
+   <item name="IKRG" price="25.90" />
+</order>
+
+and a csv file you want to be: 
+type,title,name,price
+"FOB","ZUT56","HETZ","34.00"
+"FOB","ZUT56","MJFH","20.00"
+"FOB","ZUT56","HFZG","10.70"
+"FOB","ZUT56","IKRG","25.90"
+
+The "type" attribute is a common attribute for each item element. 
+You can specify the "type" alias as a common attribute and 
+the "title" element as a common element by using "==" instead of "=".
+
+type,title,name,price
+type==order|type    # common attribute
+title==order>title  # common element
+name=order>item|type
+price=order>item|type
+
+-------------------------------------
+For more detail please visit our site
+http://www.a7soft.com

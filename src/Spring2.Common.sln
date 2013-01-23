@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring2.Common.Web", "Spring2.Common.Web.csproj", "{02A51FB8-81A4-4C1B-98FC-09018185FDC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring2.Common.Web.Client", "Spring2.Common.Web.Client.csproj", "{AFBAF096-817F-4DFE-91F7-4F293F852E25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring2.Common.Web.Server", "Spring2.Common.Web.Server.csproj", "{95C133C2-7A0C-477A-9982-C8AEAB5F645C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring2.Common.Web.Hosting", "Spring2.Common.Web.Hosting.csproj", "{721DBFA2-43F8-42DB-8918-1E30B34E90A2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{02A51FB8-81A4-4C1B-98FC-09018185FDC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02A51FB8-81A4-4C1B-98FC-09018185FDC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02A51FB8-81A4-4C1B-98FC-09018185FDC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02A51FB8-81A4-4C1B-98FC-09018185FDC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFBAF096-817F-4DFE-91F7-4F293F852E25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFBAF096-817F-4DFE-91F7-4F293F852E25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFBAF096-817F-4DFE-91F7-4F293F852E25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFBAF096-817F-4DFE-91F7-4F293F852E25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95C133C2-7A0C-477A-9982-C8AEAB5F645C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95C133C2-7A0C-477A-9982-C8AEAB5F645C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95C133C2-7A0C-477A-9982-C8AEAB5F645C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95C133C2-7A0C-477A-9982-C8AEAB5F645C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{721DBFA2-43F8-42DB-8918-1E30B34E90A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{721DBFA2-43F8-42DB-8918-1E30B34E90A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{721DBFA2-43F8-42DB-8918-1E30B34E90A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{721DBFA2-43F8-42DB-8918-1E30B34E90A2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
