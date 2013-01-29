@@ -72,16 +72,16 @@ generate:
 	@$(DTGDIR)/DataTierGenerator.exe -f DataTierGenerator.config.xml
 
 updateProjectFiles:	
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.DCMS.Data.csproj -d Data/Model
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.DCMS.Data.csproj -d Data/Enum
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.DCMS.Domain.csproj -d Domain/Entity
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.DCMS.DomainService.csproj -d DomainService
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.DCMS.DomainService.Implementor.csproj -d DomainService/Implementor
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.DCMS.Repository.csproj -d Repository
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.DCMS.Repository.NHRepository.csproj -d NHRepository
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.DCMS.Test.Domain.csproj -d Test/Domain
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.DCMS.Test.DomainService.csproj -d Test/DomainService
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.DCMS.Test.NHRepository.csproj -d Test/NHRepository
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.Data.csproj -d Data/Model
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.Data.csproj -d Data/Enum
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.Domain.csproj -d Domain/Entity
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.DomainService.csproj -d DomainService
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.DomainService.Implementor.csproj -d DomainService/Implementor
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.Repository.csproj -d Repository
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.Repository.NHRepository.csproj -d NHRepository
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.Test.Domain.csproj -d Test/Domain
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.Test.DomainService.csproj -d Test/DomainService
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.Test.NHRepository.csproj -d Test/NHRepository
 
 .PHONY: ncover
 ncover: 
@@ -132,9 +132,10 @@ package_prep:
 	$(MKDIR) ../tmp
 
 package_all:
-	cd ../tmp; ${7ZIP} a ${RELEASEDIR}/Spring2.Common-$(shell $(GETVERSION)).7z *
+	xcopy ..\\build\\*.dll ..\\tmp /S /C /I /Q /Y 
+	xcopy ..\\build\\*.pdb ..\\tmp /S /C /I /Q /Y 
+	cd ../tmp; ${7ZIP} a ${RELEASEDIR}/Spring2.Common-$(shell $(GETVERSION)).7z * -r
 	rm -rf ../tmp
-
 
 package_postop:
 	rm -rf ../tmp
@@ -147,15 +148,15 @@ VERSION := $(subst .,_,$(shell $(GETVERSION)))
 tagbuild:
 	#svn copy -m "BUILD_$(VERSION)" $(SVN_URL)$(CLIENT_NAME)/trunk $(SVN_URL)$(CLIENT_NAME)/tags/BUILD_$(VERSION)
 
-	
 .PHONY: tagversion
 tagversion:
-	svn copy -m "RELEASE_$(VERSION)" $(SVN_URL)$(CLIENT_NAME)/trunk $(SVN_URL)$(CLIENT_NAME)/tags/RELEASE_$(VERSION)
+	#svn copy -m "RELEASE_$(VERSION)" $(SVN_URL)$(CLIENT_NAME)/trunk $(SVN_URL)$(CLIENT_NAME)/tags/RELEASE_$(VERSION)
 
 .PHONY: updateversion
 updateversion: 
 	${BINDIR}/UpdateVersion -b Increment -i AssemblyVersionInfo.cs -o AssemblyVersionInfo.cs
 
+	
 %version.aspx: AssemblyVersionInfo.cs
 	#sed -e "s/##_REVISION_##/$(shell svn info | grep Revision | sed "s/Revision: //")/" -e "s/##_DATE_##/$(shell date)/" -e "s/##_BUILD_##/$(shell ../bin/getversion.sh)/" -e "s/##_COMPUTER_##/$(COMPUTERNAME)/" -e "s/##_USER_##/$(USERNAME)/" Web/Portal/version.thtml > $@
 
@@ -247,9 +248,7 @@ package_sql: scriptorder combine_sql_scripts
 	
 
 package_cl:
-	#-cvs log -r${BRANCH_TAG} | perl ../bin/cvs2cl.pl --stdin -f ../release/ChangeLog-$(shell $(GETVERSION)).txt
-	#svn log --xml --verbose | xsltproc ../bin/svn2cl/svn2cl.xsl - > ChangeLog
-	../bin/svn2cl/svn2cl.sh -r ${RELEASE_REVISION}:BASE -o ../release/ChangeLog-$(shell $(GETVERSION)).txt
+	#../bin/svn2cl/svn2cl.sh -r ${RELEASE_REVISION}:BASE -o ../release/ChangeLog-$(shell $(GETVERSION)).txt
 
 fixLineTermination:
 	find . -type f -name '*.cs' -print -exec unix2dos --safe \{\} \;

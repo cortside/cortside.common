@@ -10,7 +10,7 @@ using System.Reflection;
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Reflection.AssemblyVersionAttribute("0.0.0.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("0.0.0.1")]
 [assembly: AssemblyCopyrightAttribute("Copyright 2013 Spring2 Technologies")]
 [assembly: AssemblyCompanyAttribute("Spring2 Technologies")]
 [assembly: AssemblyProductAttribute("Spring2.Common")]
