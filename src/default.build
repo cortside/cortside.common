@@ -52,6 +52,7 @@
 				<include name="*"/>
 			</fileset>
 		</copy>
+		<exec program="make" commandline="nuget" />
 	</target>
 
 
