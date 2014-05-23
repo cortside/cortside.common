@@ -11,7 +11,7 @@ using System.Web;
 using System.Web.Caching;
 using System.Web.Hosting;
 
-namespace Spring2.Common.Web.Hosting.Web.Hosting {
+namespace Spring2.Common.Web.Hosting {
     /// <summary>
     /// A virtual path provider that extracts content from .zip files
     /// </summary>

@@ -27,7 +27,7 @@ I've added the following to my web.config inside the <system.webServer> tags and
 
  */
 
-namespace Spring2.Common.Web.Hosting.Web.Hosting {
+namespace Spring2.Common.Web.Hosting {
     /// <summary>
     /// A virtual path provider that extracts content from .zip files
     /// </summary>

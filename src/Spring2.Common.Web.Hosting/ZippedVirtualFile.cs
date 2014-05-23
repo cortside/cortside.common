@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Hosting;
 
-namespace Spring2.Common.Web.Hosting.Web.Hosting {
+namespace Spring2.Common.Web.Hosting {
     /// <summary>
     /// A class to store a single file that was extracted from a .zip archive
     /// </summary>
