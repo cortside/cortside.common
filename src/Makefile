@@ -285,9 +285,9 @@ clean_db:
 build_db:
 
 nuget:
-	nuget pack Spring2.Common.Web.Hosting.csproj  -version $(shell $(GETVERSION))
+	nuget pack Spring2.Common.Web.Hosting/Spring2.Common.Web.Hosting.csproj  -version $(shell $(GETVERSION))
 	nuget push -Source http://nuget.spring2.com -ApiKey 36fd337b-fbdb-47d6-be08-4eb497ee1470 Spring2.Common.Web.Hosting.$(shell $(GETVERSION)).nupkg
-	nuget pack Spring2.Common.Web.Server.csproj  -version $(shell $(GETVERSION))
-	nuget push -Source http://nuget.spring2.com -ApiKey 36fd337b-fbdb-47d6-be08-4eb497ee1470 Spring2.Common.Web.Server.$(shell $(GETVERSION)).nupkg
+	nuget pack Spring2.Common.Configuration/Spring2.Common.Configuration.csproj  -version $(shell $(GETVERSION))
+	nuget push -Source http://nuget.spring2.com -ApiKey 36fd337b-fbdb-47d6-be08-4eb497ee1470 Spring2.Common.Configuration.$(shell $(GETVERSION)).nupkg
 	rm -f *.nupkg
 	
