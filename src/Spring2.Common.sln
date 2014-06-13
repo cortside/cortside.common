@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring2.Common.Configuratio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring2.Common.Web.Hosting", "Spring2.Common.Web.Hosting\Spring2.Common.Web.Hosting.csproj", "{6C94DF48-786D-44B0-8A03-3F41499AA3B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring2.Common.Storage", "Spring2.Common.Storage\Spring2.Common.Storage.csproj", "{8A139E15-298C-4DB6-A31C-4054AB571139}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{6C94DF48-786D-44B0-8A03-3F41499AA3B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C94DF48-786D-44B0-8A03-3F41499AA3B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C94DF48-786D-44B0-8A03-3F41499AA3B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A139E15-298C-4DB6-A31C-4054AB571139}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A139E15-298C-4DB6-A31C-4054AB571139}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A139E15-298C-4DB6-A31C-4054AB571139}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A139E15-298C-4DB6-A31C-4054AB571139}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
