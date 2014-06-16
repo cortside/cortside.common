@@ -26,12 +26,13 @@ namespace Spring2.Common.Storage.Blob {
 	public byte[] GetByteArray(string key) {
 	    using (var conn = new SqlConnection(ConnectionString)) {
 		var qry = String.Format("select [{0}] from [{1}] where [{2}] = @key", DataColumn, BlobTable, KeyColumn);
-		var cmd = new SqlCommand(qry, conn);
-		cmd.Parameters.AddWithValue("key", key);		
-		conn.Open();
-		var obj = cmd.ExecuteScalar();
-		if (obj != null) {
-		    return (byte[])obj;
+		using (var cmd = new SqlCommand(qry, conn)) {
+		    cmd.Parameters.AddWithValue("key", key);
+		    conn.Open();
+		    var obj = cmd.ExecuteScalar();
+		    if (obj != null) {
+			return (byte[])obj;
+		    }
 		}
 		return null;
 	    }
@@ -42,12 +43,13 @@ namespace Spring2.Common.Storage.Blob {
 		var qry = String.Format("if not exists (select 1 from [{0}] where [{1}] = @key) insert into [{0}] ([{1}], [{2}]) values (@key, @data) else update [{0}] set [{2}] = @data where [{1}] = @key",
 		    BlobTable, KeyColumn, DataColumn
 		);
-		
-		var cmd = new SqlCommand(qry, conn);
-		cmd.Parameters.AddWithValue("key", key);
-		cmd.Parameters.AddWithValue("data", data);
-		conn.Open();
-		cmd.ExecuteNonQuery();
+
+		using (var cmd = new SqlCommand(qry, conn)) {
+		    cmd.Parameters.AddWithValue("key", key);
+		    cmd.Parameters.AddWithValue("data", data);
+		    conn.Open();
+		    cmd.ExecuteNonQuery();
+		}
 	    }
 	}
 
