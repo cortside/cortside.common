@@ -38,7 +38,16 @@ namespace Spring2.Common.Configuration {
 		if (safeValue != null) {
 		    try {
 			Type t = typeof(T);
-			safeValue = Convert.ChangeType(safeValue, t);
+
+			if (t.IsEnum) {
+			    T enumVal;
+			    if (Enum.TryParse<T>(safeValue.ToString(), out enumVal)) {
+				safeValue = enumVal;
+			    }
+			}
+			else {
+			    safeValue = Convert.ChangeType(safeValue, t);
+			}
 		    }
 		    catch (FormatException) {
 			//change safeValue to null if failing to cast string to type T.  
