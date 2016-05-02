@@ -1,9 +1,21 @@
 version: 1.0.{build}
+
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
   assembly_version: '{version}'
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
+
 build:
   verbosity: minimal
+
+test:
+  assemblies:
+    - '**\test\Spring2.Common.Test.ApplicationService.dll
+    - '**\test\Spring2.Common.Test.Domain.dll
+    - '**\test\Spring2.Common.Test.DomainService.dll
+    - '**\test\Spring2.Common.Test.Web.CustomerSite.dll
+    - '**\test\Spring2.Common.Test.DTOAssembler.dll
+    - '**\test\Spring2.Common.Test.Web.MerchantSite.dll
+    - '**\test\Spring2.Common.Test.Web.Common.dll
