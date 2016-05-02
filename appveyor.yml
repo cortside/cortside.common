@@ -19,3 +19,9 @@ test:
     - '**\test\Spring2.Common.Test.DTOAssembler.dll'
     - '**\test\Spring2.Common.Test.Web.MerchantSite.dll'
     - '**\test\Spring2.Common.Test.Web.Common.dll'
+
+nuget:
+  account_feed: true
+  project_feed: true
+  disable_publish_on_pr: true
+	
