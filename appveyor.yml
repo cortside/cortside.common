@@ -8,7 +8,6 @@ assembly_info:
   assembly_informational_version: '{version}'
 
 before_build:
-- set DNX_BUILD_VERSION=build-%APPVEYOR_BUILD_NUMBER%
 - dnvm upgrade
 - dnvm upgrade -r coreclr
 - dnvm install 1.0.0-rc1-update1
@@ -37,4 +36,4 @@ nuget:
   disable_publish_on_pr: true
 
 artifacts:
-  - path: '**\*.nupkg' # find all NuGet packages recursively
+  - path: '**\Spring2*.nupkg' # find all NuGet packages recursively
