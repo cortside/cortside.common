@@ -14,6 +14,15 @@ before_build:
 - dnvm install 1.0.0-rc1-update1
 - dnvm use 1.0.0-rc1-update1
 - dnu restore
+- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.BootStrap\project.json
+- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Command\project.json
+- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Data.Exceptions\project.json
+- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.IoC\project.json
+- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Message\project.json
+- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Query\project.json
+- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.RabbitMQ\project.json
+- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Web.Mvc\project.json
+- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Web.Security\project.json
 
 build:
   publish_nuget: true
