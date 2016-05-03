@@ -1,0 +1,16 @@
+{
+    "version": "1.0.0-*",
+    "description": "Spring2.Common.Data.Exceptions Class Library",
+    "authors": [ "cort" ],
+    "tags": [ "" ],
+    "projectUrl": "",
+    "licenseUrl": "",
+
+    "dependencies": {
+    },
+
+    "frameworks": {
+        "dnx451": {
+        }
+    }
+}

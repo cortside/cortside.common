@@ -1,0 +1,20 @@
+{
+    "version": "1.0.0-*",
+    "description": "Spring2.Common.Query Class Library",
+    "authors": [ "cort" ],
+    "tags": [ "" ],
+    "projectUrl": "",
+    "licenseUrl": "",
+
+    "dependencies": {
+        "Spring2.Common.IoC": "1.0.0",
+        "Microsoft.Extensions.Configuration": "1.0.0-rc1-final",
+        "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1-final",
+        "Microsoft.Extensions.DependencyInjection": "1.0.0-rc1-final",
+        "Microsoft.Extensions.OptionsModel": "1.0.0-rc1-final",
+        "Serilog": "1.5.14"
+    },
+    "frameworks": {
+        "dnx451": { }
+    }
+}

@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring2.Common.Configuration", "Spring2.Common.Configuration\Spring2.Common.Configuration.csproj", "{7114F092-B711-4A87-96C6-70F6D0BEAE2D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring2.Common.Web.Hosting", "Spring2.Common.Web.Hosting\Spring2.Common.Web.Hosting.csproj", "{6C94DF48-786D-44B0-8A03-3F41499AA3B3}"
@@ -8,6 +10,24 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring2.Common.Storage", "Spring2.Common.Storage\Spring2.Common.Storage.csproj", "{8A139E15-298C-4DB6-A31C-4054AB571139}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring2.Common.Storage.BlobExporter", "Spring2.Common.Storage.BlobExporter\Spring2.Common.Storage.BlobExporter.csproj", "{00636FFD-5653-4E8E-831B-1C8705560EB9}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring2.Common.BootStrap", "Spring2.Common.BootStrap\Spring2.Common.BootStrap.xproj", "{80939767-8929-4DA9-BE9A-FF5461B7AE97}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring2.Common.IoC", "Spring2.Common.IoC\Spring2.Common.IoC.xproj", "{52B2A216-EF31-4AA1-BF38-8A786F4A0CC4}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring2.Common.Command", "Spring2.Common.Command\Spring2.Common.Command.xproj", "{B38D45A1-417E-419D-BF3A-CE3A5812EAF8}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring2.Common.Data.Exceptions", "Spring2.Common.Data.Exceptions\Spring2.Common.Data.Exceptions.xproj", "{84110797-7C5F-4E2B-9E6B-73582F27F655}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring2.Common.Message", "Spring2.Common.Message\Spring2.Common.Message.xproj", "{36BE86EB-EE5E-4541-956E-07602572DA60}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring2.Common.Query", "Spring2.Common.Query\Spring2.Common.Query.xproj", "{3036BFA5-EA25-498D-A078-9C6454FDFD2E}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring2.Common.RabbitMQ", "Spring2.Common.RabbitMQ\Spring2.Common.RabbitMQ.xproj", "{CE8D312C-506B-4691-80E0-BE9C2C6B8B31}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring2.Common.Web.Security", "Spring2.Common.Web.Security\Spring2.Common.Web.Security.xproj", "{21579B7B-3F5B-4A80-A385-1B65A7B624EB}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring2.Common.Web.Mvc", "Spring2.Common.Web.Mvc\Spring2.Common.Web.Mvc.xproj", "{9F3462D8-F38B-42EA-8F9A-4470F1E1F523}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +51,42 @@ Global
 		{00636FFD-5653-4E8E-831B-1C8705560EB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00636FFD-5653-4E8E-831B-1C8705560EB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00636FFD-5653-4E8E-831B-1C8705560EB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80939767-8929-4DA9-BE9A-FF5461B7AE97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80939767-8929-4DA9-BE9A-FF5461B7AE97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80939767-8929-4DA9-BE9A-FF5461B7AE97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80939767-8929-4DA9-BE9A-FF5461B7AE97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52B2A216-EF31-4AA1-BF38-8A786F4A0CC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52B2A216-EF31-4AA1-BF38-8A786F4A0CC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52B2A216-EF31-4AA1-BF38-8A786F4A0CC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52B2A216-EF31-4AA1-BF38-8A786F4A0CC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B38D45A1-417E-419D-BF3A-CE3A5812EAF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B38D45A1-417E-419D-BF3A-CE3A5812EAF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B38D45A1-417E-419D-BF3A-CE3A5812EAF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B38D45A1-417E-419D-BF3A-CE3A5812EAF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84110797-7C5F-4E2B-9E6B-73582F27F655}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84110797-7C5F-4E2B-9E6B-73582F27F655}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84110797-7C5F-4E2B-9E6B-73582F27F655}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84110797-7C5F-4E2B-9E6B-73582F27F655}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36BE86EB-EE5E-4541-956E-07602572DA60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36BE86EB-EE5E-4541-956E-07602572DA60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36BE86EB-EE5E-4541-956E-07602572DA60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36BE86EB-EE5E-4541-956E-07602572DA60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3036BFA5-EA25-498D-A078-9C6454FDFD2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3036BFA5-EA25-498D-A078-9C6454FDFD2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3036BFA5-EA25-498D-A078-9C6454FDFD2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3036BFA5-EA25-498D-A078-9C6454FDFD2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE8D312C-506B-4691-80E0-BE9C2C6B8B31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE8D312C-506B-4691-80E0-BE9C2C6B8B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE8D312C-506B-4691-80E0-BE9C2C6B8B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE8D312C-506B-4691-80E0-BE9C2C6B8B31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21579B7B-3F5B-4A80-A385-1B65A7B624EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21579B7B-3F5B-4A80-A385-1B65A7B624EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21579B7B-3F5B-4A80-A385-1B65A7B624EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21579B7B-3F5B-4A80-A385-1B65A7B624EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F3462D8-F38B-42EA-8F9A-4470F1E1F523}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F3462D8-F38B-42EA-8F9A-4470F1E1F523}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F3462D8-F38B-42EA-8F9A-4470F1E1F523}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F3462D8-F38B-42EA-8F9A-4470F1E1F523}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

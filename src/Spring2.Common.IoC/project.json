@@ -1,0 +1,21 @@
+{
+    "version": "1.0.0-*",
+    "description": "Spring2.Common.IoC Class Library",
+    "authors": [ "cort" ],
+    "tags": [ "" ],
+    "projectUrl": "",
+    "licenseUrl": "",
+
+    "frameworks": {
+        "dnx451": {
+            "frameworkAssemblies": {
+                "System.Net.Http": "4.0.0.0",
+                "System.Web": "4.0.0.0",
+                "System.Runtime": "4.0.0.0"
+            }
+        }
+    },
+    "dependencies": {
+        "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1-final"
+    }
+}

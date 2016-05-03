@@ -28,7 +28,8 @@ NUNIT_FRAMEWORK := $(BUILDDIR)/nunit.framework.dll
 
 
 DOTNETFRAMEWORK	:= c:/WINDOWS/Microsoft.NET/Framework/v4.0.30319
-MSBUILD		:= $(DOTNETFRAMEWORK)/MSBuild.exe
+#MSBUILD		:= $(DOTNETFRAMEWORK)/MSBuild.exe
+MSBUILD		:= "C:/Program Files (x86)/MSBuild/14.0/Bin/MSBuild.exe"
 REGSVCS		:= $(DOTNETFRAMEWORK)/Regsvcs.exe
 7ZIP		:= $(BINDIR)/7za.exe
 
@@ -121,9 +122,20 @@ changelog:
 release: package tagversion
 
 .PHONY: package
-package: clean build packageonly 
+xpackage: clean build packageonly 
 	#cp ../ChangeLog.txt ${RELEASEDIR}/ChangeLog-$(shell $(GETVERSION)).txt
 
+package: build precommit
+	./package.sh Spring2.Common.BootStrap $(VERSION)
+	./package.sh Spring2.Common.Command $(VERSION)
+	./package.sh Spring2.Common.IoC $(VERSION)
+	./package.sh Spring2.Common.Message $(VERSION)
+	./package.sh Spring2.Common.Query $(VERSION)
+	./package.sh Spring2.Common.RabbitMQ $(VERSION)
+	./package.sh Spring2.Common.Web.Mvc $(VERSION)
+	./package.sh Spring2.Common.Web.Security $(VERSION)
+	./package.sh Spring2.Common.Data.Exceptions $(VERSION)	
+	
 packageonly: package_prep package_all package_postop 
 
 package_prep:

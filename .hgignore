@@ -7,3 +7,14 @@ release/
 build/
 obj/
 tmp/
+*.user
+*.lock.json
+*.suo
+src/user.mk
+*.log
+src/config.json
+src/build.json
+tmp/
+/.vs
+/artifacts
+**/bin
