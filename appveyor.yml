@@ -7,6 +7,12 @@ assembly_info:
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
 
+before_build:
+- set DNX_BUILD_VERSION=build-%APPVEYOR_BUILD_NUMBER%
+- dnvm upgrade
+- dnvm upgrade -r coreclr
+- dnu restore
+
 build:
   publish_nuget: true
   publish_nuget_symbols: true
