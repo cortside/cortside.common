@@ -11,6 +11,8 @@ before_build:
 - set DNX_BUILD_VERSION=build-%APPVEYOR_BUILD_NUMBER%
 - dnvm upgrade
 - dnvm upgrade -r coreclr
+- dnvm install 1.0.0-rc1-update1
+- dnvm use 1.0.0-rc1-update1
 - dnu restore
 
 build:
