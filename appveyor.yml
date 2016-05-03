@@ -13,7 +13,6 @@ before_build:
 - dnvm upgrade -r coreclr
 - dnvm install 1.0.0-rc1-update1
 - dnvm use 1.0.0-rc1-update1
-- dnu restore
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.BootStrap\project.json
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Command\project.json
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Data.Exceptions\project.json
@@ -23,6 +22,7 @@ before_build:
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.RabbitMQ\project.json
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Web.Mvc\project.json
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Web.Security\project.json
+- dnu restore
 
 build:
   publish_nuget: true
