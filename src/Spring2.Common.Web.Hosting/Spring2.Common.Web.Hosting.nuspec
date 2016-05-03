@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Spring2.Common.Web.Hosting</id>
-    <version>0.0.0.0</version>
+    <version>$version$</version>
     <authors>Spring2</authors>
     <owners>Spring2</owners>
     <projectUrl>http://www.spring2.com</projectUrl>
