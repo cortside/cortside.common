@@ -1,5 +1,5 @@
 {
-    "version": "1.0.*",
+    "version": "1.0.0-*",
     "description": "Spring2.Common.Command Class Library",
     "authors": [ "cort" ],
     "tags": [ "" ],
