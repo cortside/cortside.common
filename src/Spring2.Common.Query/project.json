@@ -15,6 +15,11 @@
         "Serilog": "1.5.14"
     },
     "frameworks": {
-        "dnx451": { }
+        "dnx451": { },
+        "net451": {
+            "frameworkAssemblies": {
+                "System.Runtime": "4.0.0.0"
+            }
+        }
     }
 }

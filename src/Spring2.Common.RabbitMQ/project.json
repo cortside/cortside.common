@@ -21,7 +21,8 @@
     "frameworks": {
         "dnx451": {
             "dependencies": {
-            }
+            },
+            "net451": { }
         }
     }
 }

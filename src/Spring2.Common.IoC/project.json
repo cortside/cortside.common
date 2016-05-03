@@ -13,7 +13,8 @@
                 "System.Web": "4.0.0.0",
                 "System.Runtime": "4.0.0.0"
             }
-        }
+        },
+        "net451": { }
     },
     "dependencies": {
         "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1-final"

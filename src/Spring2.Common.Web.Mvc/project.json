@@ -1,4 +1,4 @@
-﻿{
+{
     "version": "1.0.0-*",
     "description": "Spring2.Common.Web.Mvc Class Library",
     "authors": [ "cort" ],
@@ -33,6 +33,7 @@
             "System.configuration": "4.0.0.0",
             "dependencies": {
             }
-        }
+        },
+        "net451": { }
     }
 }
