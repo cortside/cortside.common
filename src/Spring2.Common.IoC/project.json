@@ -7,13 +7,7 @@
     "licenseUrl": "",
 
     "frameworks": {
-        "dnx451": {
-            "frameworkAssemblies": {
-                "System.Net.Http": "4.0.0.0",
-                "System.Web": "4.0.0.0",
-                "System.Runtime": "4.0.0.0"
-            }
-        },
+        "dnx451": { },
         "net451": { }
     },
     "dependencies": {
