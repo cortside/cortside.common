@@ -17,7 +17,7 @@
         "Microsoft.Extensions.Logging.Debug": "1.0.0-rc1-final",
         "Serilog": "1.5.14",
         "Microsoft.Extensions.Configuration.Binder": "1.0.0-rc1-final",
-        "Spring2.Common.IoC": "1.0.0"
+        "Spring2.Common.IoC": "1.0.0-*"
     },
     "frameworks": {
         "dnx451": { },

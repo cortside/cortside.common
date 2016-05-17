@@ -15,8 +15,8 @@
         "Microsoft.Extensions.OptionsModel": "1.0.0-rc1-final",
         "Serilog": "1.5.14",
         "RabbitMQ.Client": "3.6.0",
-        "Spring2.Common.IoC": "1.0.0",
-        "Spring2.Common.Message": "1.0.0"
+        "Spring2.Common.IoC": "1.0.0-*",
+        "Spring2.Common.Message": "1.0.0-*"
     },
     "frameworks": {
         "dnx451": {
