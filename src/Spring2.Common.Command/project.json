@@ -7,14 +7,15 @@
     "licenseUrl": "",
 
     "dependencies": {
-        "Microsoft.Extensions.Configuration": "1.0.0-rc1-final",
-        "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1-final",
-        "Microsoft.Extensions.DependencyInjection": "1.0.0-rc1-final",
-        "Microsoft.Extensions.OptionsModel": "1.0.0-rc1-final",
-        "Serilog": "1.5.14"
+        "Microsoft.Extensions.Configuration": "1.1.0",
+        "Microsoft.Extensions.Configuration.Json": "1.1.0",
+        "Microsoft.Extensions.DependencyInjection": "1.1.0",
+        "Microsoft.Extensions.Options": "1.1.0",
+        "Serilog": "2.3.0"
     },
     "frameworks": {
-        "dnx451": { },
-        "net451": { }
+        "dnx451": {},
+        "net451": {},
+        "netcoreapp1.0": {}
     }
 }

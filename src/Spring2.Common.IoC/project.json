@@ -6,25 +6,15 @@
     "projectUrl": "",
     "licenseUrl": "",
 
-    "frameworks": {
-        "dnx451": {
-            "frameworkAssemblies": {
-                "System.Runtime": {
-                    "type": "build",
-                    "version": ""
-                }
-            }
-        },
-        "net451": {
-            "frameworkAssemblies": {
-                "System.Runtime": {
-                    "type": "build",
-                    "version": ""
-                }
-            }
-        }
-    },
     "dependencies": {
-        "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1-final"
+        "Microsoft.Extensions.DependencyInjection": "1.1.0",
+        "Microsoft.Extensions.Configuration": "1.1.0",
+        "Microsoft.Extensions.Configuration.Json": "1.1.0"
+    },
+
+    "frameworks": {
+        "dnx451": {},
+        "net451": {},
+        "netcoreapp1.0": {}
     }
 }

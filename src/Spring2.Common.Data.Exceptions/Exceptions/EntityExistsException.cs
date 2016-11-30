@@ -14,8 +14,5 @@ namespace Spring2.Common.Data.Exceptions {
 	public EntityExistsException(string message, Exception inner)
 	: base(message, inner) {
 	}
-
-	protected EntityExistsException(System.Runtime.Serialization.SerializationInfo info,
-	System.Runtime.Serialization.StreamingContext context) { }
     }
 }

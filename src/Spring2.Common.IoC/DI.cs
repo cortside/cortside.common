@@ -1,8 +1,7 @@
-using Microsoft.Extensions.Configuration;
 using System;
+using Microsoft.Extensions.Configuration;
 
 namespace Spring2.Common.IoC {
-
     public static class DI {
 	private static IServiceProvider privateContainer;
 	private static object lockObject;

@@ -1,6 +1,6 @@
 using System;
 using System.Security.Principal;
-using System.Threading;
+using Microsoft.AspNetCore.Http;
 
 namespace Spring2.Common.Web.Security {
 
@@ -13,7 +13,8 @@ namespace Spring2.Common.Web.Security {
 
 	public UserPrincipal(Int32 userId) {
 	    this.userId = userId;
-	    windowsPrincipal = Thread.CurrentPrincipal as WindowsPrincipal;
+	    var accessor = new HttpContextAccessor();
+	    windowsPrincipal =  accessor.HttpContext.User as WindowsPrincipal;
 	}
 
 	public Int32 UserId {

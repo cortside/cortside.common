@@ -14,8 +14,5 @@ namespace Spring2.Common.Data.Exceptions {
 	public NotFoundException(string message, Exception inner)
 	: base(message, inner) {
 	}
-
-	protected NotFoundException(System.Runtime.Serialization.SerializationInfo info,
-	System.Runtime.Serialization.StreamingContext context) { }
     }
 }

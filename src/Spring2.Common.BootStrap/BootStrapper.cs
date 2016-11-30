@@ -72,7 +72,7 @@ namespace Spring2.Common.BootStrap {
 		i.Install(services, configuration);
 	    }
 
-	    services.AddInstance<IConfigurationRoot>(configuration);
+	    services.AddSingleton<IConfigurationRoot>(configuration);
 	    var serviceProvider = services.BuildServiceProvider();
 
 	    DI.SetContainer(serviceProvider);

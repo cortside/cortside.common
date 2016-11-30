@@ -1,5 +1,5 @@
 using Spring2.Common.Web.Mvc;
-using Microsoft.AspNet.Http;
+using Microsoft.AspNetCore.Http;
 using System;
 
 namespace Spring2.Common.Web.Security {
@@ -27,9 +27,8 @@ namespace Spring2.Common.Web.Security {
 	    }
 	    string token = header[0].Substring(7);
 
-	    // TODO: error handling for invalid, missing, expired token
-	    // TODO: need type
-	    TokenPayload payload = JWT.JsonWebToken.DecodeToObject<TokenPayload>(token, JWT_SECRET, true);
+	    // TODO: This method of validating the payload by decoding it using a statc JWT_SECRET is outdated and vulnerable
+	    TokenPayload payload = JWT.DecodeToObject<TokenPayload>(token, JWT_SECRET, true);
 
 	    // TODO: set principal on thread
 

@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Specialized;
-using System.Configuration;
 
 namespace Spring2.Common.Configuration {
     public class AppSettingsProvider : ConfigurationProvider {
@@ -12,10 +11,12 @@ namespace Spring2.Common.Configuration {
 
 	public AppSettingsProvider(String section, IConfigurationProvider provider) : base(provider) {
 	    if (String.IsNullOrEmpty(section)) {
-		settings = ConfigurationManager.AppSettings;
+		settings = base.settings;
 	    }
 	    else {
-		settings = ConfigurationManager.GetSection(section) as NameValueCollection;
+		settings = new NameValueCollection() {
+		    { section, provider.Get(section) }
+		};
 	    }
 	}
     }

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.Builder;
+using Microsoft.AspNetCore.Builder;
 
 namespace Spring2.Common.Web.Mvc {
 
