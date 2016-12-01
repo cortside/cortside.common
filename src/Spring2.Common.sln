@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{335B1379-6C95-4DCE-8D89-6602C387C26D}"
 	ProjectSection(SolutionItems) = preProject
 		..\appveyor.yml = ..\appveyor.yml
+		Build.ps1 = Build.ps1
 		default.build = default.build
 		global.json = global.json
 	EndProjectSection
