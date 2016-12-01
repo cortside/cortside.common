@@ -26,6 +26,9 @@ before_build:
 - dotnet restore
 
 build_script:
+- ps: "$env:Path"
+- ps: $env:Path = $pwd
+- ps: "$env:Path"
 - ps: .\Build.ps1
 
 build:
