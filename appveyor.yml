@@ -10,10 +10,10 @@ assembly_info:
 before_build:
 - set DOTNET_CORE_BUILD_VERSION=%APPVEYOR_BUILD_NUMBER%
 - ps: mkdir -Force ".\build\" | Out-Null
-  ps: Invoke-WebRequest "https://raw.githubusercontent.com/dotnet/cli/rel/1.0.0-preview2/scripts/obtain/dotnet-install.ps1" -OutFile ".\build\installcli.ps1"
-  ps: $env:DOTNET_INSTALL_DIR = "$pwd\.dotnetcli"
-  ps: '& .\build\installcli.ps1 -InstallDir "$env:DOTNET_INSTALL_DIR" -NoPath -Version 1.0.0-preview2-003131'
-  ps: $env:Path = "$env:DOTNET_INSTALL_DIR;$env:Path"
+- ps: Invoke-WebRequest "https://raw.githubusercontent.com/dotnet/cli/rel/1.0.0-preview2/scripts/obtain/dotnet-install.ps1" -OutFile ".\build\installcli.ps1"
+- ps: $env:DOTNET_INSTALL_DIR = "$pwd\.dotnetcli"
+- ps: '& .\build\installcli.ps1 -InstallDir "$env:DOTNET_INSTALL_DIR" -NoPath -Version 1.0.0-preview2-003131'
+- ps: $env:Path = "$env:DOTNET_INSTALL_DIR;$env:Path"
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.BootStrap\project.json
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Command\project.json
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Data.Exceptions\project.json
