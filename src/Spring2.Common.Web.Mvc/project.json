@@ -31,15 +31,9 @@
                 "System.Web": "4.0.0.0",
                 "System.Runtime": "4.0.0.0"
             },
-            "System.configuration": "4.0.0.0",
-            "dependencies": {
-            }
+            "System.configuration": "4.0.0.0"
         },
-        "net451": {
-            "dependencies": {
-                "JWT": "1.3.4"
-            }
-        },
+        "net451": {},
         "netcoreapp1.0": {}
     }
 }

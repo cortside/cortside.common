@@ -8,11 +8,12 @@ assembly_info:
   assembly_informational_version: '{version}'
 
 before_build:
-- set DNX_BUILD_VERSION=%APPVEYOR_BUILD_NUMBER%
-- dnvm upgrade
-- dnvm upgrade -r coreclr
-- dnvm install 1.0.0-rc1-update1
-- dnvm use 1.0.0-rc1-update1
+- set DOTNET_CORE_BUILD_VERSION=%APPVEYOR_BUILD_NUMBER%
+- ps: mkdir -Force ".\build\" | Out-Null
+  ps: Invoke-WebRequest "https://raw.githubusercontent.com/dotnet/cli/rel/1.0.0-preview2/scripts/obtain/dotnet-install.ps1" -OutFile ".\build\installcli.ps1"
+  ps: $env:DOTNET_INSTALL_DIR = "$pwd\.dotnetcli"
+  ps: '& .\build\installcli.ps1 -InstallDir "$env:DOTNET_INSTALL_DIR" -NoPath -Version 1.0.0-preview2-003131'
+  ps: $env:Path = "$env:DOTNET_INSTALL_DIR;$env:Path"
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.BootStrap\project.json
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Command\project.json
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Data.Exceptions\project.json
@@ -25,6 +26,7 @@ before_build:
 - dnu restore
 
 build:
+  ps: ./Build.ps1
   publish_nuget: true
   publish_nuget_symbols: true
   include_nuget_references: true
