@@ -26,7 +26,7 @@ before_build:
 - dotnet restore
 
 build_script:
-- ps: ./Build
+- ps: .\Build.ps1
 
 build:
   publish_nuget: true
