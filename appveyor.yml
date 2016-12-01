@@ -23,9 +23,8 @@ before_build:
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.RabbitMQ\project.json
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Web.Mvc\project.json
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Web.Security\project.json
-- dnu restore
-build_script:
-- ps: ./Build.ps1
+- dotnet restore
+
 build:
   publish_nuget: true
   publish_nuget_symbols: true
