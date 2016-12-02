@@ -14,6 +14,7 @@ before_build:
 - ps: $env:DOTNET_INSTALL_DIR = "$pwd\.dotnetcli"
 - ps: '& .\build\installcli.ps1 -InstallDir "$env:DOTNET_INSTALL_DIR" -NoPath -Version 1.0.0-preview2-003131'
 - ps: $env:Path = "$env:DOTNET_INSTALL_DIR;$env:Path"
+- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Configuration\project.json
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.BootStrap\project.json
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Command\project.json
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Data.Exceptions\project.json
@@ -24,6 +25,7 @@ before_build:
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Web.Mvc\project.json
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Web.Security\project.json
 - dotnet restore
+- dotnet pack
 
 build:
   publish_nuget: true
