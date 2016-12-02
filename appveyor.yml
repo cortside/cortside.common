@@ -25,7 +25,7 @@ before_build:
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Web.Mvc\project.json
 - sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Web.Security\project.json
 - dotnet restore
-- dotnet pack
+- dotnet pack /src/Spring2.Common.Configuration
 
 build:
   publish_nuget: true
