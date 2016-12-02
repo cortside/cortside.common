@@ -2,9 +2,6 @@
     "version": "1.0.0-*",
     "description": "Spring2.Common.Command Class Library",
     "authors": [ "cort" ],
-    "tags": [ "" ],
-    "projectUrl": "",
-    "licenseUrl": "",
 
     "dependencies": {
         "Microsoft.Extensions.Configuration": "1.1.0",
