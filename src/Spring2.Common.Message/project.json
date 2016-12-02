@@ -2,9 +2,6 @@
     "version": "1.0.0-*",
     "description": "Spring2.Common.Message Class Library",
     "authors": [ "cort" ],
-    "tags": [ "" ],
-    "projectUrl": "",
-    "licenseUrl": "",
 
     "frameworks": {
         "dnx451": {},

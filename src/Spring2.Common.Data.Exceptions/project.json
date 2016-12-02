@@ -2,25 +2,24 @@
     "version": "1.0.0-*",
     "description": "Spring2.Common.Data.Exceptions Class Library",
     "authors": [ "cort" ],
-    "tags": [ "" ],
-    "projectUrl": "",
-    "licenseUrl": "",
 
-    "dependencies": {
-        "System.Runtime": "4.3.0-preview1-24530-04"
-    },
 
     "frameworks": {
-        "dnx451": {
-            "dependencies": {
-                "System.Runtime": "4.3.0"
-            }
-        },
-        "net451": {
-            "dependencies": {
-                "System.Runtime": "4.3.0"
-            }
-        },
-        "netcoreapp1.0": {}
+      "dnx451": {
+        "dependencies": {
+          "System.Runtime": "4.0.10.0"
+        }
+      },
+      "net451": {
+        "dependencies": {
+          "System.Runtime": "4.0.10.0"
+        }
+      },
+      "netcoreapp1.0": {
+        "dependencies": {
+          "System.Runtime": "4.3.0-preview1-24530-04"
+        }
+
+      }
     }
 }

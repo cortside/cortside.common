@@ -2,9 +2,6 @@
     "version": "1.0.0-*",
     "description": "Spring2.Common.Web.Security Class Library",
     "authors": [ "cort" ],
-    "tags": [ "" ],
-    "projectUrl": "",
-    "licenseUrl": "",
 
     "dependencies": {
         "Microsoft.AspNetCore.Mvc": "1.1.0",
