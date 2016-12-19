@@ -11,8 +11,6 @@
         "Serilog": "2.3.0"
     },
     "frameworks": {
-        "dnx451": {},
-        "net451": {},
         "netcoreapp1.0": {}
     }
 }
