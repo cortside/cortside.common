@@ -33,16 +33,16 @@ build:
   verbosity: minimal
 
 after_build:
-- dotnet pack src/Spring2.Common.Configuration/project.json --no-build --configuration %compile:Configuration% --output %Builds%"
-- dotnet pack src/Spring2.Common.BootStrap/project.json --no-build --configuration %compile:Configuration% --output %Builds%"
-- dotnet pack src/Spring2.Common.Command/project.json --no-build --configuration %compile:Configuration% --output %Builds%"
-- dotnet pack src/Spring2.Common.Data.Exceptions/project.json --no-build --configuration %compile:Configuration% --output %Builds%"
-- dotnet pack src/Spring2.Common.IoC/project.json --no-build --configuration %compile:Configuration% --output %Builds%"
-- dotnet pack src/Spring2.Common.Message/project.json --no-build --configuration %compile:Configuration% --output %Builds%"
-- dotnet pack src/Spring2.Common.Query/project.json --no-build --configuration %compile:Configuration% --output %Builds%"
-- dotnet pack src/Spring2.Common.RabbitMQ/project.json --no-build --configuration %compile:Configuration% --output %Builds%"
-- dotnet pack src/Spring2.Common.Web.Mvc/project.json --no-build --configuration %compile:Configuration% --output %Builds%"
-- dotnet pack src/Spring2.Common.Web.Security/project.json --no-build --configuration %compile:Configuration% --output %Builds%"
+- dotnet pack src/Spring2.Common.Configuration/project.json --configuration %compile:Configuration% --output %Builds%"
+- dotnet pack src/Spring2.Common.BootStrap/project.json --configuration %compile:Configuration% --output %Builds%"
+- dotnet pack src/Spring2.Common.Command/project.json --configuration %compile:Configuration% --output %Builds%"
+- dotnet pack src/Spring2.Common.Data.Exceptions/project.json --configuration %compile:Configuration% --output %Builds%"
+- dotnet pack src/Spring2.Common.IoC/project.json --configuration %compile:Configuration% --output %Builds%"
+- dotnet pack src/Spring2.Common.Message/project.json --configuration %compile:Configuration% --output %Builds%"
+- dotnet pack src/Spring2.Common.Query/project.json --configuration %compile:Configuration% --output %Builds%"
+- dotnet pack src/Spring2.Common.RabbitMQ/project.json --configuration %compile:Configuration% --output %Builds%"
+- dotnet pack src/Spring2.Common.Web.Mvc/project.json --configuration %compile:Configuration% --output %Builds%"
+- dotnet pack src/Spring2.Common.Web.Security/project.json --configuration %compile:Configuration% --output %Builds%"
 
 test:
   assemblies:
