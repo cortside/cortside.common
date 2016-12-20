@@ -10,8 +10,6 @@
     },
 
     "frameworks": {
-        "dnx451": {},
-        "net451": {},
         "netcoreapp1.0": {}
     }
 }

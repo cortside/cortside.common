@@ -17,8 +17,6 @@
         "Spring2.Common.IoC": "1.0.0-*"
     },
     "frameworks": {
-        "dnx451": {},
-        "net451": {},
         "netcoreapp1.0": {}
     }
 }

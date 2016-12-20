@@ -14,12 +14,10 @@
         "Microsoft.Extensions.Logging.Debug": "1.1.0",
         "Serilog": "2.3.0",
         "Microsoft.AspNetCore.Cors": "1.1.0",
-        "Spring2.Common.Web.Mvc": "1.0.0-*",
+        "Spring2.Common.Web.Mvc": "1.0.0-*"
     },
 
     "frameworks": {
-        "dnx451": {},
-        "net451": {},
         "netcoreapp1.0": {}
     }
 }
