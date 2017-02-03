@@ -19,3 +19,5 @@ tmp/
 /artifacts
 **/bin
 artifacts/
+src/.vs/
+src/packages/
