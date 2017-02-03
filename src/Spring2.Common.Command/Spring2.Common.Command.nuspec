@@ -15,4 +15,7 @@
     <copyright>Copyright 2016</copyright>
     <tags>Tag1 Tag2</tags>
   </metadata>
+  <files>
+    <file src="bin\Release\Spring2.Common.Command.dll" target="lib\netstandard1.6\Spring2.Common.Command.dll" />
+  </files>
 </package>

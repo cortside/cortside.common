@@ -38,7 +38,7 @@ build_script:
 - dotnet restore
 - ps: cd src/Spring2.Common.Configuration ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
 - ps: cd src/Spring2.Common.BootStrap ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
-#- ps: cd src/Spring2.Common.Command ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
+- ps: cd src/Spring2.Common.Command ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
 - ps: cd src/Spring2.Common.Data.Exceptions ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
 - ps: cd src/Spring2.Common.IoC ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
 - ps: cd src/Spring2.Common.Message ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
