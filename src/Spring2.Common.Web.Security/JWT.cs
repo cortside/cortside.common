@@ -8,6 +8,8 @@ namespace Spring2.Common.Web.Security
 {
     public class JWT
     {
+    //TODO: warning that this is unused, but need to confirm that it is not being used by any consumers before removing the code
+    #pragma warning disable CS0649 
 	private static readonly IDictionary<JwtHashAlgorithm, Func<byte[], byte[], byte[]>> HashAlgorithms;
 
 	private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
