@@ -14,7 +14,7 @@
     "Microsoft.Extensions.Logging.Debug": "1.1.0",
     "Serilog": "2.3.0",
     "Microsoft.Extensions.Configuration.Binder": "1.1.0",
-    "Spring2.Common.IoC": "1.0.0-*"
+    "Spring2.Common.IoC": "1.0.*"
   },
   "frameworks": {
     "netcoreapp1.0": {}
