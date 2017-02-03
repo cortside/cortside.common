@@ -2,7 +2,6 @@
   "version": "1.0.0-*",
   "description": "Spring2.Common.RabbitMQ Class Library",
   "authors": [ "cort" ],
-
   "dependencies": {
     "Microsoft.AspNetCore.Http.Extensions": "1.1.0",
     "Microsoft.Extensions.Configuration": "1.1.0",
@@ -15,13 +14,16 @@
     "Serilog.Sinks.RollingFile": "3.2.0",
     "Serilog.Sinks.File": "3.1.1",
     "RabbitMQ.Client": "4.1.1",
-    "Spring2.Common.Message": "1.0.0-*"
+    "Spring2.Common.Message": "1.0.*"
   },
   "frameworks": {
-    "netcoreapp1.0": {}
+    "netstandard1.6": {}
+  },
+  "runtimes": {
+    "win10-x64": {},
+    "win81-x64": {}
   },
   "tools": {
     "dotnet-version": "1.1.0"
   }
-
 }
