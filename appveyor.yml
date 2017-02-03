@@ -1,4 +1,20 @@
+## https://www.appveyor.com/docs/appveyor-yml/
+
+image: Visual Studio 2015
+
 version: 1.0.{build}
+
+configuration:
+- Debug
+
+platform: Any CPU
+
+environment:
+  # Don't report back to the mothership
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+init:
+- ps: $Env:LABEL = "CI" + $Env:APPVEYOR_BUILD_NUMBER.PadLeft(5, "0")
 
 assembly_info:
   patch: true
@@ -8,23 +24,9 @@ assembly_info:
   assembly_informational_version: '{version}'
 
 before_build:
-- set DOTNET_CORE_BUILD_VERSION=%APPVEYOR_BUILD_NUMBER%
-- ps: mkdir -Force ".\build\" | Out-Null
-- ps: Invoke-WebRequest "https://raw.githubusercontent.com/dotnet/cli/rel/1.0.0-preview2/scripts/obtain/dotnet-install.ps1" -OutFile ".\build\installcli.ps1"
-- ps: $env:DOTNET_INSTALL_DIR = "$pwd\.dotnetcli"
-- ps: '& .\build\installcli.ps1 -InstallDir "$env:DOTNET_INSTALL_DIR" -NoPath -Version 1.0.0-preview2-003131'
-- ps: $env:Path = "$env:DOTNET_INSTALL_DIR;$env:Path"
-- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Configuration\project.json
-- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.BootStrap\project.json
-- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Command\project.json
-- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Data.Exceptions\project.json
-- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.IoC\project.json
-- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Message\project.json
-- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Query\project.json
-- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.RabbitMQ\project.json
-- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Web.Mvc\project.json
-- sed -i -e "s|1.0.0-\*|1.0.%APPVEYOR_BUILD_NUMBER%|g" src\Spring2.Common.Web.Security\project.json
-- dotnet restore
+- appveyor-retry dotnet restore -v Minimal
+- set DNX_BUILD_VERSION=%APPVEYOR_BUILD_NUMBER%
+- dotnet --info
 
 build:
   publish_nuget: true
@@ -32,17 +34,54 @@ build:
   include_nuget_references: true
   verbosity: minimal
 
+build_script:
+- dotnet restore
+- ps: cd src/Spring2.Common.Configuration ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
+- ps: cd src/Spring2.Common.BootStrap ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
+- ps: cd src/Spring2.Common.Command ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
+- ps: cd src/Spring2.Common.Data.Exceptions ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
+- ps: cd src/Spring2.Common.IoC ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
+- ps: cd src/Spring2.Common.Message ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
+- ps: cd src/Spring2.Common.Query ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
+- ps: cd src/Spring2.Common.RabbitMQ ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
+- ps: cd src/Spring2.Common.Web.Mvc ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
+- ps: cd src/Spring2.Common.Web.Security ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
+- dotnet build src/Spring2.Common.Configuration --configuration %Configuration%
+- dotnet build src/Spring2.Common.BootStrap --configuration %Configuration%
+- dotnet build src/Spring2.Common.Command --configuration %Configuration%
+- dotnet build src/Spring2.Common.Data.Exceptions --configuration %Configuration%
+- dotnet build src/Spring2.Common.IoC --configuration %Configuration%
+- dotnet build src/Spring2.Common.Message --configuration %Configuration%
+- dotnet build src/Spring2.Common.Query --configuration %Configuration%
+- dotnet build src/Spring2.Common.RabbitMQ --configuration %Configuration%
+- dotnet build src/Spring2.Common.Web.Mvc --configuration %Configuration%
+- dotnet build src/Spring2.Common.Web.Security --configuration %Configuration%
+
 after_build:
-- dotnet pack src/Spring2.Common.Configuration/project.json --configuration %compile:Configuration% --output %Builds%"
-- dotnet pack src/Spring2.Common.BootStrap/project.json --configuration %compile:Configuration% --output %Builds%"
-- dotnet pack src/Spring2.Common.Command/project.json --configuration %compile:Configuration% --output %Builds%"
-- dotnet pack src/Spring2.Common.Data.Exceptions/project.json --configuration %compile:Configuration% --output %Builds%"
-- dotnet pack src/Spring2.Common.IoC/project.json --configuration %compile:Configuration% --output %Builds%"
-- dotnet pack src/Spring2.Common.Message/project.json --configuration %compile:Configuration% --output %Builds%"
-- dotnet pack src/Spring2.Common.Query/project.json --configuration %compile:Configuration% --output %Builds%"
-- dotnet pack src/Spring2.Common.RabbitMQ/project.json --configuration %compile:Configuration% --output %Builds%"
-- dotnet pack src/Spring2.Common.Web.Mvc/project.json --configuration %compile:Configuration% --output %Builds%"
-- dotnet pack src/Spring2.Common.Web.Security/project.json --configuration %compile:Configuration% --output %Builds%"
+- dotnet pack src/Spring2.Common.Configuration --configuration %Configuration% -o artifacts
+- dotnet pack src/Spring2.Common.BootStrap --configuration %Configuration% -o artifacts
+- dotnet pack src/Spring2.Common.Command --configuration %Configuration% -o artifacts
+- dotnet pack src/Spring2.Common.Data.Exceptions --configuration %Configuration% -o artifacts
+- dotnet pack src/Spring2.Common.IoC --configuration %Configuration% -o artifacts
+- dotnet pack src/Spring2.Common.Message --configuration %Configuration% -o artifacts
+- dotnet pack src/Spring2.Common.Query --configuration %Configuration% -o artifacts
+- dotnet pack src/Spring2.Common.RabbitMQ --configuration %Configuration% -o artifacts
+- dotnet pack src/Spring2.Common.Web.Mvc --configuration %Configuration% -o artifacts
+- dotnet pack src/Spring2.Common.Web.Security --configuration %Configuration% -o artifacts
+
+#test_script:
+#- dotnet test "test\c6.auth.tests" -c %CONFIGURATION%
+
+artifacts:
+- path: artifacts\**\*.*
+
+cache:
+- '%USERPROFILE%\.nuget\packages'
+  
+nuget:
+  account_feed: true
+  project_feed: true
+  disable_publish_on_pr: true
 
 test:
   assemblies:
@@ -53,11 +92,3 @@ test:
     - '**\test\Spring2.Common.Test.DTOAssembler.dll'
     - '**\test\Spring2.Common.Test.Web.MerchantSite.dll'
     - '**\test\Spring2.Common.Test.Web.Common.dll'
-
-nuget:
-  account_feed: true
-  project_feed: true
-  disable_publish_on_pr: true
-
-artifacts:
-  - path: '**\Spring2*.nupkg' # find all NuGet packages recursively
