@@ -24,7 +24,7 @@ Param(
 	}
 }
 
-$ErrorActionPreference = 'Stop'
+#$ErrorActionPreference = 'Stop'
 
 echo "build: Build started"
 
