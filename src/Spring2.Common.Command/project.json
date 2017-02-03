@@ -3,6 +3,7 @@
   "description": "Spring2.Common.Command Class Library",
   "authors": [ "cort" ],
   "dependencies": {
+    "NETStandard.Library": "1.6.1",
     "Microsoft.Extensions.Configuration": "1.1.0",
     "Microsoft.Extensions.Configuration.Json": "1.1.0",
     "Microsoft.Extensions.DependencyInjection": "1.1.0",
