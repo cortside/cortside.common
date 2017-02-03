@@ -1,13 +1,17 @@
 {
-    "version": "1.0.0-*",
-    "description": "Spring2.Common.Message Class Library",
-    "authors": [ "cort" ],
+  "version": "1.0.0-*",
+  "description": "Spring2.Common.Message Class Library",
+  "authors": [ "cort" ],
 
-    "dependencies": {
-        "System.Runtime": "4.3.0"
-    },
+  "dependencies": {
+    "System.Runtime": "4.3.0"
+  },
 
-    "frameworks": {
-        "netcoreapp1.0": {}
-    }
+  "frameworks": {
+    "netcoreapp1.0": {}
+  },
+  "tools": {
+    "dotnet-version": "1.1.0"
+  }
+
 }
