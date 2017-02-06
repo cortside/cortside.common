@@ -11,7 +11,8 @@
     "Serilog": "2.3.0"
   },
   "frameworks": {
-    "netstandard1.6": {}
+    "netstandard1.6": {},
+    "netstandard1.4": {}
   },
   "tools": {
     "dotnet-version": "1.1.0"
