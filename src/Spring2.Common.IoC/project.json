@@ -9,11 +9,8 @@
     "Microsoft.Extensions.Configuration.Json": "1.1.0"
   },
   "frameworks": {
-    "netstandard1.6": {}
-  },
-  "runtimes": {
-    "win10-x64": {},
-    "win81-x64": {}
+    "netstandard1.6": {},
+    "netstandard1.4": {}
   },
   "tools": {
     "dotnet-version": "1.1.0"
