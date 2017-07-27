@@ -1,41 +1,40 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{335B1379-6C95-4DCE-8D89-6602C387C26D}"
+	ProjectSection(SolutionItems) = preProject
+		..\appveyor.yml = ..\appveyor.yml
+		Build.ps1 = Build.ps1
+		default.build = default.build
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring2.Common.Web.Hosting", "Spring2.Common.Web.Hosting\Spring2.Common.Web.Hosting.csproj", "{6C94DF48-786D-44B0-8A03-3F41499AA3B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring2.Common.Storage", "Spring2.Common.Storage\Spring2.Common.Storage.csproj", "{8A139E15-298C-4DB6-A31C-4054AB571139}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring2.Common.Storage.BlobExporter", "Spring2.Common.Storage.BlobExporter\Spring2.Common.Storage.BlobExporter.csproj", "{00636FFD-5653-4E8E-831B-1C8705560EB9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{335B1379-6C95-4DCE-8D89-6602C387C26D}"
-	ProjectSection(SolutionItems) = preProject
-		..\appveyor.yml = ..\appveyor.yml
-		Build.ps1 = Build.ps1
-		default.build = default.build
-		global.json = global.json
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring2.Common.Configuration", "Spring2.Common.Configuration\Spring2.Common.Configuration.csproj", "{22684E18-2ADE-4218-BA96-307DE6F0E70D}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring2.Common.Configuration", "Spring2.Common.Configuration\Spring2.Common.Configuration.xproj", "{22684E18-2ADE-4218-BA96-307DE6F0E70D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring2.Common.Data.Exceptions", "Spring2.Common.Data.Exceptions\Spring2.Common.Data.Exceptions.csproj", "{64F35D86-409F-4EBB-B390-CC12A1AB4A98}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring2.Common.Data.Exceptions", "Spring2.Common.Data.Exceptions\Spring2.Common.Data.Exceptions.xproj", "{64F35D86-409F-4EBB-B390-CC12A1AB4A98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring2.Common.Command", "Spring2.Common.Command\Spring2.Common.Command.csproj", "{0EFFF594-E9F5-49DE-B094-76BCC8B2446F}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring2.Common.Command", "Spring2.Common.Command\Spring2.Common.Command.xproj", "{0EFFF594-E9F5-49DE-B094-76BCC8B2446F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring2.Common.Query", "Spring2.Common.Query\Spring2.Common.Query.csproj", "{B6E15A62-9F7C-4434-B8E6-2EBD30821A16}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring2.Common.Query", "Spring2.Common.Query\Spring2.Common.Query.xproj", "{B6E15A62-9F7C-4434-B8E6-2EBD30821A16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring2.Common.IoC", "Spring2.Common.IoC\Spring2.Common.IoC.csproj", "{1144EC13-42B0-4CCC-AF93-90EF860CA5F3}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring2.Common.IoC", "Spring2.Common.IoC\Spring2.Common.IoC.xproj", "{1144EC13-42B0-4CCC-AF93-90EF860CA5F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring2.Common.BootStrap", "Spring2.Common.BootStrap\Spring2.Common.BootStrap.csproj", "{BDB9E305-CCC1-4FAD-94B9-797CC0D47E0E}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring2.Common.BootStrap", "Spring2.Common.BootStrap\Spring2.Common.BootStrap.xproj", "{BDB9E305-CCC1-4FAD-94B9-797CC0D47E0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring2.Common.RabbitMQ", "Spring2.Common.RabbitMQ\Spring2.Common.RabbitMQ.csproj", "{CE42E6F0-C91C-4CDF-8D32-E674FD6D125A}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring2.Common.RabbitMQ", "Spring2.Common.RabbitMQ\Spring2.Common.RabbitMQ.xproj", "{CE42E6F0-C91C-4CDF-8D32-E674FD6D125A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring2.Common.Message", "Spring2.Common.Message\Spring2.Common.Message.csproj", "{DC7D0913-A1BA-4F80-85F4-BAEF02D31D33}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring2.Common.Message", "Spring2.Common.Message\Spring2.Common.Message.xproj", "{DC7D0913-A1BA-4F80-85F4-BAEF02D31D33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring2.Common.Web.Mvc", "Spring2.Common.Web.Mvc\Spring2.Common.Web.Mvc.csproj", "{2952843A-F6EA-4CA5-B427-E3A4D00C71C4}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring2.Common.Web.Mvc", "Spring2.Common.Web.Mvc\Spring2.Common.Web.Mvc.xproj", "{2952843A-F6EA-4CA5-B427-E3A4D00C71C4}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring2.Common.Web.Security", "Spring2.Common.Web.Security\Spring2.Common.Web.Security.xproj", "{25F3DD2C-7958-4BC3-ABBB-82054972DA41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring2.Common.Web.Security", "Spring2.Common.Web.Security\Spring2.Common.Web.Security.csproj", "{25F3DD2C-7958-4BC3-ABBB-82054972DA41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -48,9 +48,9 @@ ForEach-Object{
 	$path = (Get-Item $_).DirectoryName
 	Write-Host "Found: $_ in $path"
 	
-	Push-Location -Path $path
-	Invoke-Exe -cmd dotnet -args "version $version"
-	Pop-Location
+#	Push-Location -Path $path
+#	Invoke-Exe -cmd dotnet -args "version $version"
+#	Pop-Location
 	
 	Invoke-Exe -cmd dotnet -args "build $path"
 }
