@@ -1,10 +1,13 @@
 using System.Threading.Tasks;
 
 namespace Spring2.Common.Command {
+    public interface ICommandHandler<in TParameter> where TParameter : class {
 
-    // Interface for command handlers - has a type parameters for the command
-    public interface ICommandHandler<in TParameter> where TParameter : ICommand {
+	Task Execute(TParameter command);
+    }
+    
+    public interface ICommandHandler<in TParameter, TResult> where TParameter : class {
 
-	Task<CommandResult> Execute(TParameter command);
+	Task<TResult> Execute(TParameter command);
     }
 }

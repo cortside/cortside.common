@@ -6,7 +6,6 @@ namespace Spring2.Common.Query {
     public interface IQueryDispatcher {
 
 	Task<TResult> Dispatch<TParameter, TResult>(TParameter query)
-	    where TParameter : IQuery
-	    where TResult : IQueryResult;
+	    where TParameter : class;
     }
 }

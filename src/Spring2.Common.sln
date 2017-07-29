@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{335B1379-6C95-4DCE-8D89-6602C387C26D}"
 	ProjectSection(SolutionItems) = preProject
@@ -35,6 +35,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring2.Common.Web.Mvc", "Spring2.Common.Web.Mvc\Spring2.Common.Web.Mvc.csproj", "{2952843A-F6EA-4CA5-B427-E3A4D00C71C4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring2.Common.Web.Security", "Spring2.Common.Web.Security\Spring2.Common.Web.Security.csproj", "{25F3DD2C-7958-4BC3-ABBB-82054972DA41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring2.Common.DomainEvent", "Spring2.Common.DomainEvent\Spring2.Common.DomainEvent.csproj", "{F0FB9FE9-C5F2-4514-B4A9-0A90DA07D36B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,6 +96,10 @@ Global
 		{25F3DD2C-7958-4BC3-ABBB-82054972DA41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25F3DD2C-7958-4BC3-ABBB-82054972DA41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25F3DD2C-7958-4BC3-ABBB-82054972DA41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0FB9FE9-C5F2-4514-B4A9-0A90DA07D36B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0FB9FE9-C5F2-4514-B4A9-0A90DA07D36B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0FB9FE9-C5F2-4514-B4A9-0A90DA07D36B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0FB9FE9-C5F2-4514-B4A9-0A90DA07D36B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

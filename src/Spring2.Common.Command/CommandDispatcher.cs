@@ -8,17 +8,19 @@ namespace Spring2.Common.Command {
 	private readonly IServiceProvider provider;
 
 	public CommandDispatcher(IServiceProvider provider) {
-	    if (provider == null) {
-		throw new ArgumentNullException(nameof(provider));
-	    }
-
-	    this.provider = provider;
+	    this.provider = provider ?? throw new ArgumentNullException(nameof(provider));
 	}
 
-	public async Task<CommandResult> Dispatch<TParameter>(TParameter command) where TParameter : ICommand {
+	public async Task<TResult> Dispatch<TParameter, TResult>(TParameter command) where TParameter : class {
+	    // Find the appropriate handler to call from those registered based on the type parameters
+	    ICommandHandler<TParameter, TResult> handler = provider.GetService(typeof(ICommandHandler<TParameter, TResult>)) as ICommandHandler<TParameter, TResult>;
+	    return await handler.Execute(command);
+	}
+
+	public async Task Dispatch<TParameter>(TParameter command) where TParameter : class {
 	    // Find the appropriate handler to call from those registered based on the type parameters
 	    ICommandHandler<TParameter> handler = provider.GetService(typeof(ICommandHandler<TParameter>)) as ICommandHandler<TParameter>;
-	    return await handler.Execute(command);
+	    await handler.Execute(command);
 	}
     }
 }
