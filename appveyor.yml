@@ -35,7 +35,7 @@ build:
   verbosity: minimal
 
 build_script:
-- dotnet build src/Spring2.Common.sln --configuration %Configuration% /property:Version=$env:APPVEYOR_BUILD_VERSION
+- dotnet build src/Spring2.Common.sln --configuration %Configuration% /property:Version=%APPVEYOR_BUILD_VERSION%
 
 after_build:
 - dotnet pack src/Spring2.Common.Configuration --configuration %Configuration% -o artifacts
