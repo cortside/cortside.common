@@ -5,6 +5,7 @@ namespace Spring2.Common.Command {
     // Interface for the command dispatcher itself
     public interface ICommandDispatcher {
 
-	Task<CommandResult> Dispatch<TParameter>(TParameter command) where TParameter : ICommand;
+	Task Dispatch<TParameter>(TParameter command) where TParameter : class;
+	Task<TResult> Dispatch<TParameter, TResult>(TParameter command) where TParameter : class;
     }
 }
