@@ -50,10 +50,6 @@ after_build:
 - ps: dotnet pack src/Spring2.Common.Web.Security --configuration $env:configuration -o ((get-location).Path + 'artifacts') /property:Version=$env:APPVEYOR_BUILD_VERSION
 - ps: dotnet pack src/Spring2.Common.DomainEvent --configuration $env:configuration -o ((get-location).Path + 'artifacts') /property:Version=$env:APPVEYOR_BUILD_VERSION
 
-- ps: >-
-    write-host 'test'
-    write-host 'test'
-
 #test_script:
 #- dotnet test "test\c6.auth.tests" -c %CONFIGURATION%
 
