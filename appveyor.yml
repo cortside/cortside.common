@@ -38,17 +38,21 @@ build_script:
 - dotnet build src/Spring2.Common.sln --configuration %Configuration% /property:Version=%APPVEYOR_BUILD_VERSION%
 
 after_build:
-- dotnet pack src/Spring2.Common.Configuration --configuration %Configuration% -o artifacts
-- dotnet pack src/Spring2.Common.BootStrap --configuration %Configuration% -o artifacts
-- dotnet pack src/Spring2.Common.Command --configuration %Configuration% -o artifacts
-- dotnet pack src/Spring2.Common.Data.Exceptions --configuration %Configuration% -o artifacts
-- dotnet pack src/Spring2.Common.IoC --configuration %Configuration% -o artifacts
-- dotnet pack src/Spring2.Common.Message --configuration %Configuration% -o artifacts
-- dotnet pack src/Spring2.Common.Query --configuration %Configuration% -o artifacts
-- dotnet pack src/Spring2.Common.RabbitMQ --configuration %Configuration% -o artifacts
-- dotnet pack src/Spring2.Common.Web.Mvc --configuration %Configuration% -o artifacts
-- dotnet pack src/Spring2.Common.Web.Security --configuration %Configuration% -o artifacts
-- dotnet pack src/Spring2.Common.DomainEvent --configuration %Configuration% -o artifacts
+- ps: dotnet pack src/Spring2.Common.Configuration --configuration $env:configuration -o ((get-location).Path + artifacts) /property:Version=$env:APPVEYOR_BUILD_VERSION
+- ps: dotnet pack src/Spring2.Common.BootStrap --configuration $env:configuration -o ((get-location).Path + artifacts) /property:Version=$env:APPVEYOR_BUILD_VERSION
+- ps: dotnet pack src/Spring2.Common.Command --configuration $env:configuration -o ((get-location).Path + artifacts) /property:Version=$env:APPVEYOR_BUILD_VERSION
+- ps: dotnet pack src/Spring2.Common.Data.Exceptions --configuration $env:configuration -o ((get-location).Path + artifacts) /property:Version=$env:APPVEYOR_BUILD_VERSION
+- ps: dotnet pack src/Spring2.Common.IoC --configuration $env:configuration -o ((get-location).Path + artifacts) /property:Version=$env:APPVEYOR_BUILD_VERSION
+- ps: dotnet pack src/Spring2.Common.Message --configuration $env:configuration -o ((get-location).Path + artifacts) /property:Version=$env:APPVEYOR_BUILD_VERSION
+- ps: dotnet pack src/Spring2.Common.Query --configuration $env:configuration -o ((get-location).Path + artifacts) /property:Version=$env:APPVEYOR_BUILD_VERSION
+- ps: dotnet pack src/Spring2.Common.RabbitMQ --configuration $env:configuration -o ((get-location).Path + artifacts) /property:Version=$env:APPVEYOR_BUILD_VERSION
+- ps: dotnet pack src/Spring2.Common.Web.Mvc --configuration $env:configuration -o ((get-location).Path + artifacts) /property:Version=$env:APPVEYOR_BUILD_VERSION
+- ps: dotnet pack src/Spring2.Common.Web.Security --configuration $env:configuration -o ((get-location).Path + artifacts) /property:Version=$env:APPVEYOR_BUILD_VERSION
+- ps: dotnet pack src/Spring2.Common.DomainEvent --configuration $env:configuration -o ((get-location).Path + artifacts) /property:Version=$env:APPVEYOR_BUILD_VERSION
+
+- ps: >-
+    write-host 'test'
+    write-host 'test'
 
 #test_script:
 #- dotnet test "test\c6.auth.tests" -c %CONFIGURATION%
