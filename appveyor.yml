@@ -35,27 +35,8 @@ build:
   verbosity: minimal
 
 build_script:
-- dotnet restore
-- ps: cd src/Spring2.Common.Configuration ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
-- ps: cd src/Spring2.Common.BootStrap ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
-- ps: cd src/Spring2.Common.Command ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
-- ps: cd src/Spring2.Common.Data.Exceptions ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
-- ps: cd src/Spring2.Common.IoC ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
-- ps: cd src/Spring2.Common.Message ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
-- ps: cd src/Spring2.Common.Query ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
-- ps: cd src/Spring2.Common.RabbitMQ ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
-- ps: cd src/Spring2.Common.Web.Mvc ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
-- ps: cd src/Spring2.Common.Web.Security ; dotnet version $env:APPVEYOR_BUILD_VERSION; cd ../..
-- dotnet build src/Spring2.Common.Configuration --configuration %Configuration%
-- dotnet build src/Spring2.Common.BootStrap --configuration %Configuration%
-- dotnet build src/Spring2.Common.Command --configuration %Configuration%
-- dotnet build src/Spring2.Common.Data.Exceptions --configuration %Configuration%
-- dotnet build src/Spring2.Common.IoC --configuration %Configuration%
-- dotnet build src/Spring2.Common.Message --configuration %Configuration%
-- dotnet build src/Spring2.Common.Query --configuration %Configuration%
-- dotnet build src/Spring2.Common.RabbitMQ --configuration %Configuration%
-- dotnet build src/Spring2.Common.Web.Mvc --configuration %Configuration%
-- dotnet build src/Spring2.Common.Web.Security --configuration %Configuration%
+- dotnet restore src/Spring2.Common.sln
+- dotnet build --configuration %Configuration% /property:Version=$env:APPVEYOR_BUILD_VERSION
 
 after_build:
 - dotnet pack src/Spring2.Common.Configuration --configuration %Configuration% -o artifacts
