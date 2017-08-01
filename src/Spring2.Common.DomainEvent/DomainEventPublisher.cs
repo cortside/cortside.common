@@ -16,9 +16,10 @@ namespace Spring2.Common.DomainEvent {
 	public async Task SendAsync<T>(T @event) where T : class {
 	    var data = JsonConvert.SerializeObject(@event);
 	    var eventType = @event.GetType().FullName;
+	    var address = Settings.Address + @event.GetType().Name;
 
 	    var session = CreateSession();
-	    var sender = new SenderLink(session, Settings.AppName, Settings.Address);
+	    var sender = new SenderLink(session, Settings.AppName, address);
 	    var message = new Message(data) {
 		ApplicationProperties = new ApplicationProperties(),
 		Properties = new Properties {
