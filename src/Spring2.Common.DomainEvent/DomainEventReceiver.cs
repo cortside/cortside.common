@@ -52,13 +52,11 @@ namespace Spring2.Common.DomainEvent {
 		} else {
 		    var desc = $"Handler not found for {typeString}";
 		    Logger.LogWarning(desc);
-		    receiver.Reject(message, new Error { Description = desc });
+		    receiver.Reject(message);
 		}
 	    } catch (Exception ex) {
 		Logger.LogError(101, ex, ex.Message);
-		receiver.Reject(message, new Error() {
-		    Description = ex.Message
-		});
+		receiver.Reject(message);
 	    }
 	}
 
