@@ -32,6 +32,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring2.Common.Web.Security
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring2.Common.DomainEvent", "Spring2.Common.DomainEvent\Spring2.Common.DomainEvent.csproj", "{F0FB9FE9-C5F2-4514-B4A9-0A90DA07D36B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring2.Common.DomainEvent.Tests", "Spring2.Common.DomainEvent.Tests\Spring2.Common.DomainEvent.Tests.csproj", "{1E370B56-A7EF-481C-86D3-70F4AE5C87DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +84,10 @@ Global
 		{F0FB9FE9-C5F2-4514-B4A9-0A90DA07D36B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0FB9FE9-C5F2-4514-B4A9-0A90DA07D36B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0FB9FE9-C5F2-4514-B4A9-0A90DA07D36B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E370B56-A7EF-481C-86D3-70F4AE5C87DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E370B56-A7EF-481C-86D3-70F4AE5C87DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E370B56-A7EF-481C-86D3-70F4AE5C87DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E370B56-A7EF-481C-86D3-70F4AE5C87DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
