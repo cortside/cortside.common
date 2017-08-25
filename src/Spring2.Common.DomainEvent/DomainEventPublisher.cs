@@ -32,7 +32,7 @@ namespace Spring2.Common.DomainEvent {
 	    try {
 		await sender.SendAsync(message);
 	    } finally {
-		await sender.CloseAsync(0);
+		await sender.CloseAsync(TimeSpan.Zero);
 	    }
 	}
     }

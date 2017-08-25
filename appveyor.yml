@@ -1,6 +1,6 @@
 ## https://www.appveyor.com/docs/appveyor-yml/
 
-image: Visual Studio 2015
+image: Visual Studio 2017
 
 version: 1.0.{build}
 
@@ -51,9 +51,6 @@ after_build:
         }
     }
     
-#test_script:
-#- dotnet test "test\c6.auth.tests" -c %CONFIGURATION%
-
 artifacts:
 - path: artifacts\**\*.*
 
@@ -64,7 +61,7 @@ nuget:
   account_feed: true
   project_feed: true
   disable_publish_on_pr: true
-
+  
 test:
   assemblies:
     - '**\test\Spring2.Common.Test.ApplicationService.dll'

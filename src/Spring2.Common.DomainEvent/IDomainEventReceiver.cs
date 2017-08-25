@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 namespace Spring2.Common.DomainEvent {
     public interface IDomainEventReceiver {
 	void Receive(IDictionary<string, Type> eventTypeLookup);
-	void Close(int timeout = 0);
+	void Close(TimeSpan? timeout = null);
     }
 }
