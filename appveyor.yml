@@ -61,3 +61,13 @@ nuget:
   account_feed: true
   project_feed: true
   disable_publish_on_pr: true
+  
+test:
+  assemblies:
+    - '**\test\Spring2.Common.Test.ApplicationService.dll'
+    - '**\test\Spring2.Common.Test.Domain.dll'
+    - '**\test\Spring2.Common.Test.DomainService.dll'
+    - '**\test\Spring2.Common.Test.Web.CustomerSite.dll'
+    - '**\test\Spring2.Common.Test.DTOAssembler.dll'
+    - '**\test\Spring2.Common.Test.Web.MerchantSite.dll'
+    - '**\test\Spring2.Common.Test.Web.Common.dll'
