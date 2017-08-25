@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>Spring2.Common.Data.Exceptions Class Library</Description>
     <Authors>cort</Authors>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Spring2.Common.Data.Exceptions</AssemblyName>
     <PackageId>Spring2.Common.Data.Exceptions</PackageId>
     <RuntimeIdentifiers>win10-x64;win81-x64</RuntimeIdentifiers>

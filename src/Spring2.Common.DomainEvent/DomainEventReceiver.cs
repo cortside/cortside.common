@@ -15,10 +15,10 @@ namespace Spring2.Common.DomainEvent {
 	public ReceiverLink Link { get; private set; }
 
 	public DomainEventReceiver(ServiceBusSettings settings, IServiceProvider provider, ILogger<DomainEventComms> logger)
-	    : base (settings, logger) {
+	    : base(settings, logger) {
 	    Provider = provider;
 	}
-	
+
 	public void Receive(IDictionary<string, Type> eventTypeLookup) {
 	    if (Link != null) {
 		throw new InvalidOperationException("Already receiving.");
@@ -32,7 +32,7 @@ namespace Spring2.Common.DomainEvent {
 	    Link.Start(Settings.Credits, OnMessageCallback);
 	}
 
-	protected virtual async void OnMessageCallback(ReceiverLink receiver, Message message) {
+	protected virtual async void OnMessageCallback(IReceiverLink receiver, Message message) {
 	    try {
 		// Get the body
 		var rawBody = message.Body as string;
@@ -60,8 +60,9 @@ namespace Spring2.Common.DomainEvent {
 	    }
 	}
 
-	public void Close(int timeout = 0) {
-	    Link.Close(timeout);
+	public void Close(TimeSpan? timeout = null) {
+	    timeout = timeout ?? TimeSpan.Zero;
+	    Link.Close(timeout.Value);
 	    Link = null;
 	    EventTypeLookup = null;
 	}
