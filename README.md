@@ -1,9 +1,9 @@
-# Spring2.Common
+# Cortside.Common
 
 convert json to c# classes
 http://json2csharp.com
 
-## Spring2.Common.DomainEvents
+## Cortside.Common.DomainEvents
 Classes for sending and listening to a message bus. Uses AMQPNETLITE (AMQP 1. 0 protocol).
 ### Azure ServiceBus
 #### Queues
