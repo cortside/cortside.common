@@ -7,12 +7,10 @@ namespace Cortside.Common.Data.Exceptions {
         public EntityExistsException() {
         }
 
-        public EntityExistsException(string message)
-        : base(message) {
+        public EntityExistsException(string message) : base(message) {
         }
 
-        public EntityExistsException(string message, Exception inner)
-        : base(message, inner) {
+        public EntityExistsException(string message, Exception inner) : base(message, inner) {
         }
     }
 }
