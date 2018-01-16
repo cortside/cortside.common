@@ -109,9 +109,9 @@
 			</imports>
 			<attributes>
 				<attribute type="System.Reflection.AssemblyVersionAttribute" value="${CCNetLabel}" />
-				<attribute type="AssemblyCopyrightAttribute" value="Copyright 2013 Spring2 Technologies" />
-				<attribute type="AssemblyCompanyAttribute" value="Spring2 Technologies" />
-				<attribute type="AssemblyProductAttribute" value="Spring2.Common" />
+				<attribute type="AssemblyCopyrightAttribute" value="Copyright 2013 Cortside Technologies" />
+				<attribute type="AssemblyCompanyAttribute" value="Cortside Technologies" />
+				<attribute type="AssemblyProductAttribute" value="Cortside.Common" />
 			</attributes>
 		</asminfo>
 	</target>

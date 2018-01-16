@@ -24,7 +24,7 @@ assembly_info:
   assembly_informational_version: '{version}'
 
 before_build:
-- appveyor-retry dotnet restore src/Spring2.Common.sln -v Minimal
+- appveyor-retry dotnet restore src/Cortside.Common.sln -v Minimal
 - set DNX_BUILD_VERSION=%APPVEYOR_BUILD_NUMBER%
 - dotnet --info
 
@@ -35,7 +35,7 @@ build:
   verbosity: minimal
 
 build_script:
-- dotnet build src/Spring2.Common.sln --configuration %Configuration% /property:Version=%APPVEYOR_BUILD_VERSION%
+- dotnet build src/Cortside.Common.sln --configuration %Configuration% /property:Version=%APPVEYOR_BUILD_VERSION%
 
 after_build:
 - ps: >-
@@ -64,10 +64,10 @@ nuget:
   
 test:
   assemblies:
-    - '**\test\Spring2.Common.Test.ApplicationService.dll'
-    - '**\test\Spring2.Common.Test.Domain.dll'
-    - '**\test\Spring2.Common.Test.DomainService.dll'
-    - '**\test\Spring2.Common.Test.Web.CustomerSite.dll'
-    - '**\test\Spring2.Common.Test.DTOAssembler.dll'
-    - '**\test\Spring2.Common.Test.Web.MerchantSite.dll'
-    - '**\test\Spring2.Common.Test.Web.Common.dll'
+    - '**\test\Cortside.Common.Test.ApplicationService.dll'
+    - '**\test\Cortside.Common.Test.Domain.dll'
+    - '**\test\Cortside.Common.Test.DomainService.dll'
+    - '**\test\Cortside.Common.Test.Web.CustomerSite.dll'
+    - '**\test\Cortside.Common.Test.DTOAssembler.dll'
+    - '**\test\Cortside.Common.Test.Web.MerchantSite.dll'
+    - '**\test\Cortside.Common.Test.Web.Common.dll'

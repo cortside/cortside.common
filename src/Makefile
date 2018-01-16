@@ -46,15 +46,15 @@ build: msbuild
 	@#aspnetc
 
 msbuild:
-	$(MSBUILD) Spring2.Common.sln /target:Build 
+	$(MSBUILD) Cortside.Common.sln /target:Build 
 
 build_tests:
 	#$(MSBUILD) $(CLIENT_NAME).Dss.Test.csproj $(CLIENT_NAME).Dss.Web.Portal.Controller.UnitTest.csproj $(CLIENT_NAME).Dss.Web.Personal.Controller.UnitTest.csproj $(CLIENT_NAME).Dss.Web.Common.AjaxCommand.UnitTest.csproj $(CLIENT_NAME).Dss.Web.Common.Controller.UnitTest.csproj $(CLIENT_NAME).Dss.UnitTest.csproj $(CLIENT_NAME)/.Dss.BusinessLogic.UnitTest.csproj /verbosity:minimal /target:Build
 
 .PHONY: clean
 clean:
-	rm -rf Spring2.Common.sln.cache
-	$(MSBUILD) Spring2.Common.sln /verbosity:minimal /target:Clean
+	rm -rf Cortside.Common.sln.cache
+	$(MSBUILD) Cortside.Common.sln /verbosity:minimal /target:Clean
 	$(RM) $(BUILDDIR)/*
 	$(RM) Web/build
 	$(RM) obj
@@ -73,16 +73,16 @@ generate:
 	@$(DTGDIR)/DataTierGenerator.exe -f DataTierGenerator.config.xml
 
 updateProjectFiles:	
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.Data.csproj -d Data/Model
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.Data.csproj -d Data/Enum
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.Domain.csproj -d Domain/Entity
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.DomainService.csproj -d DomainService
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.DomainService.Implementor.csproj -d DomainService/Implementor
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.Repository.csproj -d Repository
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.Repository.NHRepository.csproj -d NHRepository
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.Test.Domain.csproj -d Test/Domain
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.Test.DomainService.csproj -d Test/DomainService
-	@$(DTGDIR)/UpdateProjectFiles.exe -p Spring2.Common.Test.NHRepository.csproj -d Test/NHRepository
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Cortside.Common.Data.csproj -d Data/Model
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Cortside.Common.Data.csproj -d Data/Enum
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Cortside.Common.Domain.csproj -d Domain/Entity
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Cortside.Common.DomainService.csproj -d DomainService
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Cortside.Common.DomainService.Implementor.csproj -d DomainService/Implementor
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Cortside.Common.Repository.csproj -d Repository
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Cortside.Common.Repository.NHRepository.csproj -d NHRepository
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Cortside.Common.Test.Domain.csproj -d Test/Domain
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Cortside.Common.Test.DomainService.csproj -d Test/DomainService
+	@$(DTGDIR)/UpdateProjectFiles.exe -p Cortside.Common.Test.NHRepository.csproj -d Test/NHRepository
 
 .PHONY: ncover
 ncover: 
@@ -100,7 +100,7 @@ ncoverreports:
 regress: build nunit
 
 nunit:
-	#$(BINDIR)/NUnit/nunit-console-x86 /xml=ccnet-nunit-results-db.xml ../build/Test/Spring2.Common.Test.NHRepository.dll ../build/Test/Spring2.Common.Test.Integration.dll
+	#$(BINDIR)/NUnit/nunit-console-x86 /xml=ccnet-nunit-results-db.xml ../build/Test/Cortside.Common.Test.NHRepository.dll ../build/Test/Cortside.Common.Test.Integration.dll
 
 .PHONY: regress_UnitTests
 regress_UnitTests :
@@ -111,7 +111,7 @@ else
 	mv user.config user.config.hold
 endif
 	mv user.config.foo user.config
-	#$(BINDIR)/NUnit/nunit-console-x86 /xml=ccnet-nunit-results.xml ../build/Test/Spring2.Common.Test.ApplicationService.dll ../build/Test/Spring2.Common.Test.Domain.dll ../build/Test/Spring2.Common.Test.DomainService.dll ../build/Test/Spring2.Common.Test.Web.CustomerSite.dll ../build/Test/Spring2.Common.Test.DTOAssembler.dll ../build/Test/Spring2.Common.Test.Web.MerchantSite.dll ../build/Test/Spring2.Common.Test.Web.Common.dll
+	#$(BINDIR)/NUnit/nunit-console-x86 /xml=ccnet-nunit-results.xml ../build/Test/Cortside.Common.Test.ApplicationService.dll ../build/Test/Cortside.Common.Test.Domain.dll ../build/Test/Cortside.Common.Test.DomainService.dll ../build/Test/Cortside.Common.Test.Web.CustomerSite.dll ../build/Test/Cortside.Common.Test.DTOAssembler.dll ../build/Test/Cortside.Common.Test.Web.MerchantSite.dll ../build/Test/Cortside.Common.Test.Web.Common.dll
 	rm user.config
 	-mv user.config.hold user.config
 	
@@ -126,15 +126,15 @@ xpackage: clean build packageonly
 	#cp ../ChangeLog.txt ${RELEASEDIR}/ChangeLog-$(shell $(GETVERSION)).txt
 
 package: build precommit
-	./package.sh Spring2.Common.BootStrap $(VERSION)
-	./package.sh Spring2.Common.Command $(VERSION)
-	./package.sh Spring2.Common.IoC $(VERSION)
-	./package.sh Spring2.Common.Message $(VERSION)
-	./package.sh Spring2.Common.Query $(VERSION)
-	./package.sh Spring2.Common.RabbitMQ $(VERSION)
-	./package.sh Spring2.Common.Web.Mvc $(VERSION)
-	./package.sh Spring2.Common.Web.Security $(VERSION)
-	./package.sh Spring2.Common.Data.Exceptions $(VERSION)	
+	./package.sh Cortside.Common.BootStrap $(VERSION)
+	./package.sh Cortside.Common.Command $(VERSION)
+	./package.sh Cortside.Common.IoC $(VERSION)
+	./package.sh Cortside.Common.Message $(VERSION)
+	./package.sh Cortside.Common.Query $(VERSION)
+	./package.sh Cortside.Common.RabbitMQ $(VERSION)
+	./package.sh Cortside.Common.Web.Mvc $(VERSION)
+	./package.sh Cortside.Common.Web.Security $(VERSION)
+	./package.sh Cortside.Common.Data.Exceptions $(VERSION)	
 	
 packageonly: package_prep package_all package_postop 
 
@@ -146,7 +146,7 @@ package_prep:
 package_all:
 	xcopy ..\\build\\*.dll ..\\tmp /S /C /I /Q /Y 
 	xcopy ..\\build\\*.pdb ..\\tmp /S /C /I /Q /Y 
-	cd ../tmp; ${7ZIP} a ${RELEASEDIR}/Spring2.Common-$(shell $(GETVERSION)).7z * -r
+	cd ../tmp; ${7ZIP} a ${RELEASEDIR}/Cortside.Common-$(shell $(GETVERSION)).7z * -r
 	rm -rf ../tmp
 
 package_postop:
@@ -205,7 +205,7 @@ clean_release:
 	$(RM) ../release/*	
 	
 regressall:
-	find Test -name *Test.cs | sed -e s/.cs//g -e s/Test[/]/Spring2.Common.Test./ | xargs -i -t ../bin/nunit/nunit-console-x86.exe ../build/test/Spring2.Common.Test.dll -fixture:{} > regressall.txt
+	find Test -name *Test.cs | sed -e s/.cs//g -e s/Test[/]/Cortside.Common.Test./ | xargs -i -t ../bin/nunit/nunit-console-x86.exe ../build/test/Cortside.Common.Test.dll -fixture:{} > regressall.txt
 
 countlines:
 	find -name '*cs' -print | xargs cat | wc -l
@@ -255,7 +255,7 @@ combine_sql_scripts:
 	-- for line in $$(cat ScriptOrder.txt); do printf '\n-- START OF: ' >> combined_sql_scripts.sql; echo $$line >> combined_sql_scripts.sql; printf '\n' >> combined_sql_scripts.sql; cat $$line >> combined_sql_scripts.sql; printf '\n-- END OF: ' >> combined_sql_scripts.sql; echo $$line >> combined_sql_scripts.sql; printf '\nGO\n' >> combined_sql_scripts.sql; done
 	
 package_sql: scriptorder combine_sql_scripts
-	$(7ZIP) a $(RELEASEDIR)/Spring2.Common.sql-$(shell $(GETVERSION)).7z ScriptOrder.txt combined_sql_scripts.sql @ScriptOrder.txt
+	$(7ZIP) a $(RELEASEDIR)/Cortside.Common.sql-$(shell $(GETVERSION)).7z ScriptOrder.txt combined_sql_scripts.sql @ScriptOrder.txt
 	$(RM) ScriptOrder.txt combined_sql_scripts.sql
 	
 
@@ -297,9 +297,9 @@ clean_db:
 build_db:
 
 nuget:
-	nuget pack Spring2.Common.Web.Hosting/Spring2.Common.Web.Hosting.csproj  -version $(shell $(GETVERSION))
-	nuget push -Source http://nuget.spring2.com -ApiKey 36fd337b-fbdb-47d6-be08-4eb497ee1470 Spring2.Common.Web.Hosting.$(shell $(GETVERSION)).nupkg
-	nuget pack Spring2.Common.Configuration/Spring2.Common.Configuration.csproj  -version $(shell $(GETVERSION))
-	nuget push -Source http://nuget.spring2.com -ApiKey 36fd337b-fbdb-47d6-be08-4eb497ee1470 Spring2.Common.Configuration.$(shell $(GETVERSION)).nupkg
+	nuget pack Cortside.Common.Web.Hosting/Cortside.Common.Web.Hosting.csproj  -version $(shell $(GETVERSION))
+	nuget push -Source http://nuget.Cortside.com -ApiKey 36fd337b-fbdb-47d6-be08-4eb497ee1470 Cortside.Common.Web.Hosting.$(shell $(GETVERSION)).nupkg
+	nuget pack Cortside.Common.Configuration/Cortside.Common.Configuration.csproj  -version $(shell $(GETVERSION))
+	nuget push -Source http://nuget.Cortside.com -ApiKey 36fd337b-fbdb-47d6-be08-4eb497ee1470 Cortside.Common.Configuration.$(shell $(GETVERSION)).nupkg
 	rm -f *.nupkg
 	

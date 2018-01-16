@@ -23,6 +23,6 @@ $DNU restore
 $DNU build
 $DNU pack
 cd  bin/Debug
-$NUGET push $PROJECT.$VERSION.nupkg -s https://www.myget.org/F/liveauctioneers-developer-nuget/api/v2/package 78e8d6ff-73b3-41f5-8b1e-2c731f3b9f92
-$NUGET push $PROJECT.$VERSION.symbols.nupkg -s https://www.myget.org/F/liveauctioneers-developer-nuget/api/v2/package 78e8d6ff-73b3-41f5-8b1e-2c731f3b9f92
+$NUGET push $PROJECT.$VERSION.nupkg -s https://www.myget.org/F/xxx/api/v2/package xxx
+$NUGET push $PROJECT.$VERSION.symbols.nupkg -s https://www.myget.org/F/xxx/api/v2/package xxx
 
