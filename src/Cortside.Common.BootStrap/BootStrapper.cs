@@ -47,6 +47,9 @@ namespace Cortside.Common.BootStrap {
         public virtual IServiceProvider InitIoCContainer(IConfigurationBuilder config, IServiceCollection services) {
             return InternalInitialize(config, services, installers.ToArray());
         }
+        public virtual IServiceProvider InitIoCContainer(IConfigurationRoot configuration, IServiceCollection services) {
+            return InternalInitialize(configuration, services, installers.ToArray());
+        }
 
         protected internal virtual IServiceProvider InternalInitialize(IInstaller[] installers) {
             var services = new ServiceCollection().AddOptions();
@@ -66,6 +69,10 @@ namespace Cortside.Common.BootStrap {
 
         protected internal virtual IServiceProvider InternalInitialize(IConfigurationBuilder config, IServiceCollection services, IInstaller[] installers) {
             var configuration = config.Build();
+            return InternalInitialize(configuration, services, installers);
+        }
+
+        protected internal virtual IServiceProvider InternalInitialize(IConfigurationRoot configuration, IServiceCollection services, IInstaller[] installers) {
             DI.SetConfiguration(configuration);
 
             foreach (var i in installers) {
@@ -78,5 +85,6 @@ namespace Cortside.Common.BootStrap {
             DI.SetContainer(serviceProvider);
             return serviceProvider;
         }
+
     }
 }
