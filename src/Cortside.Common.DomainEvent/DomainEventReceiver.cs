@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using Amqp;
+using Amqp.Framing;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Cortside.Common.DomainEvent {
     public class DomainEventReceiver : DomainEventComms, IDomainEventReceiver {
+        public event ClosedCallback Closed;
         public IServiceProvider Provider { get; }
         public IDictionary<string, Type> EventTypeLookup { get; private set; }
         public ReceiverLink Link { get; private set; }
+        public DomainEventError Error { get; set; }
 
         public DomainEventReceiver(ServiceBusSettings settings, IServiceProvider provider, ILogger<DomainEventComms> logger)
             : base(settings, logger) {
@@ -24,10 +27,25 @@ namespace Cortside.Common.DomainEvent {
 
             EventTypeLookup = eventTypeLookup;
 
+            Error = null;
             var session = CreateSession();
-            Link = new ReceiverLink(session, Settings.AppName, Settings.Address);
+            var attach = new Attach() {
+                Source = new Source() { Address = Settings.Address, Durable = Settings.Durable},
+                Target = new Target() { Address = null}
+            };
+            Link = new ReceiverLink(session, Settings.AppName, attach, null);
+            Link.Closed += OnClosed;
             Link.SetCredit(Settings.Credits, true); //Not sure if this is sufficient to renew credits...
             Link.Start(Settings.Credits, OnMessageCallback);
+        }
+
+        private void OnClosed(IAmqpObject sender, Error error) {
+            if (sender.Error != null) {
+                Error = new DomainEventError();
+                Error.Condition = sender.Error.Condition.ToString();
+                Error.Description = sender.Error.Description;
+            }
+            Closed(this, Error);
         }
 
         protected virtual async void OnMessageCallback(IReceiverLink receiver, Message message) {
@@ -62,6 +80,7 @@ namespace Cortside.Common.DomainEvent {
             timeout = timeout ?? TimeSpan.Zero;
             Link.Close(timeout.Value);
             Link = null;
+            Error = null;
             EventTypeLookup = null;
         }
     }

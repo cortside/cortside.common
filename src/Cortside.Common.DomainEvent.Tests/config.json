@@ -6,7 +6,8 @@
         "Policy": "admin",
         "Key": "password",
         "AppName": "test.publisher",
-        "Address": "/exchange/test.exchange/" // would be "/exchange/test.exchange/TestEvent" - case matters.
+        "Address": "/exchange/test.exchange/", // would be "/exchange/test.exchange/TestEvent" - case matters.
+        "Durable": "1"
     },
     "Receiver.Settings": {
         "Protocol": "amqp",
@@ -14,7 +15,8 @@
         "Policy": "admin",
         "Key": "password",
         "AppName": "test.receiver",
-        "Address": "test.queue"
+        "Address": "test.queue",
+        "Durable": "1"
     }
 
     //Azure Service Bus
