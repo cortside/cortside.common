@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace Cortside.Common.DomainEvent {
     public class DomainEventReceiver : DomainEventComms, IDomainEventReceiver {
-        public event ClosedCallback Closed;
+        public event ReceiverClosedCallback Closed;
         public IServiceProvider Provider { get; }
         public IDictionary<string, Type> EventTypeLookup { get; private set; }
         public ReceiverLink Link { get; private set; }

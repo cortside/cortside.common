@@ -33,7 +33,7 @@ namespace Cortside.Common.DomainEvent.Tests {
         }
 
         [Trait("Category", "Integration")]
-        [Fact(Skip = "Integraton test, needs running message broker")]
+        [Fact]//(Skip = "Integraton test, needs running message broker")]
         public async Task ShouldBeAbleToSendAndReceive() {
             var tokenSource = new CancellationTokenSource();
             var token = tokenSource.Token;
@@ -47,13 +47,14 @@ namespace Cortside.Common.DomainEvent.Tests {
             var publisherSection = configRoot.GetSection("Publisher.Settings");
             var publisherSettings = GetSettings(publisherSection);
             var publisher = new DomainEventPublisher(publisherSettings, publisherLoggerMock.Object);
+            publisher.Closed += (s, e) => tokenSource.Cancel();
 
             var @event = new TestEvent {
                 TheInt = r.Next(),
                 TheString = Guid.NewGuid().ToString()
             };
 
-            await publisher.SendAsync(@event);
+            publisher.SendAsync(@event);
 
             receiver.Receive(new Dictionary<string, Type> {
         { typeof(TestEvent).FullName, typeof(TestEvent) }
