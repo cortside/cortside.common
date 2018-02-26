@@ -35,10 +35,13 @@ namespace Cortside.Common.DomainEvent.Tests {
         [Trait("Category", "Integration")]
         [Fact(Skip = "Integraton test, needs running message broker")]
         public async Task ShouldBeAbleToSendAndReceive() {
+            var tokenSource = new CancellationTokenSource();
+            var token = tokenSource.Token;
             var receiverLoggerMock = new Mock<ILogger<DomainEventReceiver>>();
             var receiverSection = configRoot.GetSection("Receiver.Settings");
             var receiverSettings = GetSettings(receiverSection);
             var receiver = new DomainEventReceiver(receiverSettings, serviceProvider, receiverLoggerMock.Object);
+            receiver.Closed += (r, e) => tokenSource.Cancel();
 
             var publisherLoggerMock = new Mock<ILogger<DomainEventPublisher>>();
             var publisherSection = configRoot.GetSection("Publisher.Settings");
@@ -57,6 +60,13 @@ namespace Cortside.Common.DomainEvent.Tests {
         });
             var start = DateTime.Now;
             while (TestEvent.Instance == null && (DateTime.Now - start) < new TimeSpan(0, 0, 30)) {
+                if(token.IsCancellationRequested == true) {
+                    if(receiver.Error != null) {
+                        Assert.Equal(string.Empty,receiver.Error.Description);
+                        Assert.Equal(string.Empty,receiver.Error.Condition);
+                    }
+                    Assert.True(receiver.Error == null);
+                }
                 Thread.Sleep(1000);
             } // run for 30 seconds
             Assert.Equal(@event.TheString, TestEvent.Instance.TheString);
@@ -70,7 +80,8 @@ namespace Cortside.Common.DomainEvent.Tests {
                 Key = section["Key"],
                 Namespace = section["Namespace"],
                 PolicyName = section["Policy"],
-                Protocol = section["Protocol"]
+                Protocol = section["Protocol"],
+                Durable = Convert.ToUInt32(section["Durable"])
             };
         }
     }

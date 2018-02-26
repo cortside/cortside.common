@@ -19,6 +19,9 @@ namespace Cortside.Common.DomainEvent {
             var session = CreateSession();
             var sender = new SenderLink(session, Settings.AppName, address);
             var message = new Message(data) {
+                Header = new Header {
+                    Durable = (Settings.Durable == 2)
+                },
                 ApplicationProperties = new ApplicationProperties(),
                 Properties = new Properties {
                     MessageId = Guid.NewGuid().ToString(),

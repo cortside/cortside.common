@@ -57,5 +57,15 @@ namespace Cortside.Common.DomainEvent {
         /// This is only used in the Receiver, to limit the number of simultaneous retrievals of messages.
         /// </remarks>
         public int Credits { set; get; } = 10;
+        /// <summary>
+        /// Set durability of queues and messages
+        /// </summary>
+        /// <value>
+        /// 0 = Transient, 1 = Durable
+        /// </value>
+        /// <remarks>
+        /// default value is 0
+        /// </remarks>
+        public uint Durable { set; get; } = 0;
     }
 }
