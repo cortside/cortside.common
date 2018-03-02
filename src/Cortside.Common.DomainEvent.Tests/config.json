@@ -1,39 +1,42 @@
 ﻿{
     //Local rabbit instance/container
+    //"Publisher.Settings": {
+    //    "Protocol": "amqp",
+    //    "Namespace": "rabbitmq",
+    //    "Policy": "admin",
+    //    "Key": "password",
+    //    "AppName": "test.publisher",
+    //    "Address": "/exchange/test.exchange/",
+    //    "Durable": "1"
+    //},
+    //"Receiver.Settings": {
+    //    "Protocol": "amqp",
+    //    "Namespace": "rabbitmq",
+    //    "Policy": "admin",
+    //    "Key": "password",
+    //    "AppName": "test.receiver",
+    //    "Address": "test.queue",
+    //    "Durable": "1"
+    //}
+
+    //Azure Service Bus
     "Publisher.Settings": {
-        "Protocol": "amqp",
-        "Namespace": "rabbitmq",
-        "Policy": "admin",
-        "Key": "password",
+        "Protocol": "amqps",
+        "Namespace": "test.servicebus.windows.net",
+        "Policy": "SendListen",
+        "Key": "key",
         "AppName": "test.publisher",
-        "Address": "/exchange/test.exchange/", // would be "/exchange/test.exchange/TestEvent" - case matters.
+        "Address": "test.",
         "Durable": "1"
     },
     "Receiver.Settings": {
-        "Protocol": "amqp",
-        "Namespace": "rabbitmq",
-        "Policy": "admin",
-        "Key": "password",
+        "Protocol": "amqps",
+        "Namespace": "test.servicebus.windows.net",
+        "Policy": "SendListen",
+        "Key": "key",
         "AppName": "test.receiver",
-        "Address": "test.queue",
+        "Address": "test.testevent/Subscriptions/subscription.TestEvent",
         "Durable": "1"
     }
-
-    //Azure Service Bus
-    //"Publisher.Settings": {
-    //    "Protocol": "amqps",
-    //    "Namespace": "c7-recruiter-stage.servicebus.windows.net",
-    //    "Policy": "SendListen",
-    //    "Key": "3q6LicPSwS0Jg10IHAquscXdpHKbJLa6coXsBmkvUc0=",
-    //    "AppName": "test.publisher",
-    //    "Address": "test."
-    //},
-    //"Receiver.Settings": {
-    //    "Protocol": "amqps",
-    //    "Namespace": "c7-recruiter-stage.servicebus.windows.net",
-    //    "Policy": "SendListen",
-    //    "Key": "3q6LicPSwS0Jg10IHAquscXdpHKbJLa6coXsBmkvUc0=",
-    //    "AppName": "test.receiver",
-    //    "Address": "test.queue"
-    //}
+}
 }

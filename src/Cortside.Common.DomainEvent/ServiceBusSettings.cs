@@ -8,7 +8,7 @@ namespace Cortside.Common.DomainEvent {
         /// </value>
         public string AppName { set; get; }
         /// <summary>
-        /// Gets or sets the address.
+        /// Gets or sets the address. Topic (azure SB) or exchange/queue (RabbitMQ)
         /// </summary>
         /// <value>
         /// The address.
@@ -17,6 +17,9 @@ namespace Cortside.Common.DomainEvent {
         /// When used in the Publisher, this is used as a prefix
         /// where the type name of the event class is appended to the Address.
         /// Topics and exchange keys should be named appropriately.
+        /// When used in the Receiver
+        /// Azure SB {topic}/Subscriptions/{subscription}
+        /// RabbitMQ {queue}
         /// </remarks>
         public string Address { set; get; }
         /// <summary>
@@ -27,7 +30,7 @@ namespace Cortside.Common.DomainEvent {
         /// </value>
         public string Protocol { set; get; }
         /// <summary>
-        /// Gets or sets the name of the policy (Azure SB) or username (RabbitMQ).
+        /// Gets or sets the name of the shared access policy (Azure SB) or username (RabbitMQ).
         /// </summary>
         /// <value>
         /// The name of the policy.
@@ -39,9 +42,13 @@ namespace Cortside.Common.DomainEvent {
         /// <value>
         /// The key.
         /// </value>
+        /// <remarks>
+        /// The key for Azure SB is from the shared access policy.
+        /// Amqpnetlite will not accept a '/' in the key
+        /// </remarks>
         public string Key { set; get; }
         /// <summary>
-        /// Gets or sets the namespace.
+        /// Gets or sets the namespace url (Azure SB) or host (RabbitMQ)
         /// </summary>
         /// <value>
         /// The namespace.
@@ -64,7 +71,9 @@ namespace Cortside.Common.DomainEvent {
         /// 0 = Transient, 1 = Durable
         /// </value>
         /// <remarks>
-        /// default value is 0
+        /// default value is 0.  Rabbit MQ will reject connection if these
+        /// settings do not match.  Azure SB does not seem to care what this
+        /// setting is.
         /// </remarks>
         public uint Durable { set; get; } = 0;
     }

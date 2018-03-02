@@ -21,8 +21,8 @@ namespace Cortside.Common.DomainEvent {
 
             var session = CreateSession();
             var attach = new Attach() {
-                Source = new Source() { Address = Settings.Address, Durable = Settings.Durable },
-                Target = new Target() { Address = null }
+                Target = new Target() { Address = address, Durable = Settings.Durable },
+                Source = new Source()
             };
             var sender = new SenderLink(session, Settings.AppName, attach, null);
             sender.Closed += OnClosed;
@@ -41,7 +41,15 @@ namespace Cortside.Common.DomainEvent {
             try {
                 await sender.SendAsync(message);
             } finally {
-                await sender.CloseAsync(TimeSpan.Zero);
+                if (sender.Error != null) {
+                    Error = new DomainEventError();
+                    Error.Condition = sender.Error.Condition.ToString();
+                    Error.Description = sender.Error.Description;
+                    Closed?.Invoke(this, Error);
+                }
+                if (!sender.IsClosed) {
+                    await sender.CloseAsync(TimeSpan.FromSeconds(5));
+                }
             }
         }
 
@@ -51,7 +59,7 @@ namespace Cortside.Common.DomainEvent {
                 Error.Condition = sender.Error.Condition.ToString();
                 Error.Description = sender.Error.Description;
             }
-            Closed(this, Error);
+            Closed?.Invoke(this, Error);
         }
     }
 }
