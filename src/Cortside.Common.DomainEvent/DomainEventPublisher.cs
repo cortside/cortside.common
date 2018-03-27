@@ -7,9 +7,12 @@ using Newtonsoft.Json;
 
 namespace Cortside.Common.DomainEvent {
     public class DomainEventPublisher : DomainEventComms, IDomainEventPublisher {
+        public event PublisherClosedCallback Closed;
 
         public DomainEventPublisher(ServiceBusSettings settings, ILogger<DomainEventComms> logger)
             : base(settings, logger) { }
+
+        public DomainEventError Error { get; set; }
 
         public async Task SendAsync<T>(T @event) where T : class {
             var data = JsonConvert.SerializeObject(@event);
@@ -17,7 +20,12 @@ namespace Cortside.Common.DomainEvent {
             var address = Settings.Address + @event.GetType().Name;
 
             var session = CreateSession();
-            var sender = new SenderLink(session, Settings.AppName, address);
+            var attach = new Attach() {
+                Target = new Target() { Address = address, Durable = Settings.Durable },
+                Source = new Source()
+            };
+            var sender = new SenderLink(session, Settings.AppName, attach, null);
+            sender.Closed += OnClosed;
             var message = new Message(data) {
                 Header = new Header {
                     Durable = (Settings.Durable == 2)
@@ -33,8 +41,25 @@ namespace Cortside.Common.DomainEvent {
             try {
                 await sender.SendAsync(message);
             } finally {
-                await sender.CloseAsync(TimeSpan.Zero);
+                if (sender.Error != null) {
+                    Error = new DomainEventError();
+                    Error.Condition = sender.Error.Condition.ToString();
+                    Error.Description = sender.Error.Description;
+                    Closed?.Invoke(this, Error);
+                }
+                if (!sender.IsClosed) {
+                    await sender.CloseAsync(TimeSpan.FromSeconds(5));
+                }
             }
+        }
+
+        private void OnClosed(IAmqpObject sender, Error error) {
+            if (sender.Error != null) {
+                Error = new DomainEventError();
+                Error.Condition = sender.Error.Condition.ToString();
+                Error.Description = sender.Error.Description;
+            }
+            Closed?.Invoke(this, Error);
         }
     }
 }

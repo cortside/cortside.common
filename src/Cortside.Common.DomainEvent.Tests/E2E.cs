@@ -33,7 +33,7 @@ namespace Cortside.Common.DomainEvent.Tests {
         }
 
         [Trait("Category", "Integration")]
-        [Fact(Skip = "Integraton test, needs running message broker")]
+        [Fact (Skip = "Integraton test, needs running message broker")]
         public async Task ShouldBeAbleToSendAndReceive() {
             var tokenSource = new CancellationTokenSource();
             var token = tokenSource.Token;
@@ -53,22 +53,27 @@ namespace Cortside.Common.DomainEvent.Tests {
                 TheString = Guid.NewGuid().ToString()
             };
 
-            await publisher.SendAsync(@event);
+            try {
+                await publisher.SendAsync(@event);
+            } finally {
+                Assert.Null(publisher.Error);
+            }
 
             receiver.Receive(new Dictionary<string, Type> {
         { typeof(TestEvent).FullName, typeof(TestEvent) }
         });
             var start = DateTime.Now;
             while (TestEvent.Instance == null && (DateTime.Now - start) < new TimeSpan(0, 0, 30)) {
-                if(token.IsCancellationRequested == true) {
-                    if(receiver.Error != null) {
-                        Assert.Equal(string.Empty,receiver.Error.Description);
-                        Assert.Equal(string.Empty,receiver.Error.Condition);
+                if (token.IsCancellationRequested == true) {
+                    if (receiver.Error != null) {
+                        Assert.Equal(string.Empty, receiver.Error.Description);
+                        Assert.Equal(string.Empty, receiver.Error.Condition);
                     }
                     Assert.True(receiver.Error == null);
                 }
                 Thread.Sleep(1000);
             } // run for 30 seconds
+            Assert.NotNull(TestEvent.Instance);
             Assert.Equal(@event.TheString, TestEvent.Instance.TheString);
             Assert.Equal(@event.TheInt, TestEvent.Instance.TheInt);
         }
