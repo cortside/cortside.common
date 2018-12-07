@@ -53,7 +53,7 @@ namespace Cortside.Common.DomainEvent {
         }
 
         protected virtual async void OnMessageCallback(IReceiverLink receiver, Message message) {
-            Logger.LogDebug("received message");
+            Logger.LogDebug("Received message");
             try {
                 // Get the body
                 var rawBody = message.Body as string;
@@ -62,12 +62,12 @@ namespace Cortside.Common.DomainEvent {
                 var dataType = EventTypeLookup[typeString];
                 Logger.LogInformation($"Event type: {dataType}");
                 var handlerType = typeof(IDomainEventHandler<>).MakeGenericType(dataType);
-                Logger.LogInformation($"Event type handler: {handlerType}");
+                Logger.LogInformation($"Event type handler interface: {handlerType}");
 
                 var data = JsonConvert.DeserializeObject(rawBody, dataType);
-                Logger.LogDebug($"deserialized {rawBody}");
+                Logger.LogDebug($"Successfully deserialized body to {dataType}");
                 var handler = Provider.GetService(handlerType);
-                Logger.LogInformation($"Event type handler instance: {handler.GetType()}");
+                Logger.LogInformation($"Event type handler: {handler.GetType()}");
 
                 if (handler != null) {
                     //TODO: Update the way "Handle" is retrieved in a type safe way.
@@ -75,14 +75,17 @@ namespace Cortside.Common.DomainEvent {
                     await (Task)method.Invoke(handler, new object[] { data });
 
                     receiver.Accept(message);
+                    Logger.LogDebug("Message accepted");
                 } else {
                     var desc = $"Handler not found for {typeString}";
                     Logger.LogWarning(desc);
                     receiver.Reject(message);
+                    Logger.LogError("Message rejected");
                 }
             } catch (Exception ex) {
                 Logger.LogError(101, ex, ex.Message);
                 receiver.Reject(message);
+                Logger.LogError("Message rejected");
             }
         }
 
