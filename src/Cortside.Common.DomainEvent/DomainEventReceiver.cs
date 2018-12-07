@@ -63,13 +63,14 @@ namespace Cortside.Common.DomainEvent {
                 Logger.LogInformation($"Event type: {dataType}");
                 var handlerType = typeof(IDomainEventHandler<>).MakeGenericType(dataType);
                 Logger.LogInformation($"Event type handler interface: {handlerType}");
-
-                var data = JsonConvert.DeserializeObject(rawBody, dataType);
-                Logger.LogDebug($"Successfully deserialized body to {dataType}");
                 var handler = Provider.GetService(handlerType);
-                Logger.LogInformation($"Event type handler: {handler.GetType()}");
 
                 if (handler != null) {
+                    Logger.LogInformation($"Event type handler: {handler.GetType()}");
+
+                    var data = JsonConvert.DeserializeObject(rawBody, dataType);
+                    Logger.LogDebug($"Successfully deserialized body to {dataType}");
+
                     //TODO: Update the way "Handle" is retrieved in a type safe way.
                     var method = handlerType.GetTypeInfo().GetDeclaredMethod("Handle");
                     await (Task)method.Invoke(handler, new object[] { data });
