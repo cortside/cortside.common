@@ -26,12 +26,16 @@ namespace Cortside.Common.DomainEvent {
             }
 
             EventTypeLookup = eventTypeLookup;
+            Logger.LogInformation($"Registering {eventTypeLookup.Count} event types:");
+            foreach (var pair in eventTypeLookup) {
+                Logger.LogInformation($"{pair.Key} = {pair.Value}");
+            }
 
             Error = null;
             var session = CreateSession();
             var attach = new Attach() {
-                Source = new Source() { Address = Settings.Address, Durable = Settings.Durable},
-                Target = new Target() { Address = null}
+                Source = new Source() { Address = Settings.Address, Durable = Settings.Durable },
+                Target = new Target() { Address = null }
             };
             Link = new ReceiverLink(session, Settings.AppName, attach, null);
             Link.Closed += OnClosed;
@@ -49,15 +53,21 @@ namespace Cortside.Common.DomainEvent {
         }
 
         protected virtual async void OnMessageCallback(IReceiverLink receiver, Message message) {
+            Logger.LogDebug("received message");
             try {
                 // Get the body
                 var rawBody = message.Body as string;
                 var typeString = message.ApplicationProperties[MESSAGE_TYPE_KEY] as string;
+                Logger.LogInformation($"Event type key: {typeString}");
                 var dataType = EventTypeLookup[typeString];
+                Logger.LogInformation($"Event type: {dataType}");
                 var handlerType = typeof(IDomainEventHandler<>).MakeGenericType(dataType);
+                Logger.LogInformation($"Event type handler: {handlerType}");
 
                 var data = JsonConvert.DeserializeObject(rawBody, dataType);
+                Logger.LogDebug($"deserialized {rawBody}");
                 var handler = Provider.GetService(handlerType);
+                Logger.LogInformation($"Event type handler instance: {handler.GetType()}");
 
                 if (handler != null) {
                     //TODO: Update the way "Handle" is retrieved in a type safe way.
