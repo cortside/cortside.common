@@ -15,7 +15,7 @@ namespace Cortside.Common.DomainEvent {
         public ReceiverLink Link { get; private set; }
         public DomainEventError Error { get; set; }
 
-        public DomainEventReceiver(ServiceBusSettings settings, IServiceProvider provider, ILogger<DomainEventComms> logger)
+        public DomainEventReceiver(ServiceBusReceiverSettings settings, IServiceProvider provider, ILogger<DomainEventComms> logger)
             : base(settings, logger) {
             Provider = provider;
         }

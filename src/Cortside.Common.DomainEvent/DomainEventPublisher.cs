@@ -9,7 +9,7 @@ namespace Cortside.Common.DomainEvent {
     public class DomainEventPublisher : DomainEventComms, IDomainEventPublisher {
         public event PublisherClosedCallback Closed;
 
-        public DomainEventPublisher(ServiceBusSettings settings, ILogger<DomainEventComms> logger)
+        public DomainEventPublisher(ServiceBusPublisherSettings settings, ILogger<DomainEventComms> logger)
             : base(settings, logger) { }
 
         public DomainEventError Error { get; set; }
