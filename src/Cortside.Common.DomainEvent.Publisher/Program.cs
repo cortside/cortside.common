@@ -60,8 +60,6 @@ namespace Cortside.Common.DomainEvent.Publisher {
                     logger.LogError($"error sending message: {publisher.Error.Description} :: {publisher.Error.Condition}");
                 }
             }
-
-            Console.ReadLine();
         }
     }
 }
