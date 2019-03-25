@@ -20,3 +20,5 @@ tmp/
 artifacts/
 src/.vs/
 src/packages/
+**/_Ncrunch_*/
+*.ncrunchsolution
