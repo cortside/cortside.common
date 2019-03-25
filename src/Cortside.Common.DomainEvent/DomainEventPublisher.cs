@@ -14,11 +14,19 @@ namespace Cortside.Common.DomainEvent {
 
         public DomainEventError Error { get; set; }
 
+        public async Task SendAsync<T>(string eventType, string address, T @event) where T : class {
+            var data = JsonConvert.SerializeObject(@event);
+            await SendAsync(eventType, address, data);
+        }
+
         public async Task SendAsync<T>(T @event) where T : class {
             var data = JsonConvert.SerializeObject(@event);
             var eventType = @event.GetType().FullName;
             var address = Settings.Address + @event.GetType().Name;
+            SendAsync(eventType, address, data);
+        }
 
+        public async Task SendAsync(string eventType, string address, string data) {
             var session = CreateSession();
             var attach = new Attach() {
                 Target = new Target() { Address = address, Durable = Settings.Durable },

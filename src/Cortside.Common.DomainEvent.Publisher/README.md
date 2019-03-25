@@ -1,0 +1,1 @@
+dotnet Cortside.Common.DomainEvent.Publisher.dll --key {{key}} --namespace foo.servicebus.windows.net --policy publish_user --data '{ \"fooId\":\"00000000-0000-0000-0000-000000000000\" }' --eventtype "CortSide.Common.FooStateChangedEvent" --address "foo.queue"
