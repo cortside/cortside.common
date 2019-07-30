@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
+using System.Xml;
 using Amqp;
 using Amqp.Framing;
 using Microsoft.Extensions.Logging;
@@ -55,8 +59,22 @@ namespace Cortside.Common.DomainEvent {
         protected virtual async void OnMessageCallback(IReceiverLink receiver, Message message) {
             Logger.LogDebug("Received message");
             try {
+                string rawBody = null;
                 // Get the body
-                var rawBody = message.Body as string;
+                if (message.Body is string) {
+                    rawBody = message.Body as string;
+                } else if (message.Body is byte[]) {
+                    using (var reader = XmlDictionaryReader.CreateBinaryReader(
+                        new MemoryStream(message.Body as byte[]),
+                        null,
+                        XmlDictionaryReaderQuotas.Max)) {
+                        var doc = new XmlDocument();
+                        doc.Load(reader);
+                        rawBody = doc.InnerText;
+                    }
+                } else {
+                    throw new ArgumentException($"Message body has an invalid type {message.Body.GetType().ToString()}");
+                }
                 var typeString = message.ApplicationProperties[MESSAGE_TYPE_KEY] as string;
                 Logger.LogInformation($"Event type key: {typeString}");
                 var dataType = EventTypeLookup[typeString];
