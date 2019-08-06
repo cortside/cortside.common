@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using CommandLine;
 using Microsoft.Extensions.Logging;
 
@@ -20,8 +21,11 @@ namespace Cortside.Common.DomainEvent.Publisher {
             public string EventType { get; set; }
             [Option("address", Required = true, HelpText = "Address (event class name)")]
             public string Address { get; set; }
-            [Option("data", Required = true, HelpText = "Message data/json")]
+            [Option("data", Required = false, HelpText = "Message data/json")]
             public string Data { get; set; }
+            [Option("file", Required = false, HelpText = "filename for Message data/json")]
+            public string File { get; set; }
+
         }
 
         static void Main(string[] args) {
@@ -50,6 +54,14 @@ namespace Cortside.Common.DomainEvent.Publisher {
                 Durable = 1
             };
             var publisher = new DomainEventPublisher(psettings, logger);
+
+            if (!String.IsNullOrWhiteSpace(opts.File)) {
+                opts.Data = File.ReadAllText(opts.File);
+            }
+
+            if (string.IsNullOrEmpty(opts.Data)) {
+                logger.LogWarning("Data or File must be specified and have data");
+            }
 
             try {
                 publisher.SendAsync(opts.EventType, opts.Address, opts.Data).GetAwaiter().GetResult();
