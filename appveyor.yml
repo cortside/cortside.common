@@ -71,3 +71,8 @@ test:
     - '**\test\Cortside.Common.Test.DTOAssembler.dll'
     - '**\test\Cortside.Common.Test.Web.MerchantSite.dll'
     - '**\test\Cortside.Common.Test.Web.Common.dll'
+
+deploy:
+- provider: NuGet
+  api_key:
+    secure: zhuhtcASapzn9Yleh+FY9RmH1DKatR4rUODGWMUr0F01jKiWuMjeC9JZPW6WsVzX
