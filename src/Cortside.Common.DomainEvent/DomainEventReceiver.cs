@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Cortside.Common.DomainEvent {
-    public class DomainEventReceiver : DomainEventComms, IDomainEventReceiver {
+    public class DomainEventReceiver : DomainEventComms, IDomainEventReceiver, IDisposable {
         public event ReceiverClosedCallback Closed;
         public IServiceProvider Provider { get; }
         public IDictionary<string, Type> EventTypeLookup { get; private set; }
@@ -110,11 +110,16 @@ namespace Cortside.Common.DomainEvent {
 
         public void Close(TimeSpan? timeout = null) {
             timeout = timeout ?? TimeSpan.Zero;
-            Link.Session.Close(timeout.Value);
-            Link.Close(timeout.Value);
+            Link?.Session.Close(timeout.Value);
+            Link?.Session.Connection.Close(timeout.Value);
+            Link?.Close(timeout.Value);
             Link = null;
             Error = null;
             EventTypeLookup = null;
+        }
+
+        public void Dispose() {
+            this.Close();
         }
     }
 }
