@@ -58,6 +58,8 @@ namespace Cortside.Common.DomainEvent {
                 if (!sender.IsClosed) {
                     await sender.CloseAsync(TimeSpan.FromSeconds(5));
                 }
+                await session.CloseAsync();
+                await session.Connection.CloseAsync();
             }
         }
 
