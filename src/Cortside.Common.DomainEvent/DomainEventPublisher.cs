@@ -60,6 +60,7 @@ namespace Cortside.Common.DomainEvent {
                 }
                 await session.CloseAsync();
                 await session.Connection.CloseAsync();
+
             }
         }
 
