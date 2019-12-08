@@ -16,17 +16,33 @@ namespace Cortside.Common.DomainEvent {
 
         public async Task SendAsync<T>(string eventType, string address, T @event) where T : class {
             var data = JsonConvert.SerializeObject(@event);
-            await SendAsync(eventType, address, data);
+            await SendAsync(eventType, address, data, null);
+        }
+
+        public async Task SendAsync<T>(string eventType, string address, T @event, string correlationId) where T : class {
+            var data = JsonConvert.SerializeObject(@event);
+            await SendAsync(eventType, address, data, correlationId);
         }
 
         public async Task SendAsync<T>(T @event) where T : class {
             var data = JsonConvert.SerializeObject(@event);
             var eventType = @event.GetType().FullName;
             var address = Settings.Address + @event.GetType().Name;
-            SendAsync(eventType, address, data);
+            await SendAsync(eventType, address, data, null);
+        }
+
+        public async Task SendAsync<T>(T @event, string correlationId) where T : class {
+            var data = JsonConvert.SerializeObject(@event);
+            var eventType = @event.GetType().FullName;
+            var address = Settings.Address + @event.GetType().Name;
+            await SendAsync(eventType, address, data, correlationId);
         }
 
         public async Task SendAsync(string eventType, string address, string data) {
+            await SendAsync(eventType, address, data, null);
+        }
+
+        public async Task SendAsync(string eventType, string address, string data, string correlationId) {
             var session = CreateSession();
             var attach = new Attach() {
                 Target = new Target() { Address = address, Durable = Settings.Durable },
@@ -41,7 +57,8 @@ namespace Cortside.Common.DomainEvent {
                 ApplicationProperties = new ApplicationProperties(),
                 Properties = new Properties {
                     MessageId = Guid.NewGuid().ToString(),
-                    GroupId = eventType
+                    GroupId = eventType,
+                    CorrelationId = correlationId
                 }
             };
             message.ApplicationProperties[MESSAGE_TYPE_KEY] = eventType;

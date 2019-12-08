@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using System.Xml;
 using Amqp;
@@ -90,8 +88,19 @@ namespace Cortside.Common.DomainEvent {
                     Logger.LogDebug($"Successfully deserialized body to {dataType}");
 
                     //TODO: Update the way "Handle" is retrieved in a type safe way.
-                    var method = handlerType.GetTypeInfo().GetDeclaredMethod("Handle");
-                    await (Task)method.Invoke(handler, new object[] { data });
+                    var eventType = typeof(DomainEventMessage<>).MakeGenericType(dataType);
+
+                    var method1 = handlerType.GetTypeInfo().GetMethod("Handle", new Type[] { eventType });
+                    var method2 = handlerType.GetTypeInfo().GetMethod("Handle", new Type[] { dataType });
+                    if (method1 != null) {
+                        dynamic domainEvent = Activator.CreateInstance(eventType);
+                        domainEvent.MessageId = message.Properties.MessageId;
+                        domainEvent.CorrelationId = message.Properties.CorrelationId;
+                        domainEvent.Data = (dynamic)data;
+                        await (Task)method1.Invoke(handler, new object[] { domainEvent });
+                    } else {
+                        await (Task)method2.Invoke(handler, new object[] { data });
+                    }
 
                     receiver.Accept(message);
                     Logger.LogDebug("Message accepted");
