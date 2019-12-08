@@ -33,7 +33,7 @@ namespace Cortside.Common.DomainEvent.Tests {
         }
 
         [Trait("Category", "Integration")]
-        [Fact] //(Skip = "Integraton test, needs running message broker")]
+        [Fact(Skip = "Integraton test, needs running message broker")]
         public async Task ShouldBeAbleToSendAndReceive() {
             var tokenSource = new CancellationTokenSource();
             var token = tokenSource.Token;
