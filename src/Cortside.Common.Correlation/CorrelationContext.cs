@@ -11,7 +11,10 @@ namespace Cortside.Common.Correlation {
 
         public static string SetFromHttpContext(HttpContext context) {
             context.Request.Headers.TryGetValue("Request-Id", out var correlationIds);
-            var correlationId = correlationIds.FirstOrDefault() ?? Guid.NewGuid().ToString();
+            var correlationId = correlationIds.FirstOrDefault();
+            if (String.IsNullOrWhiteSpace(correlationId)) {
+                correlationId = Guid.NewGuid().ToString();
+            }
             SetCorrelationId(correlationId);
             SetRequestId(context.TraceIdentifier);
             return correlationId;
