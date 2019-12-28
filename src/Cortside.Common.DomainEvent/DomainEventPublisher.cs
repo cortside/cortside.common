@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Amqp;
 using Amqp.Framing;
@@ -43,41 +44,47 @@ namespace Cortside.Common.DomainEvent {
         }
 
         public async Task SendAsync(string eventType, string address, string data, string correlationId) {
-            var session = CreateSession();
-            var attach = new Attach() {
-                Target = new Target() { Address = address, Durable = Settings.Durable },
-                Source = new Source()
-            };
-            var sender = new SenderLink(session, Settings.AppName, attach, null);
-            sender.Closed += OnClosed;
-            var message = new Message(data) {
-                Header = new Header {
-                    Durable = (Settings.Durable == 2)
-                },
-                ApplicationProperties = new ApplicationProperties(),
-                Properties = new Properties {
-                    MessageId = Guid.NewGuid().ToString(),
-                    GroupId = eventType,
-                    CorrelationId = correlationId
-                }
-            };
-            message.ApplicationProperties[MESSAGE_TYPE_KEY] = eventType;
+            var messageId = Guid.NewGuid().ToString();
+            using (Logger.BeginScope(new Dictionary<string, object> {
+                ["CorrelationId"] = correlationId,
+                ["MessageId"] = messageId,
+                ["MessageType"] = eventType
+            })) {
+                var session = CreateSession();
+                var attach = new Attach() {
+                    Target = new Target() { Address = address, Durable = Settings.Durable },
+                    Source = new Source()
+                };
+                var sender = new SenderLink(session, Settings.AppName, attach, null);
+                sender.Closed += OnClosed;
+                var message = new Message(data) {
+                    Header = new Header {
+                        Durable = (Settings.Durable == 2)
+                    },
+                    ApplicationProperties = new ApplicationProperties(),
+                    Properties = new Properties {
+                        MessageId = messageId,
+                        GroupId = eventType,
+                        CorrelationId = correlationId
+                    }
+                };
+                message.ApplicationProperties[MESSAGE_TYPE_KEY] = eventType;
 
-            try {
-                await sender.SendAsync(message);
-            } finally {
-                if (sender.Error != null) {
-                    Error = new DomainEventError();
-                    Error.Condition = sender.Error.Condition.ToString();
-                    Error.Description = sender.Error.Description;
-                    Closed?.Invoke(this, Error);
+                try {
+                    await sender.SendAsync(message);
+                } finally {
+                    if (sender.Error != null) {
+                        Error = new DomainEventError();
+                        Error.Condition = sender.Error.Condition.ToString();
+                        Error.Description = sender.Error.Description;
+                        Closed?.Invoke(this, Error);
+                    }
+                    if (!sender.IsClosed) {
+                        await sender.CloseAsync(TimeSpan.FromSeconds(5));
+                    }
+                    await session.CloseAsync();
+                    await session.Connection.CloseAsync();
                 }
-                if (!sender.IsClosed) {
-                    await sender.CloseAsync(TimeSpan.FromSeconds(5));
-                }
-                await session.CloseAsync();
-                await session.Connection.CloseAsync();
-
             }
         }
 

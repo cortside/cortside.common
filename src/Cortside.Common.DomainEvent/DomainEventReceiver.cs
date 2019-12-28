@@ -55,65 +55,71 @@ namespace Cortside.Common.DomainEvent {
         }
 
         protected virtual async void OnMessageCallback(IReceiverLink receiver, Message message) {
-            Logger.LogDebug("Received message");
-            try {
-                string rawBody = null;
-                // Get the body
-                if (message.Body is string) {
-                    rawBody = message.Body as string;
-                } else if (message.Body is byte[]) {
-                    using (var reader = XmlDictionaryReader.CreateBinaryReader(
-                        new MemoryStream(message.Body as byte[]),
-                        null,
-                        XmlDictionaryReaderQuotas.Max)) {
-                        var doc = new XmlDocument();
-                        doc.Load(reader);
-                        rawBody = doc.InnerText;
-                    }
-                } else {
-                    throw new ArgumentException($"Message body has an invalid type {message.Body.GetType().ToString()}");
-                }
-                var typeString = message.ApplicationProperties[MESSAGE_TYPE_KEY] as string;
-                Logger.LogInformation($"Event type key: {typeString}");
-                var dataType = EventTypeLookup[typeString];
-                Logger.LogInformation($"Event type: {dataType}");
-                var handlerType = typeof(IDomainEventHandler<>).MakeGenericType(dataType);
-                Logger.LogInformation($"Event type handler interface: {handlerType}");
-                var handler = Provider.GetService(handlerType);
-
-                if (handler != null) {
-                    Logger.LogInformation($"Event type handler: {handler.GetType()}");
-
-                    var data = JsonConvert.DeserializeObject(rawBody, dataType);
-                    Logger.LogDebug($"Successfully deserialized body to {dataType}");
-
-                    //TODO: Update the way "Handle" is retrieved in a type safe way.
-                    var eventType = typeof(DomainEventMessage<>).MakeGenericType(dataType);
-
-                    var method1 = handlerType.GetTypeInfo().GetMethod("Handle", new Type[] { eventType });
-                    var method2 = handlerType.GetTypeInfo().GetMethod("Handle", new Type[] { dataType });
-                    if (method1 != null) {
-                        dynamic domainEvent = Activator.CreateInstance(eventType);
-                        domainEvent.MessageId = message.Properties.MessageId;
-                        domainEvent.CorrelationId = message.Properties.CorrelationId;
-                        domainEvent.Data = (dynamic)data;
-                        await (Task)method1.Invoke(handler, new object[] { domainEvent });
+            var messageType = message.ApplicationProperties[MESSAGE_TYPE_KEY] as string;
+            using (Logger.BeginScope(new Dictionary<string, object> {
+                ["CorrelationId"] = message.Properties.CorrelationId,
+                ["MessageId"] = message.Properties.MessageId,
+                ["MessageType"] = messageType
+            })) {
+                Logger.LogDebug("Received message");
+                try {
+                    string rawBody = null;
+                    // Get the body
+                    if (message.Body is string) {
+                        rawBody = message.Body as string;
+                    } else if (message.Body is byte[]) {
+                        using (var reader = XmlDictionaryReader.CreateBinaryReader(
+                            new MemoryStream(message.Body as byte[]),
+                            null,
+                            XmlDictionaryReaderQuotas.Max)) {
+                            var doc = new XmlDocument();
+                            doc.Load(reader);
+                            rawBody = doc.InnerText;
+                        }
                     } else {
-                        await (Task)method2.Invoke(handler, new object[] { data });
+                        throw new ArgumentException($"Message body has an invalid type {message.Body.GetType().ToString()}");
                     }
+                    Logger.LogInformation($"Event type key: {messageType}");
+                    var dataType = EventTypeLookup[messageType];
+                    Logger.LogInformation($"Event type: {dataType}");
+                    var handlerType = typeof(IDomainEventHandler<>).MakeGenericType(dataType);
+                    Logger.LogInformation($"Event type handler interface: {handlerType}");
+                    var handler = Provider.GetService(handlerType);
 
-                    receiver.Accept(message);
-                    Logger.LogDebug("Message accepted");
-                } else {
-                    var desc = $"Handler not found for {typeString}";
-                    Logger.LogWarning(desc);
+                    if (handler != null) {
+                        Logger.LogInformation($"Event type handler: {handler.GetType()}");
+
+                        var data = JsonConvert.DeserializeObject(rawBody, dataType);
+                        Logger.LogDebug($"Successfully deserialized body to {dataType}");
+
+                        //TODO: Update the way "Handle" is retrieved in a type safe way.
+                        var eventType = typeof(DomainEventMessage<>).MakeGenericType(dataType);
+
+                        var method1 = handlerType.GetTypeInfo().GetMethod("Handle", new Type[] { eventType });
+                        var method2 = handlerType.GetTypeInfo().GetMethod("Handle", new Type[] { dataType });
+                        if (method1 != null) {
+                            dynamic domainEvent = Activator.CreateInstance(eventType);
+                            domainEvent.MessageId = message.Properties.MessageId;
+                            domainEvent.CorrelationId = message.Properties.CorrelationId;
+                            domainEvent.Data = (dynamic)data;
+                            await (Task)method1.Invoke(handler, new object[] { domainEvent });
+                        } else {
+                            await (Task)method2.Invoke(handler, new object[] { data });
+                        }
+
+                        receiver.Accept(message);
+                        Logger.LogDebug("Message accepted");
+                    } else {
+                        var desc = $"Handler not found for {messageType}";
+                        Logger.LogWarning(desc);
+                        receiver.Reject(message);
+                        Logger.LogError("Message rejected");
+                    }
+                } catch (Exception ex) {
+                    Logger.LogError(101, ex, ex.Message);
                     receiver.Reject(message);
                     Logger.LogError("Message rejected");
                 }
-            } catch (Exception ex) {
-                Logger.LogError(101, ex, ex.Message);
-                receiver.Reject(message);
-                Logger.LogError("Message rejected");
             }
         }
 

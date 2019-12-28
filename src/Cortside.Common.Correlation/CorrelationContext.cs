@@ -10,11 +10,21 @@ namespace Cortside.Common.Correlation {
         private static readonly AsyncLocal<string> RequestId = new AsyncLocal<string>();
 
         public static string SetFromHttpContext(HttpContext context) {
-            context.Request.Headers.TryGetValue("Request-Id", out var correlationIds);
-            var correlationId = correlationIds.FirstOrDefault();
-            if (String.IsNullOrWhiteSpace(correlationId)) {
+            string correlationId = null;
+
+            // check for correlationId from request
+            context.Request.Headers.TryGetValue("Request-Id", out var requestIds);
+            var requestId = requestIds.FirstOrDefault();
+            if (!String.IsNullOrWhiteSpace(requestId)) {
+                correlationId = requestId;
+            }
+
+            // generate one if not set
+            if (correlationId == null) {
                 correlationId = Guid.NewGuid().ToString();
             }
+
+            // set values
             SetCorrelationId(correlationId);
             SetRequestId(context.TraceIdentifier);
             return correlationId;
@@ -22,7 +32,7 @@ namespace Cortside.Common.Correlation {
 
         public static void SetCorrelationId(string correlationId) {
             if (string.IsNullOrWhiteSpace(correlationId)) {
-                throw new ArgumentException(nameof(correlationId), "Correlation id cannot be null or empty");
+                throw new ArgumentException("Correlation id cannot be null or empty", nameof(correlationId));
             }
 
             if (!string.IsNullOrWhiteSpace(CorrelationId.Value)) {
@@ -34,7 +44,7 @@ namespace Cortside.Common.Correlation {
 
         public static void SetRequestId(string requestId) {
             if (string.IsNullOrWhiteSpace(requestId)) {
-                throw new ArgumentException(nameof(requestId), "Request id cannot be null or empty");
+                throw new ArgumentException("Request id cannot be null or empty", nameof(requestId));
             }
 
             if (!string.IsNullOrWhiteSpace(RequestId.Value)) {
