@@ -109,7 +109,6 @@ namespace Cortside.Common.DomainEvent {
             }
         }
 
-
         private void OnClosed(IAmqpObject sender, Error error) {
             if (sender.Error != null) {
                 Error = new DomainEventError();
@@ -146,7 +145,22 @@ namespace Cortside.Common.DomainEvent {
         public async Task ScheduleMessageAsync(string eventType, string address, string data, DateTime scheduledEnqueueTimeUtc) {
             await ScheduleMessageAsync(eventType, address, data, null, scheduledEnqueueTimeUtc);
         }
-    }
 
+        public async Task SendAsync<T>(T @event, MessageOptions options) where T : class {
+            await SendAsync<T>(options.MessageType, options.Address, @event, options.CorrelationId);
+        }
+
+        public async Task SendAsync(string data, MessageOptions options) {
+            throw new NotImplementedException();
+        }
+
+        public async Task ScheduleMessageAsync<T>(T @event, MessageOptions options, DateTime scheduledEnqueueTimeUtc) where T : class {
+            throw new NotImplementedException();
+        }
+
+        public async Task ScheduleMessageAsync(string data, MessageOptions options, DateTime scheduledEnqueueTimeUtc) {
+            throw new NotImplementedException();
+        }
+    }
 }
 
