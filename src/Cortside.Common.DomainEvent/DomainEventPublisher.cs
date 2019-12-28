@@ -50,7 +50,7 @@ namespace Cortside.Common.DomainEvent {
                 ["MessageId"] = messageId,
                 ["MessageType"] = eventType
             })) {
-                Logger.LogTrace($"Publishing message to {address} with body: {data}");
+                Logger.LogTrace($"Publishing message {messageId} to {address} with body: {data}");
                 var session = CreateSession();
                 var attach = new Attach() {
                     Target = new Target() { Address = address, Durable = Settings.Durable },
@@ -73,6 +73,7 @@ namespace Cortside.Common.DomainEvent {
 
                 try {
                     await sender.SendAsync(message);
+                    Logger.LogInformation($"Published message {messageId}");
                 } finally {
                     if (sender.Error != null) {
                         Error = new DomainEventError();

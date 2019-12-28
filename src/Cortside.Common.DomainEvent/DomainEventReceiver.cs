@@ -61,7 +61,7 @@ namespace Cortside.Common.DomainEvent {
                 ["MessageId"] = message.Properties.MessageId,
                 ["MessageType"] = messageType
             })) {
-                Logger.LogDebug("Received message");
+                Logger.LogInformation($"Received message {message.Properties.MessageId}");
                 try {
                     string rawBody = null;
                     // Get the body
@@ -77,19 +77,19 @@ namespace Cortside.Common.DomainEvent {
                             rawBody = doc.InnerText;
                         }
                     } else {
-                        throw new ArgumentException($"Message body has an invalid type {message.Body.GetType().ToString()}");
+                        throw new ArgumentException($"Message {message.Properties.MessageId} has body with an invalid type {message.Body.GetType().ToString()}");
                     }
 
-                    Logger.LogTrace($"Received message with body: {rawBody}");
-                    Logger.LogInformation($"Event type key: {messageType}");
+                    Logger.LogTrace($"Received message {message.Properties.MessageId} with body: {rawBody}");
+                    Logger.LogDebug($"Event type key: {messageType}");
                     var dataType = EventTypeLookup[messageType];
-                    Logger.LogInformation($"Event type: {dataType}");
+                    Logger.LogDebug($"Event type: {dataType}");
                     var handlerType = typeof(IDomainEventHandler<>).MakeGenericType(dataType);
-                    Logger.LogInformation($"Event type handler interface: {handlerType}");
+                    Logger.LogDebug($"Event type handler interface: {handlerType}");
                     var handler = Provider.GetService(handlerType);
 
                     if (handler != null) {
-                        Logger.LogInformation($"Event type handler: {handler.GetType()}");
+                        Logger.LogDebug($"Event type handler: {handler.GetType()}");
 
                         var data = JsonConvert.DeserializeObject(rawBody, dataType);
                         Logger.LogDebug($"Successfully deserialized body to {dataType}");
@@ -110,17 +110,14 @@ namespace Cortside.Common.DomainEvent {
                         }
 
                         receiver.Accept(message);
-                        Logger.LogDebug("Message accepted");
+                        Logger.LogInformation($"Message {message.Properties.MessageId} accepted");
                     } else {
-                        var desc = $"Handler not found for {messageType}";
-                        Logger.LogWarning(desc);
                         receiver.Reject(message);
-                        Logger.LogError("Message rejected");
+                        Logger.LogError($"Message {message.Properties.MessageId} rejected because handler was not found for type {messageType}");
                     }
                 } catch (Exception ex) {
-                    Logger.LogError(101, ex, ex.Message);
                     receiver.Reject(message);
-                    Logger.LogError("Message rejected");
+                    Logger.LogError(ex, $"Message {message.Properties.MessageId} rejected because of unhandled exception {ex.Message}");
                 }
             }
         }
