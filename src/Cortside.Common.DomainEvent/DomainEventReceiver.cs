@@ -79,6 +79,8 @@ namespace Cortside.Common.DomainEvent {
                     } else {
                         throw new ArgumentException($"Message body has an invalid type {message.Body.GetType().ToString()}");
                     }
+
+                    Logger.LogTrace($"Received message with body: {rawBody}");
                     Logger.LogInformation($"Event type key: {messageType}");
                     var dataType = EventTypeLookup[messageType];
                     Logger.LogInformation($"Event type: {dataType}");

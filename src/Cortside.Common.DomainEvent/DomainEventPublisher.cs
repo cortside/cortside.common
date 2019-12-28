@@ -50,6 +50,7 @@ namespace Cortside.Common.DomainEvent {
                 ["MessageId"] = messageId,
                 ["MessageType"] = eventType
             })) {
+                Logger.LogTrace($"Publishing message to {address} with body: {data}");
                 var session = CreateSession();
                 var attach = new Attach() {
                     Target = new Target() { Address = address, Durable = Settings.Durable },
