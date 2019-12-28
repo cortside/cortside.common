@@ -53,18 +53,20 @@ namespace Cortside.Common.DomainEvent.Tests {
                 TheString = Guid.NewGuid().ToString()
             };
 
+            var correlationId = Guid.NewGuid().ToString();
             try {
-                await publisher.SendAsync(@event);
+                await publisher.SendAsync(@event, correlationId);
             } finally {
                 Assert.Null(publisher.Error);
             }
 
             receiver.Receive(new Dictionary<string, Type> {
-        { typeof(TestEvent).FullName, typeof(TestEvent) }
-        });
+                { typeof(TestEvent).FullName,
+                    typeof(TestEvent) }
+            });
             var start = DateTime.Now;
             while (TestEvent.Instance == null && (DateTime.Now - start) < new TimeSpan(0, 0, 30)) {
-                if (token.IsCancellationRequested == true) {
+                if (token.IsCancellationRequested) {
                     if (receiver.Error != null) {
                         Assert.Equal(string.Empty, receiver.Error.Description);
                         Assert.Equal(string.Empty, receiver.Error.Condition);
@@ -74,6 +76,8 @@ namespace Cortside.Common.DomainEvent.Tests {
                 Thread.Sleep(1000);
             } // run for 30 seconds
             Assert.NotNull(TestEvent.Instance);
+            Assert.NotNull(TestEvent.CorrelationId);
+            Assert.Equal(correlationId, TestEvent.CorrelationId);
             Assert.Equal(@event.TheString, TestEvent.Instance.TheString);
             Assert.Equal(@event.TheInt, TestEvent.Instance.TheInt);
         }

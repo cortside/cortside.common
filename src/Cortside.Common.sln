@@ -35,7 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.DomainEvent
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.DomainEvent.Tests", "Cortside.Common.DomainEvent.Tests\Cortside.Common.DomainEvent.Tests.csproj", "{1E370B56-A7EF-481C-86D3-70F4AE5C87DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortside.Common.DomainEvent.Publisher", "Cortside.Common.DomainEvent.Publisher\Cortside.Common.DomainEvent.Publisher.csproj", "{FF85064F-C026-468C-A5A7-AF16D4073208}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.DomainEvent.Publisher", "Cortside.Common.DomainEvent.Publisher\Cortside.Common.DomainEvent.Publisher.csproj", "{FF85064F-C026-468C-A5A7-AF16D4073208}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Correlation", "Cortside.Common.Correlation\Cortside.Common.Correlation.csproj", "{18B8A2BD-4CA6-4550-A8F0-4CF43A175E55}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +97,10 @@ Global
 		{FF85064F-C026-468C-A5A7-AF16D4073208}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF85064F-C026-468C-A5A7-AF16D4073208}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF85064F-C026-468C-A5A7-AF16D4073208}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18B8A2BD-4CA6-4550-A8F0-4CF43A175E55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18B8A2BD-4CA6-4550-A8F0-4CF43A175E55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18B8A2BD-4CA6-4550-A8F0-4CF43A175E55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18B8A2BD-4CA6-4550-A8F0-4CF43A175E55}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

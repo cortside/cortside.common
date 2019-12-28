@@ -22,3 +22,4 @@ src/.vs/
 src/packages/
 **/_Ncrunch_*/
 *.ncrunchsolution
+*.ncrunchproject
