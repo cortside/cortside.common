@@ -6,5 +6,12 @@ namespace Cortside.Common.DomainEvent.Tests {
             TestEvent.Instance = @event;
             return Task.FromResult(0);
         }
+
+        public Task Handle(DomainEventMessage<TestEvent> @event) {
+            TestEvent.Instance = @event.Data;
+            TestEvent.CorrelationId = @event.CorrelationId;
+            return Task.FromResult(0);
+        }
+
     }
 }

@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Cortside.Common.DomainEvent.Publisher": {
+      "commandName": "Project"
+    }
+  }
+}

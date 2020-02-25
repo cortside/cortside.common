@@ -42,7 +42,7 @@ after_build:
     $branch = $ENV:APPVEYOR_REPO_BRANCH;
     $fileVersion = $env:APPVEYOR_BUILD_VERSION;
     if($branch -ne 'master') {
-        $fileVersion = "${fileVersion}-${branch}";
+        $fileVersion = "${fileVersion}-${branch}"; 
     }
     gci -include *.nuspec -Recurse | %{ 
         $csproj = ($_.Fullname).Replace('.nuspec','.csproj')
@@ -71,3 +71,8 @@ test:
     - '**\test\Cortside.Common.Test.DTOAssembler.dll'
     - '**\test\Cortside.Common.Test.Web.MerchantSite.dll'
     - '**\test\Cortside.Common.Test.Web.Common.dll'
+
+deploy:
+- provider: NuGet
+  api_key:
+    secure: ObtpuUmk0xC2aZ3+pVBY1xARi6fM7LdzNqot5Cr8Iwoitol4oElmDnU9SNGkD+3w

@@ -1,26 +1,26 @@
 ﻿{
     //Local rabbit instance/container
-    //"Publisher.Settings": {
-    //    "Protocol": "amqp",
-    //    "Namespace": "rabbitmq",
-    //    "Policy": "admin",
-    //    "Key": "password",
-    //    "AppName": "test.publisher",
-    //    "Address": "/exchange/test.exchange/",
-    //    "Durable": "1"
-    //},
-    //"Receiver.Settings": {
-    //    "Protocol": "amqp",
-    //    "Namespace": "rabbitmq",
-    //    "Policy": "admin",
-    //    "Key": "password",
-    //    "AppName": "test.receiver",
-    //    "Address": "test.queue",
-    //    "Durable": "1"
-    //}
+    "Publisher.Settings": {
+        "Protocol": "amqp",
+        "Namespace": "localhost",
+        "Policy": "admin",
+        "Key": "password",
+        "AppName": "test.publisher",
+        "Address": "/exchange/test.exchange/",
+        "Durable": "1"
+    },
+    "Receiver.Settings": {
+        "Protocol": "amqp",
+        "Namespace": "localhost",
+        "Policy": "admin",
+        "Key": "password",
+        "AppName": "test.receiver",
+        "Address": "test.queue",
+        "Durable": "1"
+    },
 
     //Azure Service Bus
-    "Publisher.Settings": {
+    "xPublisher.Settings": {
         "Protocol": "amqps",
         "Namespace": "test.servicebus.windows.net",
         "Policy": "SendListen",
@@ -29,7 +29,7 @@
         "Address": "test.",
         "Durable": "1"
     },
-    "Receiver.Settings": {
+    "xReceiver.Settings": {
         "Protocol": "amqps",
         "Namespace": "test.servicebus.windows.net",
         "Policy": "SendListen",
