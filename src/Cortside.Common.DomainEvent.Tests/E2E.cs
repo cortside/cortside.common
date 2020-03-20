@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -9,10 +10,10 @@ using Moq;
 using Xunit;
 
 namespace Cortside.Common.DomainEvent.Tests {
-    public class E2E : IDisposable {
-        IConfigurationRoot configRoot;
-        readonly IServiceProvider serviceProvider;
-        Random r;
+    public class E2E {
+        private readonly IConfigurationRoot configRoot;
+        private readonly IServiceProvider serviceProvider;
+        private Random r;
 
         public E2E() {
             r = new Random();
@@ -28,12 +29,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             serviceProvider = collection.BuildServiceProvider();
         }
 
-        public void Dispose() {
-            TestEvent.Instance = null;
-        }
-
-        [Trait("Category", "Integration")]
-        [Fact(Skip = "Integraton test, needs running message broker")]
+        [Fact(Skip = "needs running or configured broker")]
         public async Task ShouldBeAbleToSendAndReceive() {
             var tokenSource = new CancellationTokenSource();
             var token = tokenSource.Token;
@@ -65,7 +61,7 @@ namespace Cortside.Common.DomainEvent.Tests {
                     typeof(TestEvent) }
             });
             var start = DateTime.Now;
-            while (TestEvent.Instance == null && (DateTime.Now - start) < new TimeSpan(0, 0, 30)) {
+            while (!TestEvent.Instances.ContainsKey(correlationId) && (DateTime.Now - start) < new TimeSpan(0, 0, 30)) {
                 if (token.IsCancellationRequested) {
                     if (receiver.Error != null) {
                         Assert.Equal(string.Empty, receiver.Error.Description);
@@ -75,11 +71,63 @@ namespace Cortside.Common.DomainEvent.Tests {
                 }
                 Thread.Sleep(1000);
             } // run for 30 seconds
-            Assert.NotNull(TestEvent.Instance);
-            Assert.NotNull(TestEvent.CorrelationId);
-            Assert.Equal(correlationId, TestEvent.CorrelationId);
-            Assert.Equal(@event.TheString, TestEvent.Instance.TheString);
-            Assert.Equal(@event.TheInt, TestEvent.Instance.TheInt);
+            Assert.True(TestEvent.Instances.Any());
+            Assert.True(TestEvent.Instances.ContainsKey(correlationId));
+            Assert.NotNull(TestEvent.Instances[correlationId]);
+            Assert.Equal(@event.TheString, TestEvent.Instances[correlationId].TheString);
+            Assert.Equal(@event.TheInt, TestEvent.Instances[correlationId].TheInt);
+        }
+
+        [Fact(Skip = "needs running or configured broker")]
+        public async Task ShouldBeAbleToScheduleAndReceive() {
+            var tokenSource = new CancellationTokenSource();
+            var token = tokenSource.Token;
+            var receiverLoggerMock = new Mock<ILogger<DomainEventReceiver>>();
+            var receiverSection = configRoot.GetSection("Receiver.Settings");
+            var receiverSettings = GetSettings<ServiceBusReceiverSettings>(receiverSection);
+            var receiver = new DomainEventReceiver(receiverSettings, serviceProvider, receiverLoggerMock.Object);
+            receiver.Closed += (r, e) => tokenSource.Cancel();
+
+            var publisherLoggerMock = new Mock<ILogger<DomainEventPublisher>>();
+            var publisherSection = configRoot.GetSection("Publisher.Settings");
+            var publisherSettings = GetSettings<ServiceBusPublisherSettings>(publisherSection);
+            var publisher = new DomainEventPublisher(publisherSettings, publisherLoggerMock.Object);
+
+            var @event = new TestEvent {
+                TheInt = r.Next(),
+                TheString = Guid.NewGuid().ToString()
+            };
+
+            var correlationId = Guid.NewGuid().ToString();
+            try {
+                await publisher.ScheduleMessageAsync(@event, correlationId, DateTime.UtcNow.AddSeconds(20));
+            } finally {
+                Assert.Null(publisher.Error);
+            }
+
+            receiver.Receive(new Dictionary<string, Type> {
+                { typeof(TestEvent).FullName,
+                    typeof(TestEvent) }
+            });
+            var start = DateTime.Now;
+            var elapsed = DateTime.Now.Subtract(start);
+            while (!TestEvent.Instances.ContainsKey(correlationId) && (DateTime.Now - start) < new TimeSpan(0, 0, 30)) {
+                if (token.IsCancellationRequested) {
+                    if (receiver.Error != null) {
+                        Assert.Equal(string.Empty, receiver.Error.Description);
+                        Assert.Equal(string.Empty, receiver.Error.Condition);
+                    }
+                    Assert.True(receiver.Error == null);
+                }
+                Thread.Sleep(1000);
+                elapsed = DateTime.Now.Subtract(start);
+            } // run for 30 seconds
+            Assert.True(elapsed.TotalSeconds >= 20);
+            Assert.True(TestEvent.Instances.Any());
+            Assert.True(TestEvent.Instances.ContainsKey(correlationId));
+            Assert.NotNull(TestEvent.Instances[correlationId]);
+            Assert.Equal(@event.TheString, TestEvent.Instances[correlationId].TheString);
+            Assert.Equal(@event.TheInt, TestEvent.Instances[correlationId].TheInt);
         }
 
         private T GetSettings<T>(IConfigurationSection section) where T : ServiceBusSettings, new() {

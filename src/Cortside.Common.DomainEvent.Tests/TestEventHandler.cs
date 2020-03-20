@@ -3,15 +3,13 @@
 namespace Cortside.Common.DomainEvent.Tests {
     public class TestEventHandler : IDomainEventHandler<TestEvent> {
         public Task Handle(TestEvent @event) {
-            TestEvent.Instance = @event;
+            TestEvent.Instances.Add("none", @event);
             return Task.FromResult(0);
         }
 
         public Task Handle(DomainEventMessage<TestEvent> @event) {
-            TestEvent.Instance = @event.Data;
-            TestEvent.CorrelationId = @event.CorrelationId;
+            TestEvent.Instances.Add(@event.CorrelationId, @event.Data);
             return Task.FromResult(0);
         }
-
     }
 }
