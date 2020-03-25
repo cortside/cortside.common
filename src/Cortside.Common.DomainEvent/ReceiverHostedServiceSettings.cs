@@ -20,6 +20,6 @@ namespace Cortside.Common.DomainEvent {
         /// <summary>
         /// Frequency which the receiver attempts to connect to the message broker
         /// </summary>
-        public double TimedInterval { get; set; }
+        public int TimedInterval { get; set; }
     }
 }
