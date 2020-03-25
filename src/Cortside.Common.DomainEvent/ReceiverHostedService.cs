@@ -35,31 +35,34 @@ namespace Cortside.Common.DomainEvent {
                 logger.LogInformation("TimedServices are disabled");
             } else {
                 while (!cancellationToken.IsCancellationRequested && settings.MessageTypes != null) {
-                    lock (syncLock) {
-                        logger.LogInformation("Receive Hosted Service is starting.");
-                        // if there is a running timer, stop it
-                        DisposeTimer();
-                        // incase there was an instance that didn't get cleaned up
-                        DisposeReceiver();
-                        receiver = services.GetService<IDomainEventReceiver>();
-                        if (receiver != null) {
-                            logger.LogInformation("Starting receiver");
-                            receiver.Closed -= OnReceiverClosed;
-                            try {
-                                receiver.Receive(settings.MessageTypes);
-                                logger.LogInformation("Receiver started");
-                            } catch (Exception e) {
-                                logger.LogCritical($"Unable to start receiver. \n {e}");
+                    if (receiver == null || receiver.Link == null || receiver.Link.IsClosed) {
+                        lock (syncLock) {
+                            logger.LogInformation("Receive Hosted Service is starting.");
+                            // if there is a running timer, stop it
+                            DisposeTimer();
+                            // incase there was an instance that didn't get cleaned up
+                            DisposeReceiver();
+                            receiver = services.GetService<IDomainEventReceiver>();
+                            if (receiver != null) {
+                                logger.LogInformation("Starting receiver");
+                                receiver.Closed -= OnReceiverClosed;
+                                try {
+                                    receiver.Receive(settings.MessageTypes);
+                                    logger.LogInformation("Receiver started");
+                                } catch (Exception e) {
+                                    logger.LogCritical($"Unable to start receiver. \n {e}");
+                                }
+
+                                receiver.Closed += OnReceiverClosed;
+
+                                timer = new System.Timers.Timer();
+                                timer.Elapsed += OnTimedEvent;
+                                timer.Interval = settings.TimedInterval;
+                                timer.Enabled = true;
+
+                            } else {
+                                logger.LogError($"Found receiver was null");
                             }
-                            receiver.Closed += OnReceiverClosed;
-
-                            timer = new System.Timers.Timer();
-                            timer.Elapsed += OnTimedEvent;
-                            timer.Interval = settings.TimedInterval;
-                            timer.Enabled = true;
-
-                        } else {
-                            logger.LogError($"Found receiver was null");
                         }
                     }
                 }
@@ -79,19 +82,17 @@ namespace Cortside.Common.DomainEvent {
 
         private void OnTimedEvent(object source, ElapsedEventArgs e) {
             try {
-                if (receiver == null || receiver.Link == null || receiver.Link.IsClosed) {
-                    // make sure no more events will happen
-                    DisposeTimer();
-                    logger.LogError($"Found receiver closed unexpectedly.");
-                    if (receiver != null && receiver.Link != null && receiver.Link.Error != null) {
-                        var error = receiver?.Link?.Error;
-                        if (error != null) {
-                            logger.LogError($"Found receiver closed unexpectedly with error: {error.Condition} - {error.Description}");
-                        }
+                // make sure no more events will happen
+                DisposeTimer();
+                logger.LogError($"Found receiver closed unexpectedly.");
+                if (receiver != null && receiver.Link != null && receiver.Link.Error != null) {
+                    var error = receiver?.Link?.Error;
+                    if (error != null) {
+                        logger.LogError($"Found receiver closed unexpectedly with error: {error.Condition} - {error.Description}");
                     }
-                    DisposeReceiver();
-                    StartAsync(new CancellationToken(false));
                 }
+                DisposeReceiver();
+                StartAsync(new CancellationToken(false));
             } catch (Exception ex) {
                 logger.LogError(ex, $"Unhandled exception in OnTimedEvent event: {ex.Message}");
             }
