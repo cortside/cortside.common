@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 
 namespace Cortside.Common.TestingUtilities {
-    public class FakeLogger<T> : ILogger<T> {
+    public class MockLogger<T> : ILogger<T> {
         public List<LogEvent> LogEvents { get; }
 
-        public FakeLogger() {
+        public MockLogger() {
             LogEvents = new List<LogEvent>();
         }
 

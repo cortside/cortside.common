@@ -17,7 +17,7 @@ namespace Cortside.Common.DomainEvent.Tests {
 
         private readonly IServiceProvider serviceProvider;
         private readonly ServiceBusReceiverSettings settings;
-        private readonly FakeLogger<DomainEventComms> logger;
+        private readonly MockLogger<DomainEventComms> logger;
         private readonly TestReceiver receiver;
         private readonly Mock<IReceiverLink> receiverLink;
 
@@ -28,7 +28,7 @@ namespace Cortside.Common.DomainEvent.Tests {
 
             settings = new ServiceBusReceiverSettings();
 
-            logger = new FakeLogger<DomainEventComms>();
+            logger = new MockLogger<DomainEventComms>();
             receiver = new TestReceiver(settings, serviceProvider, logger);
             receiver.Setup(new Dictionary<string, Type> {
                 { typeof(TestEvent).FullName,

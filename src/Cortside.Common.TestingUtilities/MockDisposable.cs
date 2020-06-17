@@ -5,11 +5,8 @@ namespace Cortside.Common.TestingUtilities {
         bool _disposed = false;
 
         protected virtual void Dispose(bool disposing) {
-            if (!_disposed) // only dispose once!
+            if (!_disposed && disposing) // only dispose once!
             {
-                if (disposing) {
-                    // Not in destructor, OK to reference other objects
-                }
                 // perform cleanup for this object
             }
             _disposed = true;
