@@ -57,12 +57,13 @@ namespace Cortside.Common.DomainEvent.Tests {
             Assert.DoesNotContain(logger.LogEvents, x => x.LogLevel == LogLevel.Error);
         }
 
-        [Fact]
-        public void ShouldHandleMalformedJson() {
+        [Theory]
+        [InlineData("{")]
+        [InlineData("{ \"contractorId\": \"6677\", \"contractorNumber\": \"1037\" \"sponsorNumber\": \"2910\" }")]
+        public void ShouldHandleMalformedJson(string body) {
             // arrange
             var @event = new TestEvent();
             var eventType = @event.GetType().FullName;
-            var body = "{";
 
             Message message = CreateMessage(eventType, body);
 
