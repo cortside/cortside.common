@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +17,12 @@ namespace Cortside.Common.Correlation {
             var requestId = requestIds.FirstOrDefault();
             if (!String.IsNullOrWhiteSpace(requestId)) {
                 correlationId = requestId;
+            }
+
+            context.Request.Headers.TryGetValue("X-Correlation-Id", out var correlationIds);
+            var id = correlationIds.FirstOrDefault();
+            if (!String.IsNullOrWhiteSpace(id)) {
+                correlationId = id;
             }
 
             // generate one if not set

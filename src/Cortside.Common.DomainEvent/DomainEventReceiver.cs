@@ -91,22 +91,24 @@ namespace Cortside.Common.DomainEvent {
                     if (handler != null) {
                         Logger.LogDebug($"Event type handler: {handler.GetType()}");
 
+                        // TODO: handling around invalid json -- i.e. incomplete json
                         var data = JsonConvert.DeserializeObject(rawBody, dataType);
                         Logger.LogDebug($"Successfully deserialized body to {dataType}");
 
                         //TODO: Update the way "Handle" is retrieved in a type safe way.
                         var eventType = typeof(DomainEventMessage<>).MakeGenericType(dataType);
 
+                        dynamic domainEvent = Activator.CreateInstance(eventType);
+                        domainEvent.MessageId = message.Properties.MessageId;
+                        domainEvent.CorrelationId = message.Properties.CorrelationId;
+                        domainEvent.Data = (dynamic)data;
+
                         var method1 = handlerType.GetTypeInfo().GetMethod("Handle", new Type[] { eventType });
-                        var method2 = handlerType.GetTypeInfo().GetMethod("Handle", new Type[] { dataType });
+                        var method2 = handlerType.GetTypeInfo().GetMethod("HandleAsync", new Type[] { dataType });
                         if (method1 != null) {
-                            dynamic domainEvent = Activator.CreateInstance(eventType);
-                            domainEvent.MessageId = message.Properties.MessageId;
-                            domainEvent.CorrelationId = message.Properties.CorrelationId;
-                            domainEvent.Data = (dynamic)data;
                             await (Task)method1.Invoke(handler, new object[] { domainEvent });
                         } else {
-                            await (Task)method2.Invoke(handler, new object[] { data });
+                            await (Task)method2.Invoke(handler, new object[] { domainEvent });
                         }
 
                         receiver.Accept(message);
