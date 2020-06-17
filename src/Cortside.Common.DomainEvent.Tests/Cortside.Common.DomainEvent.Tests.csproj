@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cortside.Common.DomainEvent\Cortside.Common.DomainEvent.csproj" />
+    <ProjectReference Include="..\Cortside.Common.TestingUtilities\Cortside.Common.TestingUtilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>

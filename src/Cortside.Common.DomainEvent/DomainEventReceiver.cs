@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml;
@@ -12,8 +13,8 @@ using Newtonsoft.Json;
 namespace Cortside.Common.DomainEvent {
     public class DomainEventReceiver : DomainEventComms, IDomainEventReceiver, IDisposable {
         public event ReceiverClosedCallback Closed;
-        public IServiceProvider Provider { get; }
-        public IDictionary<string, Type> EventTypeLookup { get; private set; }
+        public IServiceProvider Provider { get; protected set; }
+        public IDictionary<string, Type> EventTypeLookup { get; protected set; }
         public ReceiverLink Link { get; private set; }
         public DomainEventError Error { get; set; }
 
@@ -77,11 +78,18 @@ namespace Cortside.Common.DomainEvent {
                             rawBody = doc.InnerText;
                         }
                     } else {
-                        throw new ArgumentException($"Message {message.Properties.MessageId} has body with an invalid type {message.Body.GetType().ToString()}");
+                        throw new ArgumentException($"Message {message.Properties.MessageId} has body with an invalid type {message.Body.GetType()}");
                     }
 
                     Logger.LogTrace($"Received message {message.Properties.MessageId} with body: {rawBody}");
                     Logger.LogDebug($"Event type key: {messageType}");
+
+                    if (!EventTypeLookup.ContainsKey(messageType)) {
+                        Logger.LogError($"Message {message.Properties.MessageId} rejected because message type was not registered for type {messageType}");
+                        receiver.Reject(message);
+                    }
+
+
                     var dataType = EventTypeLookup[messageType];
                     Logger.LogDebug($"Event type: {dataType}");
                     var handlerType = typeof(IDomainEventHandler<>).MakeGenericType(dataType);
@@ -91,11 +99,22 @@ namespace Cortside.Common.DomainEvent {
                     if (handler != null) {
                         Logger.LogDebug($"Event type handler: {handler.GetType()}");
 
-                        // TODO: handling around invalid json -- i.e. incomplete json
-                        var data = JsonConvert.DeserializeObject(rawBody, dataType);
+                        List<string> errors = new List<string>();
+                        var data = JsonConvert.DeserializeObject(rawBody, dataType,
+                            new JsonSerializerSettings {
+                                Error = (object sender, Newtonsoft.Json.Serialization.ErrorEventArgs args) => {
+                                    errors.Add(args.ErrorContext.Error.Message);
+                                    args.ErrorContext.Handled = true;
+                                }
+                            });
+                        if (errors.Any()) {
+                            Logger.LogError($"Message {message.Properties.MessageId} rejected because of errors deserializing messsage body: {string.Join(", ", errors)}");
+                            receiver.Reject(message);
+                            return;
+                        }
+
                         Logger.LogDebug($"Successfully deserialized body to {dataType}");
 
-                        //TODO: Update the way "Handle" is retrieved in a type safe way.
                         var eventType = typeof(DomainEventMessage<>).MakeGenericType(dataType);
 
                         dynamic domainEvent = Activator.CreateInstance(eventType);
@@ -111,15 +130,15 @@ namespace Cortside.Common.DomainEvent {
                             await (Task)method2.Invoke(handler, new object[] { domainEvent });
                         }
 
-                        receiver.Accept(message);
                         Logger.LogInformation($"Message {message.Properties.MessageId} accepted");
+                        receiver.Accept(message);
                     } else {
-                        receiver.Reject(message);
                         Logger.LogError($"Message {message.Properties.MessageId} rejected because handler was not found for type {messageType}");
+                        receiver.Reject(message);
                     }
                 } catch (Exception ex) {
-                    receiver.Reject(message);
                     Logger.LogError(ex, $"Message {message.Properties.MessageId} rejected because of unhandled exception {ex.Message}");
+                    receiver.Reject(message);
                 }
             }
         }
