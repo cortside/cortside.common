@@ -137,6 +137,7 @@ csharp_space_between_square_brackets                                     = false
 # S3881: "IDisposable" should be implemented correctly
 dotnet_diagnostic.S3881.severity                                         = none
 
+# C++ Files
 [*.{cpp,h,in}]
 curly_bracket_next_line = true
 indent_brace_style      = Allman
