@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Cortside.Common.DomainEvent {
     public abstract class DomainEventComms {
-        protected const string MESSAGE_TYPE_KEY = "Message.Type.FullName";
+        public const string MESSAGE_TYPE_KEY = "Message.Type.FullName";
         public ServiceBusSettings Settings { get; }
 
         protected ILogger<DomainEventComms> Logger { get; }
