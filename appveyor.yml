@@ -64,7 +64,7 @@ nuget:
   
 test:
   assemblies:
-    - '**\Cortside.Common.DomainEvent.Tests.dll'
+    - '**\*.Tests.dll'
 
 deploy:
 - provider: NuGet
