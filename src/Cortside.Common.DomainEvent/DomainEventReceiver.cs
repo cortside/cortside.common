@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml;
 using Amqp;
 using Amqp.Framing;
+using Amqp.Types;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -43,7 +43,10 @@ namespace Cortside.Common.DomainEvent {
             Link = new ReceiverLink(session, Settings.AppName, attach, null);
             Link.Closed += OnClosed;
             Link.SetCredit(Settings.Credits, true); //Not sure if this is sufficient to renew credits...
-            Link.Start(Settings.Credits, OnMessageCallback);
+            Link.Start(Settings.Credits, (link, msg) => {
+                // fire and forget
+                _ = OnMessageCallback(link, msg);
+            });
         }
 
         private void OnClosed(IAmqpObject sender, Error error) {
@@ -55,92 +58,121 @@ namespace Cortside.Common.DomainEvent {
             Closed(this, Error);
         }
 
-        protected virtual async void OnMessageCallback(IReceiverLink receiver, Message message) {
-            var messageType = message.ApplicationProperties[MESSAGE_TYPE_KEY] as string;
-            using (Logger.BeginScope(new Dictionary<string, object> {
+        protected async Task OnMessageCallback(IReceiverLink receiver, Message message) {
+            var messageTypeName = message.ApplicationProperties[MESSAGE_TYPE_KEY] as string;
+            var properties = new Dictionary<string, object> {
                 ["CorrelationId"] = message.Properties.CorrelationId,
                 ["MessageId"] = message.Properties.MessageId,
-                ["MessageType"] = messageType
-            })) {
+                ["MessageType"] = messageTypeName
+            };
+
+            using (Logger.BeginScope(properties)) {
                 Logger.LogInformation($"Received message {message.Properties.MessageId}");
+
                 try {
-                    string rawBody = null;
-                    // Get the body
-                    if (message.Body is string) {
-                        rawBody = message.Body as string;
-                    } else if (message.Body is byte[]) {
-                        using (var reader = XmlDictionaryReader.CreateBinaryReader(
-                            new MemoryStream(message.Body as byte[]),
-                            null,
-                            XmlDictionaryReaderQuotas.Max)) {
-                            var doc = new XmlDocument();
-                            doc.Load(reader);
-                            rawBody = doc.InnerText;
-                        }
-                    } else {
-                        throw new ArgumentException($"Message {message.Properties.MessageId} has body with an invalid type {message.Body.GetType()}");
-                    }
+                    string body = GetBody(message);
+                    Logger.LogTrace($"Received message {message.Properties.MessageId} with body: {body}");
 
-                    Logger.LogTrace($"Received message {message.Properties.MessageId} with body: {rawBody}");
-                    Logger.LogDebug($"Event type key: {messageType}");
-
-                    if (!EventTypeLookup.ContainsKey(messageType)) {
-                        Logger.LogError($"Message {message.Properties.MessageId} rejected because message type was not registered for type {messageType}");
+                    Logger.LogDebug($"Event type key: {messageTypeName}");
+                    if (!EventTypeLookup.ContainsKey(messageTypeName)) {
+                        Logger.LogError($"Message {message.Properties.MessageId} rejected because message type was not registered for type {messageTypeName}");
                         receiver.Reject(message);
+                        return;
                     }
 
-
-                    var dataType = EventTypeLookup[messageType];
+                    var dataType = EventTypeLookup[messageTypeName];
                     Logger.LogDebug($"Event type: {dataType}");
                     var handlerType = typeof(IDomainEventHandler<>).MakeGenericType(dataType);
                     Logger.LogDebug($"Event type handler interface: {handlerType}");
                     var handler = Provider.GetService(handlerType);
-
-                    if (handler != null) {
-                        Logger.LogDebug($"Event type handler: {handler.GetType()}");
-
-                        List<string> errors = new List<string>();
-                        var data = JsonConvert.DeserializeObject(rawBody, dataType,
-                            new JsonSerializerSettings {
-                                Error = (object sender, Newtonsoft.Json.Serialization.ErrorEventArgs args) => {
-                                    errors.Add(args.ErrorContext.Error.Message);
-                                    args.ErrorContext.Handled = true;
-                                }
-                            });
-                        if (errors.Any()) {
-                            Logger.LogError($"Message {message.Properties.MessageId} rejected because of errors deserializing messsage body: {string.Join(", ", errors)}");
-                            receiver.Reject(message);
-                            return;
-                        }
-
-                        Logger.LogDebug($"Successfully deserialized body to {dataType}");
-
-                        var eventType = typeof(DomainEventMessage<>).MakeGenericType(dataType);
-
-                        dynamic domainEvent = Activator.CreateInstance(eventType);
-                        domainEvent.MessageId = message.Properties.MessageId;
-                        domainEvent.CorrelationId = message.Properties.CorrelationId;
-                        domainEvent.Data = (dynamic)data;
-
-                        var method1 = handlerType.GetTypeInfo().GetMethod("Handle", new Type[] { eventType });
-                        var method2 = handlerType.GetTypeInfo().GetMethod("HandleAsync", new Type[] { dataType });
-                        if (method1 != null) {
-                            await (Task)method1.Invoke(handler, new object[] { domainEvent });
-                        } else {
-                            await (Task)method2.Invoke(handler, new object[] { domainEvent });
-                        }
-
-                        Logger.LogInformation($"Message {message.Properties.MessageId} accepted");
-                        receiver.Accept(message);
-                    } else {
-                        Logger.LogError($"Message {message.Properties.MessageId} rejected because handler was not found for type {messageType}");
+                    if (handler == null) {
+                        Logger.LogError($"Message {message.Properties.MessageId} rejected because handler was not found for type {messageTypeName}");
                         receiver.Reject(message);
+                        return;
+                    }
+                    Logger.LogDebug($"Event type handler: {handler.GetType()}");
+
+                    List<string> errors = new List<string>();
+                    var data = JsonConvert.DeserializeObject(body, dataType,
+                        new JsonSerializerSettings {
+                            Error = (object sender, Newtonsoft.Json.Serialization.ErrorEventArgs args) => {
+                                errors.Add(args.ErrorContext.Error.Message);
+                                args.ErrorContext.Handled = true;
+                            }
+                        });
+                    if (errors.Any()) {
+                        Logger.LogError($"Message {message.Properties.MessageId} rejected because of errors deserializing messsage body: {string.Join(", ", errors)}");
+                        receiver.Reject(message);
+                        return;
+                    }
+                    Logger.LogDebug($"Successfully deserialized body to {dataType}");
+
+                    var eventType = typeof(DomainEventMessage<>).MakeGenericType(dataType);
+                    dynamic domainEvent = Activator.CreateInstance(eventType);
+                    domainEvent.MessageId = message.Properties.MessageId;
+                    domainEvent.CorrelationId = message.Properties.CorrelationId;
+                    domainEvent.Data = (dynamic)data;
+
+                    HandlerResult result;
+                    dynamic dhandler = handler;
+                    if (handler.GetType().GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IDomainEventMessageHandler<>))) {
+                        result = await dhandler.HandleAsync(domainEvent);
+                    } else {
+                        try {
+                            await dhandler.Handle(domainEvent);
+                            result = HandlerResult.Success;
+                        } catch (Exception ex) {
+                            Logger.LogError(ex, $"Message {message.Properties.MessageId} caught unhandled exception {ex.Message}");
+                            result = HandlerResult.Retry;
+                        }
+                    }
+                    Logger.LogInformation($"Handler executed for message {message.Properties.MessageId} and returned result of {result}");
+
+                    switch (result) {
+                        case HandlerResult.Success:
+                            receiver.Accept(message);
+                            Logger.LogInformation($"Message {message.Properties.MessageId} accepted");
+                            break;
+                        case HandlerResult.Retry:
+                            var deliveryCount = message.Header.DeliveryCount;
+                            var delay = 10 * deliveryCount;
+                            var scheduleTime = DateTime.UtcNow.AddSeconds(delay);
+                            var fields = new Fields() { { new Symbol(SCHEDULED_ENQUEUE_TIME_UTC), scheduleTime } };
+
+                            receiver.Modify(message, true, false, fields);
+                            Logger.LogInformation($"Message {message.Properties.MessageId} requeued with delay of {delay} seconds for {scheduleTime}");
+                            break;
+                        case HandlerResult.Failed:
+                        default:
+                            receiver.Reject(message);
+                            break;
                     }
                 } catch (Exception ex) {
                     Logger.LogError(ex, $"Message {message.Properties.MessageId} rejected because of unhandled exception {ex.Message}");
                     receiver.Reject(message);
                 }
             }
+        }
+
+        private static string GetBody(Message message) {
+            string body = null;
+            // Get the body
+            if (message.Body is string) {
+                body = message.Body as string;
+            } else if (message.Body is byte[]) {
+                using (var reader = XmlDictionaryReader.CreateBinaryReader(
+                    new MemoryStream(message.Body as byte[]),
+                    null,
+                    XmlDictionaryReaderQuotas.Max)) {
+                    var doc = new XmlDocument();
+                    doc.Load(reader);
+                    body = doc.InnerText;
+                }
+            } else {
+                throw new ArgumentException($"Message {message.Properties.MessageId} has body with an invalid type {message.Body.GetType()}");
+            }
+
+            return body;
         }
 
         public void Close(TimeSpan? timeout = null) {

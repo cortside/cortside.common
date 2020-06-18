@@ -22,18 +22,18 @@
   //Azure Service Bus
   "Publisher.Settings": {
     "Protocol": "amqps",
-    "Namespace": "test.servicebus.windows.net",
+    "Namespace": "domaineventtest.servicebus.windows.net",
     "Policy": "SendListen",
-    "Key": "key=",
+    "Key": "hDji9pMl3KZRtGfPesKL1JBg96Zb1OCdLgU4tEKyQbQ=",
     "AppName": "test.publisher",
     "Address": "test.",
     "Durable": "1"
   },
   "Receiver.Settings": {
     "Protocol": "amqps",
-    "Namespace": "test.servicebus.windows.net",
+    "Namespace": "domaineventtest.servicebus.windows.net",
     "Policy": "SendListen",
-    "Key": "key=",
+    "Key": "hDji9pMl3KZRtGfPesKL1JBg96Zb1OCdLgU4tEKyQbQ=",
     "AppName": "test.receiver",
     "Address": "test.queue",
     "Durable": "1"

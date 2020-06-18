@@ -9,8 +9,6 @@ using Newtonsoft.Json;
 
 namespace Cortside.Common.DomainEvent {
     public class DomainEventPublisher : DomainEventComms, IDomainEventPublisher {
-        public const string SCHEDULED_ENQUEUE_TIME_UTC = "x-opt-scheduled-enqueue-time";
-
         public event PublisherClosedCallback Closed;
 
         public DomainEventPublisher(ServiceBusPublisherSettings settings, ILogger<DomainEventComms> logger)
@@ -129,4 +127,3 @@ namespace Cortside.Common.DomainEvent {
         }
     }
 }
-

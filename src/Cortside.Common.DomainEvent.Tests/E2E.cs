@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -20,7 +20,8 @@ namespace Cortside.Common.DomainEvent.Tests {
 
             //Config
             var config = new ConfigurationBuilder()
-            .AddJsonFile("config.json");
+            .AddJsonFile("config.json")
+            .AddJsonFile("config.user.json", true);
             configRoot = config.Build();
 
             //IoC
@@ -29,7 +30,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             serviceProvider = collection.BuildServiceProvider();
         }
 
-        [Fact(Skip = "needs running or configured broker")]
+        [Fact]
         public async Task ShouldBeAbleToSendAndReceive() {
             var tokenSource = new CancellationTokenSource();
             var token = tokenSource.Token;
@@ -78,7 +79,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             Assert.Equal(@event.TheInt, TestEvent.Instances[correlationId].TheInt);
         }
 
-        [Fact(Skip = "needs running or configured broker")]
+        [Fact(Skip = "")]
         public async Task ShouldBeAbleToScheduleAndReceive() {
             var tokenSource = new CancellationTokenSource();
             var token = tokenSource.Token;

@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using System.Xml;
 using Amqp;
 using Amqp.Framing;
@@ -39,18 +40,17 @@ namespace Cortside.Common.DomainEvent.Tests {
         }
 
         [Fact]
-        public void ShouldHandleWelformedJson() {
+        public async Task ShouldHandleWelformedJson() {
             // arrange
             var @event = new TestEvent();
             var eventType = @event.GetType().FullName;
             var body = JsonConvert.SerializeObject(@event);
-
             Message message = CreateMessage(eventType, body);
 
             receiverLink.Setup(x => x.Accept(message));
 
             // act
-            receiver.MessageCallback(receiverLink.Object, message);
+            await receiver.MessageCallback(receiverLink.Object, message);
 
             // assert
             receiverLink.VerifyAll();
@@ -60,17 +60,16 @@ namespace Cortside.Common.DomainEvent.Tests {
         [Theory]
         [InlineData("{")]
         [InlineData("{ \"contractorId\": \"6677\", \"contractorNumber\": \"1037\" \"sponsorNumber\": \"2910\" }")]
-        public void ShouldHandleMalformedJson(string body) {
+        public async Task ShouldHandleMalformedJson(string body) {
             // arrange
             var @event = new TestEvent();
             var eventType = @event.GetType().FullName;
-
             Message message = CreateMessage(eventType, body);
 
             receiverLink.Setup(x => x.Reject(message, null));
 
             // act
-            receiver.MessageCallback(receiverLink.Object, message);
+            await receiver.MessageCallback(receiverLink.Object, message);
 
             // assert
             receiverLink.VerifyAll();
@@ -78,18 +77,17 @@ namespace Cortside.Common.DomainEvent.Tests {
         }
 
         [Fact]
-        public void ShouldHandleInvalidType() {
+        public async Task ShouldHandleInvalidType() {
             // arrange
             var @event = new TestEvent();
             var eventType = @event.GetType().FullName;
             var body = 1;
-
             Message message = CreateMessage(eventType, body);
 
             receiverLink.Setup(x => x.Reject(message, null));
 
             // act
-            receiver.MessageCallback(receiverLink.Object, message);
+            await receiver.MessageCallback(receiverLink.Object, message);
 
             // assert
             receiverLink.VerifyAll();
@@ -97,17 +95,17 @@ namespace Cortside.Common.DomainEvent.Tests {
         }
 
         [Fact]
-        public void ShouldHandleByteArray() {
+        public async Task ShouldHandleByteArray() {
             // arrange
             var @event = new TestEvent();
             var eventType = @event.GetType().FullName;
             var body = JsonConvert.SerializeObject(@event);
-
             Message message = CreateMessage(eventType, GetByteArray(body));
+
             receiverLink.Setup(x => x.Accept(message));
 
             // act
-            receiver.MessageCallback(receiverLink.Object, message);
+            await receiver.MessageCallback(receiverLink.Object, message);
 
             // assert
             receiverLink.VerifyAll();
@@ -115,18 +113,18 @@ namespace Cortside.Common.DomainEvent.Tests {
         }
 
         [Fact]
-        public void ShouldHandleMessageTypeNotFound() {
+        public async Task ShouldHandleMessageTypeNotFound() {
             // arrange
             var @event = new TestEvent();
             var eventType = @event.GetType().FullName;
             var body = JsonConvert.SerializeObject(@event);
-
             Message message = CreateMessage(eventType, body);
+
             receiverLink.Setup(x => x.Reject(message, null));
             receiver.Setup(new Dictionary<string, Type>());
 
             // act
-            receiver.MessageCallback(receiverLink.Object, message);
+            await receiver.MessageCallback(receiverLink.Object, message);
 
             // assert
             receiverLink.VerifyAll();
@@ -134,20 +132,19 @@ namespace Cortside.Common.DomainEvent.Tests {
         }
 
         [Fact]
-        public void ShouldHandleHandlerNotFound() {
+        public async Task ShouldHandleHandlerNotFound() {
             // arrange
             var @event = new TestEvent();
             var eventType = @event.GetType().FullName;
             var body = JsonConvert.SerializeObject(@event);
-
             Message message = CreateMessage(eventType, body);
-            receiverLink.Setup(x => x.Reject(message, null));
 
+            receiverLink.Setup(x => x.Reject(message, null));
             var provider = new ServiceCollection().BuildServiceProvider();
             receiver.SetProvider(provider);
 
             // act
-            receiver.MessageCallback(receiverLink.Object, message);
+            await receiver.MessageCallback(receiverLink.Object, message);
 
             // assert
             receiverLink.VerifyAll();
