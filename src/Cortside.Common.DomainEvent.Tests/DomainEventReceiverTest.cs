@@ -50,7 +50,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             receiverLink.Setup(x => x.Accept(message));
 
             // act
-            await receiver.MessageCallback(receiverLink.Object, message);
+            receiver.MessageCallback(receiverLink.Object, message);
 
             // assert
             receiverLink.VerifyAll();
@@ -69,7 +69,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             receiverLink.Setup(x => x.Reject(message, null));
 
             // act
-            await receiver.MessageCallback(receiverLink.Object, message);
+            receiver.MessageCallback(receiverLink.Object, message);
 
             // assert
             receiverLink.VerifyAll();
@@ -87,7 +87,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             receiverLink.Setup(x => x.Reject(message, null));
 
             // act
-            await receiver.MessageCallback(receiverLink.Object, message);
+            receiver.MessageCallback(receiverLink.Object, message);
 
             // assert
             receiverLink.VerifyAll();
@@ -105,11 +105,11 @@ namespace Cortside.Common.DomainEvent.Tests {
             receiverLink.Setup(x => x.Accept(message));
 
             // act
-            await receiver.MessageCallback(receiverLink.Object, message);
+            receiver.MessageCallback(receiverLink.Object, message);
 
             // assert
-            receiverLink.VerifyAll();
             Assert.DoesNotContain(logger.LogEvents, x => x.LogLevel == LogLevel.Error);
+            receiverLink.VerifyAll();
         }
 
         [Fact]
@@ -124,7 +124,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             receiver.Setup(new Dictionary<string, Type>());
 
             // act
-            await receiver.MessageCallback(receiverLink.Object, message);
+            receiver.MessageCallback(receiverLink.Object, message);
 
             // assert
             receiverLink.VerifyAll();
@@ -144,7 +144,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             receiver.SetProvider(provider);
 
             // act
-            await receiver.MessageCallback(receiverLink.Object, message);
+            receiver.MessageCallback(receiverLink.Object, message);
 
             // assert
             receiverLink.VerifyAll();

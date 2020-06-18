@@ -36,6 +36,8 @@
     "Key": "key=",
     "AppName": "test.receiver",
     "Address": "test.queue",
-    "Durable": "1"
-  }
+    "Durable": "1",
+    "Credits": 10
+  },
+  "EnableE2ETests": false
 }

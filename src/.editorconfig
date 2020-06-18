@@ -69,7 +69,7 @@ csharp_new_line_before_catch                                             = false
 csharp_new_line_before_finally                                           = false
 csharp_new_line_before_members_in_object_initializers                    = false
 csharp_new_line_before_members_in_anonymous_types                        = false
-csharp_new_line_within_query_expression_clauses                          = false
+#csharp_new_line_within_query_expression_clauses                          = false
 
 # Indentation preferences
 csharp_indent_block_contents                                             = true
@@ -180,11 +180,8 @@ csharp_space_between_square_brackets                                     = false
 
 # S3881: "IDisposable" should be implemented correctly
 dotnet_diagnostic.S3881.severity                                         = none
-
-# C++ Files
-[*.{cpp,h,in}]
-curly_bracket_next_line = true
-indent_brace_style      = Allman
+# S3458: Empty "case" clauses that fall through to the "default" should be omitted
+dotnet_diagnostic.S3458.severity                                         = none
 
 # Xml project files
 [*.{csproj,vcxproj,vcxproj.filters,proj,nativeproj,locproj}]

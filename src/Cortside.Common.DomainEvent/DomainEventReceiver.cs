@@ -23,7 +23,20 @@ namespace Cortside.Common.DomainEvent {
             Provider = provider;
         }
 
-        public void Receive(IDictionary<string, Type> eventTypeLookup) {
+        public void Start(IDictionary<string, Type> eventTypeLookup) {
+            InternalStart(eventTypeLookup);
+            Link.Start(Settings.Credits);
+        }
+
+        public void StartAndListen(IDictionary<string, Type> eventTypeLookup) {
+            InternalStart(eventTypeLookup);
+            Link.Start(Settings.Credits, (link, msg) => {
+                // fire and forget
+                var t = OnMessageCallback(link, msg);
+            });
+        }
+
+        private void InternalStart(IDictionary<string, Type> eventTypeLookup) {
             if (Link != null) {
                 throw new InvalidOperationException("Already receiving.");
             }
@@ -37,16 +50,52 @@ namespace Cortside.Common.DomainEvent {
             Error = null;
             var session = CreateSession();
             var attach = new Attach() {
-                Source = new Source() { Address = Settings.Address, Durable = Settings.Durable },
-                Target = new Target() { Address = null }
+                Source = new Source() {
+                    Address = Settings.Address,
+                    Durable = Settings.Durable
+                },
+                Target = new Target() {
+                    Address = null
+                }
             };
             Link = new ReceiverLink(session, Settings.AppName, attach, null);
             Link.Closed += OnClosed;
             Link.SetCredit(Settings.Credits, true); //Not sure if this is sufficient to renew credits...
-            Link.Start(Settings.Credits, (link, msg) => {
-                // fire and forget
-                _ = OnMessageCallback(link, msg);
-            });
+        }
+
+        public DomainEventMessage Receive() {
+            return Receive(TimeSpan.FromMilliseconds(60000));
+        }
+
+        public DomainEventMessage Receive(TimeSpan timeout) {
+            var message = Link.Receive(timeout);
+            var data = new Object();
+            var de = new DomainEventMessage() {
+                MessageId = message.Properties.MessageId,
+                CorrelationId = message.Properties.CorrelationId,
+                Data = data
+            };
+            return de;
+        }
+
+        public async Task<DomainEventMessage> ReceiveAsync() {
+            return await ReceiveAsync(TimeSpan.FromMilliseconds(60000));
+        }
+
+        public async Task<DomainEventMessage> ReceiveAsync(TimeSpan timeout) {
+            var message = await Link.ReceiveAsync(timeout);
+
+            if (message == null) {
+                return null;
+            }
+
+            var data = new Object();
+            var de = new DomainEventMessage() {
+                MessageId = message.Properties.MessageId,
+                CorrelationId = message.Properties.CorrelationId,
+                Data = data
+            };
+            return de;
         }
 
         private void OnClosed(IAmqpObject sender, Error error) {

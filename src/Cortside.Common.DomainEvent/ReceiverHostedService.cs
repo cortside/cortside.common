@@ -14,8 +14,6 @@ namespace Cortside.Common.DomainEvent {
         private readonly IServiceProvider services;
         private readonly ReceiverHostedServiceSettings settings;
         private IDomainEventReceiver receiver;
-        private System.Timers.Timer timer;
-        private readonly object syncLock = new object();
 
         /// <summary>
         /// Message receiver hosted service
@@ -41,7 +39,7 @@ namespace Cortside.Common.DomainEvent {
                         receiver = services.GetService<IDomainEventReceiver>();
                         logger.LogInformation($"Starting receiver...");
                         try {
-                            receiver.Receive(settings.MessageTypes);
+                            receiver.StartAndListen(settings.MessageTypes);
                             logger.LogInformation("Receiver started");
                         } catch (Exception e) {
                             logger.LogCritical($"Unable to start receiver. \n {e}");
@@ -58,7 +56,6 @@ namespace Cortside.Common.DomainEvent {
         /// </summary>
         public Task StopAsync(CancellationToken cancellationToken) {
             logger.LogInformation("Receiver Hosted Service is stopping.");
-            DisposeTimer();
             DisposeReceiver();
             return Task.CompletedTask;
         }
@@ -70,16 +67,11 @@ namespace Cortside.Common.DomainEvent {
                 logger.LogError($"Handling OnReceiverClosed event with error: {error.Condition} - {error.Description}");
             }
         }
-        private void DisposeTimer() {
-            if (timer != null) {
-                timer.Stop();
-                timer.Dispose();
-                timer = null;
-            }
-        }
+
         private void DisposeReceiver() {
             receiver?.Close();
         }
+
         /// <summary>
         /// Dispose
         /// </summary>
@@ -100,7 +92,6 @@ namespace Cortside.Common.DomainEvent {
         /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing) {
             DisposeReceiver();
-            DisposeTimer();
         }
 
     }
