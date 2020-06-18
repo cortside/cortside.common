@@ -36,7 +36,7 @@ build:
 
 build_script:
 - dotnet build src/Cortside.Common.sln --configuration %Configuration% /property:Version=%APPVEYOR_BUILD_VERSION%
-- dotnet test src/Cortside.Common.DomainEvent.Tests/Cortside.Common.DomainEvent.Tests.csproj --no-build
+#- dotnet test src/Cortside.Common.DomainEvent.Tests/Cortside.Common.DomainEvent.Tests.csproj --no-build
 
 after_build:
 - ps: >-
@@ -63,9 +63,8 @@ nuget:
 #  account_feed: true
 #  project_feed: true
   
-test:
-  assemblies:
-    - '**\*.Tests.dll'
+test_script:  
+   - dotnet test src/Cortside.Common.DomainEvent.Tests/Cortside.Common.DomainEvent.Tests.csproj --test-adapter-path:. --logger:Appveyor
 
 deploy:
 - provider: NuGet
