@@ -64,13 +64,7 @@ nuget:
   
 test:
   assemblies:
-    - '**\test\Cortside.Common.Test.ApplicationService.dll'
-    - '**\test\Cortside.Common.Test.Domain.dll'
-    - '**\test\Cortside.Common.Test.DomainService.dll'
-    - '**\test\Cortside.Common.Test.Web.CustomerSite.dll'
-    - '**\test\Cortside.Common.Test.DTOAssembler.dll'
-    - '**\test\Cortside.Common.Test.Web.MerchantSite.dll'
-    - '**\test\Cortside.Common.Test.Web.Common.dll'
+    - '**\Cortside.Common.DomainEvent.Tests.dll'
 
 deploy:
 - provider: NuGet
