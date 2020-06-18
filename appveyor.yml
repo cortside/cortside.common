@@ -36,6 +36,7 @@ build:
 
 build_script:
 - dotnet build src/Cortside.Common.sln --configuration %Configuration% /property:Version=%APPVEYOR_BUILD_VERSION%
+- dotnet test src/Cortside.Common.DomainEvent.Tests/Cortside.Common.DomainEvent.Tests.csproj --no-build
 
 after_build:
 - ps: >-
