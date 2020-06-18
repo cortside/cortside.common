@@ -2,12 +2,15 @@
 
 image: Visual Studio 2017
 
-version: 1.0.{build}
+version: 1.1.{build}
 
 configuration:
 - Debug
 
 platform: Any CPU
+
+pull_requests:  
+  do_not_increment_build_number: true
 
 environment:
   # Don't report back to the mothership
@@ -27,6 +30,8 @@ before_build:
 - appveyor-retry dotnet restore src/Cortside.Common.sln -v Minimal
 - set DNX_BUILD_VERSION=%APPVEYOR_BUILD_NUMBER%
 - dotnet --info
+- choco install opencover.portable
+- choco install codecov
 
 build:
   publish_nuget: true
@@ -36,6 +41,8 @@ build:
 
 build_script:
 - dotnet build src/Cortside.Common.sln --configuration %Configuration% /property:Version=%APPVEYOR_BUILD_VERSION%
+- OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test --no-build --logger:trx;LogFileName=results.trx /p:DebugType=full src/Cortside.Common.DomainEvent.Tests/Cortside.Common.DomainEvent.Tests.csproj" -filter:"+[*]* -[RsvpScheduler.Tests*]*" -output:".\results.xml" -oldStyle
+- codecov -f .\Results.xml -t $(codecov_token)
 #- dotnet test src/Cortside.Common.DomainEvent.Tests/Cortside.Common.DomainEvent.Tests.csproj --no-build
 
 after_build:
