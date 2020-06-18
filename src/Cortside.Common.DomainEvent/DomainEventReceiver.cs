@@ -32,7 +32,7 @@ namespace Cortside.Common.DomainEvent {
             InternalStart(eventTypeLookup);
             Link.Start(Settings.Credits, (link, msg) => {
                 // fire and forget
-                var t = OnMessageCallback(link, msg);
+                _ = OnMessageCallback(link, msg);
             });
         }
 
@@ -98,7 +98,7 @@ namespace Cortside.Common.DomainEvent {
             return de;
         }
 
-        private void OnClosed(IAmqpObject sender, Error error) {
+        protected void OnClosed(IAmqpObject sender, Error error) {
             if (sender.Error != null) {
                 Error = new DomainEventError();
                 Error.Condition = sender.Error.Condition.ToString();
@@ -164,16 +164,11 @@ namespace Cortside.Common.DomainEvent {
 
                     HandlerResult result;
                     dynamic dhandler = handler;
-                    if (handler.GetType().GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IDomainEventMessageHandler<>))) {
+                    try {
                         result = await dhandler.HandleAsync(domainEvent);
-                    } else {
-                        try {
-                            await dhandler.Handle(domainEvent);
-                            result = HandlerResult.Success;
-                        } catch (Exception ex) {
-                            Logger.LogError(ex, $"Message {message.Properties.MessageId} caught unhandled exception {ex.Message}");
-                            result = HandlerResult.Retry;
-                        }
+                    } catch (Exception ex) {
+                        Logger.LogError(ex, $"Message {message.Properties.MessageId} caught unhandled exception {ex.Message}");
+                        result = HandlerResult.Retry;
                     }
                     Logger.LogInformation($"Handler executed for message {message.Properties.MessageId} and returned result of {result}");
 

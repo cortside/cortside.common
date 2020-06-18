@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Amqp;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -13,8 +14,8 @@ namespace Cortside.Common.DomainEvent.Tests {
             EventTypeLookup = eventTypeLookup;
         }
 
-        public void MessageCallback(IReceiverLink receiver, Message message) {
-            OnMessageCallback(receiver, message);
+        public async Task MessageCallback(IReceiverLink receiver, Message message) {
+            await OnMessageCallback(receiver, message);
         }
 
         internal void SetProvider(ServiceProvider provider) {

@@ -11,21 +11,22 @@ using Xunit;
 
 namespace Cortside.Common.DomainEvent.Tests {
     public class E2E {
-        private readonly IConfigurationRoot configRoot;
         private readonly IServiceProvider serviceProvider;
         private readonly Dictionary<string, Type> eventTypes;
         private readonly Random r;
         private readonly DomainEventPublisher publisher;
         private readonly MockLogger<DomainEventComms> mockLogger;
+        private readonly ServiceBusReceiverSettings receiverSettings;
+        private readonly bool enabled;
 
         public E2E() {
             r = new Random();
 
             //Config
             var config = new ConfigurationBuilder()
-            .AddJsonFile("config.json")
-            .AddJsonFile("config.user.json", true);
-            configRoot = config.Build();
+                .AddJsonFile("config.json")
+                .AddJsonFile("config.user.json", true);
+            var configRoot = config.Build();
 
             //IoC
             var collection = new ServiceCollection();
@@ -41,11 +42,16 @@ namespace Cortside.Common.DomainEvent.Tests {
             var publisherSection = configRoot.GetSection("Publisher.Settings");
             var publisherSettings = GetSettings<ServiceBusPublisherSettings>(publisherSection);
             publisher = new DomainEventPublisher(publisherSettings, mockLogger);
+
+            var receiverSection = configRoot.GetSection("Receiver.Settings");
+            receiverSettings = GetSettings<ServiceBusReceiverSettings>(receiverSection);
+
+            enabled = configRoot.GetValue<bool>("EnableE2ETests");
         }
 
         [Fact]
         public async Task ShouldBeAbleToSendAndReceive() {
-            if (configRoot.GetValue<bool>("EnableE2ETests")) {
+            if (enabled) {
                 var @event = new TestEvent {
                     TheInt = r.Next(),
                     TheString = Guid.NewGuid().ToString()
@@ -72,7 +78,7 @@ namespace Cortside.Common.DomainEvent.Tests {
 
         [Fact]
         public async Task ShouldBeAbleToScheduleAndReceive() {
-            if (configRoot.GetValue<bool>("EnableE2ETests")) {
+            if (enabled) {
                 var @event = new TestEvent {
                     TheInt = r.Next(),
                     TheString = Guid.NewGuid().ToString()
@@ -89,7 +95,7 @@ namespace Cortside.Common.DomainEvent.Tests {
 
                 Assert.DoesNotContain(mockLogger.LogEvents, x => x.LogLevel == LogLevel.Error);
 
-                Assert.True(elapsed.TotalSeconds >= 20, $"{elapsed.TotalSeconds} >= 20");
+                Assert.True(elapsed.TotalSeconds >= 18, $"{elapsed.TotalSeconds} >= 18");
                 Assert.True(TestEvent.Instances.Any());
                 Assert.True(TestEvent.Instances.ContainsKey(correlationId));
                 Assert.NotNull(TestEvent.Instances[correlationId]);
@@ -100,8 +106,6 @@ namespace Cortside.Common.DomainEvent.Tests {
 
         private TimeSpan ReceiveAndWait(string correlationId) {
             var tokenSource = new CancellationTokenSource();
-            var receiverSection = configRoot.GetSection("Receiver.Settings");
-            var receiverSettings = GetSettings<ServiceBusReceiverSettings>(receiverSection);
             var start = DateTime.Now;
 
             using (var receiver = new DomainEventReceiver(receiverSettings, serviceProvider, mockLogger)) {

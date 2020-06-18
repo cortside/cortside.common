@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using Amqp;
 using Amqp.Framing;
+using Amqp.Types;
 using Cortside.Common.TestingUtilities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -42,7 +43,7 @@ namespace Cortside.Common.DomainEvent.Tests {
         [Fact]
         public async Task ShouldHandleWelformedJson() {
             // arrange
-            var @event = new TestEvent();
+            var @event = new TestEvent() { TheInt = 1 };
             var eventType = @event.GetType().FullName;
             var body = JsonConvert.SerializeObject(@event);
             Message message = CreateMessage(eventType, body);
@@ -50,7 +51,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             receiverLink.Setup(x => x.Accept(message));
 
             // act
-            receiver.MessageCallback(receiverLink.Object, message);
+            await receiver.MessageCallback(receiverLink.Object, message);
 
             // assert
             receiverLink.VerifyAll();
@@ -69,7 +70,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             receiverLink.Setup(x => x.Reject(message, null));
 
             // act
-            receiver.MessageCallback(receiverLink.Object, message);
+            await receiver.MessageCallback(receiverLink.Object, message);
 
             // assert
             receiverLink.VerifyAll();
@@ -87,7 +88,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             receiverLink.Setup(x => x.Reject(message, null));
 
             // act
-            receiver.MessageCallback(receiverLink.Object, message);
+            await receiver.MessageCallback(receiverLink.Object, message);
 
             // assert
             receiverLink.VerifyAll();
@@ -97,7 +98,7 @@ namespace Cortside.Common.DomainEvent.Tests {
         [Fact]
         public async Task ShouldHandleByteArray() {
             // arrange
-            var @event = new TestEvent();
+            var @event = new TestEvent() { TheInt = 1 };
             var eventType = @event.GetType().FullName;
             var body = JsonConvert.SerializeObject(@event);
             Message message = CreateMessage(eventType, GetByteArray(body));
@@ -105,7 +106,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             receiverLink.Setup(x => x.Accept(message));
 
             // act
-            receiver.MessageCallback(receiverLink.Object, message);
+            await receiver.MessageCallback(receiverLink.Object, message);
 
             // assert
             Assert.DoesNotContain(logger.LogEvents, x => x.LogLevel == LogLevel.Error);
@@ -124,7 +125,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             receiver.Setup(new Dictionary<string, Type>());
 
             // act
-            receiver.MessageCallback(receiverLink.Object, message);
+            await receiver.MessageCallback(receiverLink.Object, message);
 
             // assert
             receiverLink.VerifyAll();
@@ -144,19 +145,94 @@ namespace Cortside.Common.DomainEvent.Tests {
             receiver.SetProvider(provider);
 
             // act
-            receiver.MessageCallback(receiverLink.Object, message);
+            await receiver.MessageCallback(receiverLink.Object, message);
 
             // assert
             receiverLink.VerifyAll();
             Assert.Contains(logger.LogEvents, x => x.LogLevel == LogLevel.Error && x.Message.Contains("handler was not found for type"));
         }
 
-        private static Message CreateMessage(string eventType, object body) {
+        [Fact]
+        public async Task ShouldHandleSuccessResult() {
+            // arrange
+            var @event = new TestEvent() { TheInt = 2 };
+            var eventType = @event.GetType().FullName;
+            var body = JsonConvert.SerializeObject(@event);
+            Message message = CreateMessage(eventType, body);
+
+            receiverLink.Setup(x => x.Accept(message));
+
+            // act
+            await receiver.MessageCallback(receiverLink.Object, message);
+
+            // assert
+            receiverLink.VerifyAll();
+            Assert.DoesNotContain(logger.LogEvents, x => x.LogLevel == LogLevel.Error);
+        }
+
+        [Fact]
+        public async Task ShouldHandleFailedResult() {
+            // arrange
+            var @event = new TestEvent() { TheInt = -1 };
+            var eventType = @event.GetType().FullName;
+            var body = JsonConvert.SerializeObject(@event);
+            Message message = CreateMessage(eventType, body);
+
+            receiverLink.Setup(x => x.Reject(message, null));
+
+            // act
+            await receiver.MessageCallback(receiverLink.Object, message);
+
+            // assert
+            receiverLink.VerifyAll();
+            Assert.DoesNotContain(logger.LogEvents, x => x.LogLevel == LogLevel.Error);
+        }
+
+        [Fact]
+        public async Task ShouldHandleRetryResult() {
+            // arrange
+            var @event = new TestEvent() { TheInt = 0 };
+            var eventType = @event.GetType().FullName;
+            var body = JsonConvert.SerializeObject(@event);
+            Message message = CreateMessage(eventType, body);
+
+            receiverLink.Setup(x => x.Modify(message, true, false, It.IsAny<Fields>()));
+
+            // act
+            await receiver.MessageCallback(receiverLink.Object, message);
+
+            // assert
+            receiverLink.VerifyAll();
+            Assert.DoesNotContain(logger.LogEvents, x => x.LogLevel == LogLevel.Error);
+        }
+
+        [Fact]
+        public async Task ShouldHandleUnhandledException() {
+            // arrange
+            var @event = new TestEvent() { TheInt = int.MinValue };
+            var eventType = @event.GetType().FullName;
+            var body = JsonConvert.SerializeObject(@event);
+            Message message = CreateMessage(eventType, body);
+
+            receiverLink.Setup(x => x.Modify(message, true, false, It.IsAny<Fields>()));
+
+            // act
+            await receiver.MessageCallback(receiverLink.Object, message);
+
+            // assert
+            receiverLink.VerifyAll();
+            Assert.Contains(logger.LogEvents, x => x.LogLevel == LogLevel.Error && x.Message.Contains("caught unhandled exception"));
+        }
+
+        private Message CreateMessage(string eventType, object body) {
             var message = new Message(body) {
                 ApplicationProperties = new ApplicationProperties(),
                 Properties = new Properties() {
                     CorrelationId = Guid.NewGuid().ToString(),
                     MessageId = Guid.NewGuid().ToString()
+                },
+                Header = new Header() {
+                    DeliveryCount = 1
                 }
             };
             message.ApplicationProperties[DomainEventComms.MESSAGE_TYPE_KEY] = eventType;
