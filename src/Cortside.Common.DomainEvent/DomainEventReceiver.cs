@@ -63,41 +63,6 @@ namespace Cortside.Common.DomainEvent {
             Link.SetCredit(Settings.Credits, true); //Not sure if this is sufficient to renew credits...
         }
 
-        public DomainEventMessage Receive() {
-            return Receive(TimeSpan.FromMilliseconds(60000));
-        }
-
-        public DomainEventMessage Receive(TimeSpan timeout) {
-            var message = Link.Receive(timeout);
-            var data = new Object();
-            var de = new DomainEventMessage() {
-                MessageId = message.Properties.MessageId,
-                CorrelationId = message.Properties.CorrelationId,
-                Data = data
-            };
-            return de;
-        }
-
-        public async Task<DomainEventMessage> ReceiveAsync() {
-            return await ReceiveAsync(TimeSpan.FromMilliseconds(60000));
-        }
-
-        public async Task<DomainEventMessage> ReceiveAsync(TimeSpan timeout) {
-            var message = await Link.ReceiveAsync(timeout);
-
-            if (message == null) {
-                return null;
-            }
-
-            var data = new Object();
-            var de = new DomainEventMessage() {
-                MessageId = message.Properties.MessageId,
-                CorrelationId = message.Properties.CorrelationId,
-                Data = data
-            };
-            return de;
-        }
-
         protected void OnClosed(IAmqpObject sender, Error error) {
             if (sender.Error != null) {
                 Error = new DomainEventError();
