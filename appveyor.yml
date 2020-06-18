@@ -70,9 +70,6 @@ nuget:
 #  account_feed: true
 #  project_feed: true
   
-test_script:  
-   - dotnet test src/Cortside.Common.DomainEvent.Tests/Cortside.Common.DomainEvent.Tests.csproj --test-adapter-path:. --logger:Appveyor
-
 deploy:
 - provider: NuGet
   api_key:
