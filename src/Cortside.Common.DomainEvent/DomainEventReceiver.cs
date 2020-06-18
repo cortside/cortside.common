@@ -146,7 +146,10 @@ namespace Cortside.Common.DomainEvent {
                             var deliveryCount = message.Header.DeliveryCount;
                             var delay = 10 * deliveryCount;
                             var scheduleTime = DateTime.UtcNow.AddSeconds(delay);
-                            var fields = new Fields() { { new Symbol(SCHEDULED_ENQUEUE_TIME_UTC), scheduleTime } };
+                            var fields = new Fields() {
+                                { new Symbol(SCHEDULED_ENQUEUE_TIME_UTC), scheduleTime },
+                                { new Symbol("ScheduledEnqueueTimeUtc"), scheduleTime }
+                            };
 
                             receiver.Modify(message, true, false, fields);
                             Logger.LogInformation($"Message {message.Properties.MessageId} requeued with delay of {delay} seconds for {scheduleTime}");
