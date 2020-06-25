@@ -72,6 +72,10 @@ namespace Cortside.Common.DomainEvent {
             Closed(this, Error);
         }
 
+        //public DomainEvent.DomainEvent Receive() {
+        //    return new DomainEvent(message, receiver);
+        //}
+
         protected async Task OnMessageCallback(IReceiverLink receiver, Message message) {
             var messageTypeName = message.ApplicationProperties[MESSAGE_TYPE_KEY] as string;
             var properties = new Dictionary<string, object> {
@@ -133,7 +137,7 @@ namespace Cortside.Common.DomainEvent {
                         result = await dhandler.HandleAsync(domainEvent);
                     } catch (Exception ex) {
                         Logger.LogError(ex, $"Message {message.Properties.MessageId} caught unhandled exception {ex.Message}");
-                        result = HandlerResult.Retry;
+                        result = HandlerResult.Release;
                     }
                     Logger.LogInformation($"Handler executed for message {message.Properties.MessageId} and returned result of {result}");
 
@@ -155,8 +159,11 @@ namespace Cortside.Common.DomainEvent {
                             Logger.LogInformation($"Message {message.Properties.MessageId} requeued with delay of {delay} seconds for {scheduleTime}");
                             break;
                         case HandlerResult.Failed:
-                        default:
                             receiver.Reject(message);
+                            break;
+                        case HandlerResult.Release:
+                        default:
+                            receiver.Release(message);
                             break;
                     }
                 } catch (Exception ex) {

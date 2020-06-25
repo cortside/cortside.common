@@ -214,7 +214,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             var body = JsonConvert.SerializeObject(@event);
             Message message = CreateMessage(eventType, body);
 
-            receiverLink.Setup(x => x.Modify(message, true, false, It.IsAny<Fields>()));
+            receiverLink.Setup(x => x.Release(message));
 
             // act
             await receiver.MessageCallback(receiverLink.Object, message);
