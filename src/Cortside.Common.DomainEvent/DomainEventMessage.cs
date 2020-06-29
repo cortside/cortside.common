@@ -4,6 +4,7 @@ namespace Cortside.Common.DomainEvent {
         public string MessageId { get; set; }
         public string CorrelationId { get; set; }
         public object Data { get; set; }
+        public string MessageTypeName { get; internal set; }
     }
 
     public class DomainEventMessage<T> : DomainEventMessage {

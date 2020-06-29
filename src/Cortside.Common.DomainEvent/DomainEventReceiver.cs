@@ -25,11 +25,11 @@ namespace Cortside.Common.DomainEvent {
 
         public void Start(IDictionary<string, Type> eventTypeLookup) {
             InternalStart(eventTypeLookup);
-            Link.Start(Settings.Credits);
         }
 
         public void StartAndListen(IDictionary<string, Type> eventTypeLookup) {
             InternalStart(eventTypeLookup);
+
             Link.Start(Settings.Credits, (link, msg) => {
                 // fire and forget
                 _ = OnMessageCallback(link, msg);
@@ -60,7 +60,6 @@ namespace Cortside.Common.DomainEvent {
             };
             Link = new ReceiverLink(session, Settings.AppName, attach, null);
             Link.Closed += OnClosed;
-            Link.SetCredit(Settings.Credits, true); //Not sure if this is sufficient to renew credits...
         }
 
         protected void OnClosed(IAmqpObject sender, Error error) {
@@ -69,12 +68,23 @@ namespace Cortside.Common.DomainEvent {
                 Error.Condition = sender.Error.Condition.ToString();
                 Error.Description = sender.Error.Description;
             }
-            Closed(this, Error);
+            if (Closed != null) {
+                Closed(this, Error);
+            }
         }
 
-        //public DomainEvent.DomainEvent Receive() {
-        //    return new DomainEvent(message, receiver);
-        //}
+        public EventMessage Receive() {
+            return Receive(TimeSpan.FromSeconds(60));
+        }
+
+        public EventMessage Receive(TimeSpan timeout) {
+            Message message = Link.Receive(timeout);
+            if (message == null) {
+                return null;
+            }
+
+            return new EventMessage(message, Link);
+        }
 
         protected async Task OnMessageCallback(IReceiverLink receiver, Message message) {
             var messageTypeName = message.ApplicationProperties[MESSAGE_TYPE_KEY] as string;

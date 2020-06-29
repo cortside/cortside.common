@@ -2,16 +2,17 @@ using Amqp;
 using Amqp.Types;
 
 namespace Cortside.Common.DomainEvent {
-    public class DomainEvent<T> : DomainEventMessage<T> {
+    public class EventMessage : DomainEventMessage {
         private readonly Message message;
         private readonly ReceiverLink link;
 
-        public DomainEvent(Message message, ReceiverLink link) {
+        internal EventMessage(Message message, ReceiverLink link) {
             this.message = message;
             this.link = link;
 
             base.MessageId = message.Properties.MessageId;
             base.CorrelationId = message.Properties.CorrelationId;
+            base.MessageTypeName = message.ApplicationProperties[DomainEventComms.MESSAGE_TYPE_KEY] as string;
         }
 
         public DomainEventMessage Message { get; }
