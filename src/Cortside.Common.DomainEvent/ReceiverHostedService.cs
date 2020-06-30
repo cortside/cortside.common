@@ -10,7 +10,7 @@ namespace Cortside.Common.DomainEvent {
     /// <summary>
     /// Message receiver hosted service
     /// </summary>
-    public class ReceiverHostedService : IHostedService, IDisposable {
+    public class ReceiverHostedService : BackgroundService, IDisposable {
         private readonly ILogger logger;
         private readonly IServiceProvider services;
         private readonly ReceiverHostedServiceSettings settings;
@@ -27,10 +27,14 @@ namespace Cortside.Common.DomainEvent {
             this.settings = settings;
         }
 
+        public override Task StartAsync(CancellationToken ct) {
+            return base.StartAsync(ct);
+        }
+
         /// <summary>
         /// Interface method to start service
         /// </summary>
-        public async Task StartAsync(CancellationToken cancellationToken) {
+        protected async override Task ExecuteAsync(CancellationToken cancellationToken) {
             if (settings.Disabled) {
                 logger.LogInformation("Receiverhostedservice is disabled");
             } else if (settings.MessageTypes == null) {
