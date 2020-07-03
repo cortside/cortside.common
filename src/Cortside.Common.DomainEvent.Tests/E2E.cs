@@ -13,7 +13,7 @@ namespace Cortside.Common.DomainEvent.Tests {
     public class E2E {
         private readonly IConfigurationRoot configRoot;
         private readonly IServiceProvider serviceProvider;
-        private Random r;
+        private readonly Random r;
 
         public E2E() {
             r = new Random();
