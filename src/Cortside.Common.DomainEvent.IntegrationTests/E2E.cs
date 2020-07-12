@@ -12,8 +12,8 @@ namespace Cortside.Common.DomainEvent.Tests {
         public async Task ShouldBeAbleToSendAndReceive() {
             if (enabled) {
                 var @event = new TestEvent {
-                    TheInt = r.Next(),
-                    TheString = Guid.NewGuid().ToString()
+                    IntValue = r.Next(),
+                    StringValue = Guid.NewGuid().ToString()
                 };
 
                 var correlationId = Guid.NewGuid().ToString();
@@ -30,8 +30,8 @@ namespace Cortside.Common.DomainEvent.Tests {
                 Assert.True(TestEvent.Instances.Any());
                 Assert.True(TestEvent.Instances.ContainsKey(correlationId));
                 Assert.NotNull(TestEvent.Instances[correlationId]);
-                Assert.Equal(@event.TheString, TestEvent.Instances[correlationId].TheString);
-                Assert.Equal(@event.TheInt, TestEvent.Instances[correlationId].TheInt);
+                Assert.Equal(@event.StringValue, TestEvent.Instances[correlationId].StringValue);
+                Assert.Equal(@event.IntValue, TestEvent.Instances[correlationId].IntValue);
             }
         }
 
@@ -39,8 +39,8 @@ namespace Cortside.Common.DomainEvent.Tests {
         public async Task ShouldBeAbleToScheduleAndReceive() {
             if (enabled) {
                 var @event = new TestEvent {
-                    TheInt = r.Next(),
-                    TheString = Guid.NewGuid().ToString()
+                    IntValue = r.Next(),
+                    StringValue = Guid.NewGuid().ToString()
                 };
 
                 var correlationId = Guid.NewGuid().ToString();
@@ -58,8 +58,8 @@ namespace Cortside.Common.DomainEvent.Tests {
                 Assert.True(TestEvent.Instances.Any());
                 Assert.True(TestEvent.Instances.ContainsKey(correlationId));
                 Assert.NotNull(TestEvent.Instances[correlationId]);
-                Assert.Equal(@event.TheString, TestEvent.Instances[correlationId].TheString);
-                Assert.Equal(@event.TheInt, TestEvent.Instances[correlationId].TheInt);
+                Assert.Equal(@event.StringValue, TestEvent.Instances[correlationId].StringValue);
+                Assert.Equal(@event.IntValue, TestEvent.Instances[correlationId].IntValue);
             }
         }
 

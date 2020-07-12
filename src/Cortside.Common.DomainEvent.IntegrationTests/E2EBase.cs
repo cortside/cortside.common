@@ -56,5 +56,13 @@ namespace Cortside.Common.DomainEvent.Tests {
                 Durable = Convert.ToUInt32(section["Durable"])
             };
         }
+
+        protected TestEvent NewTestEvent() {
+            var @event = new TestEvent {
+                IntValue = r.Next(),
+                StringValue = Guid.NewGuid().ToString()
+            };
+            return @event;
+        }
     }
 }

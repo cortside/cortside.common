@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Xml;
 using Amqp;
 using Amqp.Framing;
-using Amqp.Types;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace Cortside.Common.DomainEvent {
     public class DomainEventReceiver : DomainEventComms, IDomainEventReceiver, IDisposable {
@@ -68,9 +66,7 @@ namespace Cortside.Common.DomainEvent {
                 Error.Condition = sender.Error.Condition.ToString();
                 Error.Description = sender.Error.Description;
             }
-            if (Closed != null) {
-                Closed(this, Error);
-            }
+            Closed?.Invoke(this, Error);
         }
 
         public EventMessage Receive() {
@@ -83,10 +79,31 @@ namespace Cortside.Common.DomainEvent {
                 return null;
             }
 
-            return new EventMessage(message, Link);
+            var messageTypeName = message.ApplicationProperties[MESSAGE_TYPE_KEY] as string;
+            if (!EventTypeLookup.ContainsKey(messageTypeName)) {
+                Logger.LogError($"Message {message.Properties.MessageId} rejected because message type was not registered for type {messageTypeName}");
+                Link.Reject(message);
+                return null;
+            }
+
+            var dataType = EventTypeLookup[messageTypeName];
+            Logger.LogDebug($"Event type: {dataType}");
+
+            dynamic domainEvent;
+            try {
+                domainEvent = DomainEventMessage.CreateGenericInstance(dataType, message);
+                Logger.LogDebug($"Successfully deserialized body to {dataType}");
+            } catch (Exception ex) {
+                Logger.LogError(ex, ex.Message);
+                Link.Reject(message);
+                return null;
+            }
+
+            return new EventMessage(domainEvent, message, Link);
         }
 
         protected async Task OnMessageCallback(IReceiverLink receiver, Message message) {
+            // TODO: remove this and log elsewhere
             var messageTypeName = message.ApplicationProperties[MESSAGE_TYPE_KEY] as string;
             var properties = new Dictionary<string, object> {
                 ["CorrelationId"] = message.Properties.CorrelationId,
@@ -98,7 +115,8 @@ namespace Cortside.Common.DomainEvent {
                 Logger.LogInformation($"Received message {message.Properties.MessageId}");
 
                 try {
-                    string body = GetBody(message);
+                    // TODO: only getting this for logging, should this be here?
+                    string body = DomainEventMessage.GetBody(message);
                     Logger.LogTrace($"Received message {message.Properties.MessageId} with body: {body}");
 
                     Logger.LogDebug($"Event type key: {messageTypeName}");
@@ -120,26 +138,36 @@ namespace Cortside.Common.DomainEvent {
                     }
                     Logger.LogDebug($"Event type handler: {handler.GetType()}");
 
-                    List<string> errors = new List<string>();
-                    var data = JsonConvert.DeserializeObject(body, dataType,
-                        new JsonSerializerSettings {
-                            Error = (object sender, Newtonsoft.Json.Serialization.ErrorEventArgs args) => {
-                                errors.Add(args.ErrorContext.Error.Message);
-                                args.ErrorContext.Handled = true;
-                            }
-                        });
-                    if (errors.Any()) {
-                        Logger.LogError($"Message {message.Properties.MessageId} rejected because of errors deserializing messsage body: {string.Join(", ", errors)}");
+                    dynamic domainEvent;
+                    try {
+                        domainEvent = DomainEventMessage.CreateGenericInstance(dataType, message);
+                        Logger.LogDebug($"Successfully deserialized body to {dataType}");
+                    } catch (Exception ex) {
+                        Logger.LogError(ex, ex.Message);
                         receiver.Reject(message);
                         return;
                     }
-                    Logger.LogDebug($"Successfully deserialized body to {dataType}");
 
-                    var eventType = typeof(DomainEventMessage<>).MakeGenericType(dataType);
-                    dynamic domainEvent = Activator.CreateInstance(eventType);
-                    domainEvent.MessageId = message.Properties.MessageId;
-                    domainEvent.CorrelationId = message.Properties.CorrelationId;
-                    domainEvent.Data = (dynamic)data;
+                    //List<string> errors = new List<string>();
+                    //var data = JsonConvert.DeserializeObject(body, dataType,
+                    //    new JsonSerializerSettings {
+                    //        Error = (object sender, Newtonsoft.Json.Serialization.ErrorEventArgs args) => {
+                    //            errors.Add(args.ErrorContext.Error.Message);
+                    //            args.ErrorContext.Handled = true;
+                    //        }
+                    //    });
+                    //if (errors.Any()) {
+                    //    Logger.LogError($"Message {message.Properties.MessageId} rejected because of errors deserializing messsage body: {string.Join(", ", errors)}");
+                    //    receiver.Reject(message);
+                    //    return;
+                    //}
+                    //Logger.LogDebug($"Successfully deserialized body to {dataType}");
+
+                    //var eventType = typeof(DomainEventMessage<>).MakeGenericType(dataType);
+                    //dynamic domainEvent = Activator.CreateInstance(eventType);
+                    //domainEvent.MessageId = message.Properties.MessageId;
+                    //domainEvent.CorrelationId = message.Properties.CorrelationId;
+                    //domainEvent.Data = (dynamic)data;
 
                     HandlerResult result;
                     dynamic dhandler = handler;
@@ -160,12 +188,20 @@ namespace Cortside.Common.DomainEvent {
                             var deliveryCount = message.Header.DeliveryCount;
                             var delay = 10 * deliveryCount;
                             var scheduleTime = DateTime.UtcNow.AddSeconds(delay);
-                            var fields = new Fields() {
-                                { new Symbol(SCHEDULED_ENQUEUE_TIME_UTC), scheduleTime },
-                                { new Symbol("ScheduledEnqueueTimeUtc"), scheduleTime }
-                            };
 
-                            receiver.Modify(message, true, false, fields);
+                            using (var ts = new TransactionScope()) {
+                                var sender = new SenderLink(Link.Session, base.Settings.AppName + "-retry", base.Settings.Address);
+                                // create a new message to be queued with scheduled delivery time
+                                var retry = new Message(body) {
+                                    Header = message.Header,
+                                    Footer = message.Footer,
+                                    Properties = message.Properties,
+                                    ApplicationProperties = message.ApplicationProperties
+                                };
+                                retry.ApplicationProperties[SCHEDULED_ENQUEUE_TIME_UTC] = scheduleTime;
+                                sender.Send(retry);
+                                receiver.Accept(message);
+                            }
                             Logger.LogInformation($"Message {message.Properties.MessageId} requeued with delay of {delay} seconds for {scheduleTime}");
                             break;
                         case HandlerResult.Failed:

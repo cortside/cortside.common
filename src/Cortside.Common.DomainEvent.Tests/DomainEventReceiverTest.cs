@@ -43,7 +43,7 @@ namespace Cortside.Common.DomainEvent.Tests {
         [Fact]
         public async Task ShouldHandleWelformedJson() {
             // arrange
-            var @event = new TestEvent() { TheInt = 1 };
+            var @event = new TestEvent() { IntValue = 1 };
             var eventType = @event.GetType().FullName;
             var body = JsonConvert.SerializeObject(@event);
             Message message = CreateMessage(eventType, body);
@@ -98,7 +98,7 @@ namespace Cortside.Common.DomainEvent.Tests {
         [Fact]
         public async Task ShouldHandleByteArray() {
             // arrange
-            var @event = new TestEvent() { TheInt = 1 };
+            var @event = new TestEvent() { IntValue = 1 };
             var eventType = @event.GetType().FullName;
             var body = JsonConvert.SerializeObject(@event);
             Message message = CreateMessage(eventType, GetByteArray(body));
@@ -155,7 +155,7 @@ namespace Cortside.Common.DomainEvent.Tests {
         [Fact]
         public async Task ShouldHandleSuccessResult() {
             // arrange
-            var @event = new TestEvent() { TheInt = 2 };
+            var @event = new TestEvent() { IntValue = 2 };
             var eventType = @event.GetType().FullName;
             var body = JsonConvert.SerializeObject(@event);
             Message message = CreateMessage(eventType, body);
@@ -173,7 +173,7 @@ namespace Cortside.Common.DomainEvent.Tests {
         [Fact]
         public async Task ShouldHandleFailedResult() {
             // arrange
-            var @event = new TestEvent() { TheInt = -1 };
+            var @event = new TestEvent() { IntValue = -1 };
             var eventType = @event.GetType().FullName;
             var body = JsonConvert.SerializeObject(@event);
             Message message = CreateMessage(eventType, body);
@@ -191,7 +191,7 @@ namespace Cortside.Common.DomainEvent.Tests {
         [Fact]
         public async Task ShouldHandleRetryResult() {
             // arrange
-            var @event = new TestEvent() { TheInt = 0 };
+            var @event = new TestEvent() { IntValue = 0 };
             var eventType = @event.GetType().FullName;
             var body = JsonConvert.SerializeObject(@event);
             Message message = CreateMessage(eventType, body);
@@ -209,7 +209,7 @@ namespace Cortside.Common.DomainEvent.Tests {
         [Fact]
         public async Task ShouldHandleUnhandledException() {
             // arrange
-            var @event = new TestEvent() { TheInt = int.MinValue };
+            var @event = new TestEvent() { IntValue = int.MinValue };
             var eventType = @event.GetType().FullName;
             var body = JsonConvert.SerializeObject(@event);
             Message message = CreateMessage(eventType, body);

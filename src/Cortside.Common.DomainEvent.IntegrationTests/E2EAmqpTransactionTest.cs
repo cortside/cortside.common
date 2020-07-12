@@ -26,7 +26,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             SenderLink sender = new SenderLink(session, "sender-" + testName, path);
 
             // commit
-            using (var ts = new TransactionScope()) {
+            using (var ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled)) {
                 for (int i = 0; i < nMsgs; i++) {
                     Message message = new Message("test");
                     message.Properties = new Properties() { MessageId = "commit" + i, GroupId = testName };
@@ -37,7 +37,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             }
 
             // rollback
-            using (var ts = new TransactionScope()) {
+            using (var ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled)) {
                 for (int i = nMsgs; i < nMsgs * 2; i++) {
                     Message message = new Message("test");
                     message.Properties = new Properties() { MessageId = "rollback" + i, GroupId = testName };
@@ -46,7 +46,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             }
 
             // commit
-            using (var ts = new TransactionScope()) {
+            using (var ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled)) {
                 for (int i = 0; i < nMsgs; i++) {
                     Message message = new Message("test");
                     message.Properties = new Properties() { MessageId = "commit" + i, GroupId = testName };
@@ -101,7 +101,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             }
 
             // commit half
-            using (var ts = new TransactionScope()) {
+            using (var ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled)) {
                 for (int i = 0; i < nMsgs / 2; i++) {
                     receiver.Accept(messages[i]);
                     ids.Remove(messages[i].Properties.MessageId);
@@ -111,7 +111,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             }
 
             // rollback
-            using (var ts = new TransactionScope()) {
+            using (var ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled)) {
                 for (int i = nMsgs / 2; i < nMsgs; i++) {
                     receiver.Accept(messages[i]);
                 }
@@ -125,7 +125,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             }
 
             // commit
-            using (var ts = new TransactionScope()) {
+            using (var ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled)) {
                 for (int i = nMsgs / 2; i < nMsgs; i++) {
                     receiver.Accept(messages[i]);
                     ids.Remove(messages[i].Properties.MessageId);
@@ -182,7 +182,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             Message message2 = receiver.Receive();
 
             // ack message1 and send a new message in a txn
-            using (var ts = new TransactionScope()) {
+            using (var ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled)) {
                 receiver.Accept(message1);
                 ids.Remove(message1.Properties.MessageId);
 
@@ -195,7 +195,7 @@ namespace Cortside.Common.DomainEvent.Tests {
             }
 
             // ack message2 and send a new message in a txn but abort the txn
-            using (var ts = new TransactionScope()) {
+            using (var ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled)) {
                 receiver.Accept(message2);
 
                 Message message = new Message("test");
