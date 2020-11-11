@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
 
-namespace Cortside.Health.Models {
+namespace Cortside.Common.Health.Models {
 
     /// <summary>
     /// config

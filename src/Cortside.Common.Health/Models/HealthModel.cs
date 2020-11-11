@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Cortside.Health.Models {
+namespace Cortside.Common.Health.Models {
 
     /// <summary>
     /// Health

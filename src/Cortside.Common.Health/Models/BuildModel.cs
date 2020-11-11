@@ -2,7 +2,7 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Cortside.Health.Models {
+namespace Cortside.Common.Health.Models {
 
     /// <summary>
     /// Build

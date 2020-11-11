@@ -1,10 +1,10 @@
 using System;
-using Cortside.Health.Models;
+using Cortside.Common.Health.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
-namespace Cortside.Health.Controllers {
+namespace Cortside.Common.Health.Controllers {
 
     /// <summary>
     /// Health
