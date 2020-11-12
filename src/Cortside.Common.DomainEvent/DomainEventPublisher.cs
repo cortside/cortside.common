@@ -9,10 +9,17 @@ using Newtonsoft.Json;
 
 namespace Cortside.Common.DomainEvent {
     public class DomainEventPublisher : DomainEventComms, IDomainEventPublisher {
+        private SenderLink sender = null;
+        private Session session;
+
         public event PublisherClosedCallback Closed;
 
-        public DomainEventPublisher(ServiceBusPublisherSettings settings, ILogger<DomainEventComms> logger)
-            : base(settings, logger) { }
+        public DomainEventPublisher(ServiceBusPublisherSettings settings, ILogger<DomainEventComms> logger) : base(settings, logger) { }
+
+        internal DomainEventPublisher(Session session, ILogger<DomainEventComms> logger) : base(null, logger) {
+            this.session = session;
+
+        }
 
         public DomainEventError Error { get; set; }
 
@@ -90,13 +97,18 @@ namespace Cortside.Common.DomainEvent {
                 ["MessageType"] = message.Properties.GroupId
             })) {
                 Logger.LogTrace($"Publishing message {message.Properties.MessageId} to {address} with body: {message.Body}");
-                var session = CreateSession();
-                var attach = new Attach() {
-                    Target = new Target() { Address = address, Durable = Settings.Durable },
-                    Source = new Source()
-                };
-                var sender = new SenderLink(session, Settings.AppName, attach, null);
-                sender.Closed += OnClosed;
+
+                var closeSender = false;
+                if (sender == null) {
+                    closeSender = true;
+                    session = CreateSession();
+                    var attach = new Attach() {
+                        Target = new Target() { Address = address, Durable = Settings.Durable },
+                        Source = new Source()
+                    };
+                    sender = new SenderLink(session, Settings.AppName, attach, null);
+                    sender.Closed += OnClosed;
+                }
 
                 try {
                     await sender.SendAsync(message);
@@ -108,11 +120,18 @@ namespace Cortside.Common.DomainEvent {
                         Error.Description = sender.Error.Description;
                         Closed?.Invoke(this, Error);
                     }
-                    if (!sender.IsClosed) {
-                        await sender.CloseAsync(TimeSpan.FromSeconds(5));
+                    if (closeSender) {
+                        if (!sender.IsClosed) {
+                            await sender.CloseAsync(TimeSpan.FromSeconds(5));
+                        }
+
+                        if (closeSender) {
+                            await session.CloseAsync();
+                            await session.Connection.CloseAsync();
+
+                            sender = null;
+                        }
                     }
-                    await session.CloseAsync();
-                    await session.Connection.CloseAsync();
                 }
             }
         }
