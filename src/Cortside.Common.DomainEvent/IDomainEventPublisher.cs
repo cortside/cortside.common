@@ -10,9 +10,10 @@ namespace Cortside.Common.DomainEvent {
 
         Task SendAsync<T>(T @event) where T : class;
         Task SendAsync<T>(T @event, string correlationId) where T : class;
+        Task SendAsync<T>(T @event, string correlationId, string messageId) where T : class;
         Task SendAsync<T>(T @event, string eventType, string address, string correlationId) where T : class;
 
-        Task SendAsync(string eventType, string address, string data, string correlationId);
+        Task SendAsync(string eventType, string address, string data, string correlationId, string messageId);
 
         Task ScheduleMessageAsync<T>(T @event, DateTime scheduledEnqueueTimeUtc) where T : class;
         Task ScheduleMessageAsync<T>(T @event, string correlationId, DateTime scheduledEnqueueTimeUtc) where T : class;
