@@ -9,17 +9,20 @@ using Newtonsoft.Json;
 namespace Cortside.Common.Health.Checks {
     public abstract class Check {
 
-        protected readonly CheckConfiguration check;
+        protected CheckConfiguration check;
         protected readonly IMemoryCache cache;
         protected readonly ILogger<Check> logger;
         protected readonly IAvailabilityRecorder recorder;
         protected readonly Availability availability = new Availability();
 
-        protected Check(CheckConfiguration check, IMemoryCache cache, ILogger<Check> logger, IAvailabilityRecorder recorder) {
-            this.check = check;
+        protected Check(IMemoryCache cache, ILogger<Check> logger, IAvailabilityRecorder recorder) {
             this.cache = cache;
             this.logger = logger;
             this.recorder = recorder;
+        }
+
+        internal void Initialize(CheckConfiguration check) {
+            this.check = check;
         }
 
         public string Name => check.Name;

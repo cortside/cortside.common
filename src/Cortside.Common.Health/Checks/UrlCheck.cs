@@ -8,7 +8,7 @@ using RestSharp;
 namespace Cortside.Common.Health.Checks {
     public class UrlCheck : Check {
 
-        public UrlCheck(CheckConfiguration check, IMemoryCache cache, ILogger<Check> logger, IAvailabilityRecorder recorder) : base(check, cache, logger, recorder) { }
+        public UrlCheck(IMemoryCache cache, ILogger<Check> logger, IAvailabilityRecorder recorder) : base(cache, logger, recorder) { }
 
         public override async Task<ServiceStatusModel> ExecuteAsync() {
             var client = new RestClient();

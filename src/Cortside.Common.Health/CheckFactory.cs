@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Cortside.Common.Health.Checks;
 using Cortside.Common.Health.Models;
 using Microsoft.Extensions.Caching.Memory;
@@ -13,6 +14,7 @@ namespace Cortside.Common.Health {
         private readonly IServiceProvider serviceProvider;
         private readonly IAvailabilityRecorder recorder;
         private readonly IConfiguration configuration;
+        private readonly Dictionary<string, Type> checks;
 
         public CheckFactory(IMemoryCache cache, ILogger<Check> logger, IAvailabilityRecorder recorder, IServiceProvider serviceProvider, IConfiguration configuration) {
             this.cache = cache;
@@ -20,6 +22,10 @@ namespace Cortside.Common.Health {
             this.serviceProvider = serviceProvider;
             this.recorder = recorder;
             this.configuration = configuration;
+            checks = new Dictionary<string, Type>() {
+                ["url"] = typeof(UrlCheck),
+                ["dbcontext"] = typeof(DbContextCheck)
+            };
         }
 
         public ILogger<Check> Logger => logger;
@@ -28,13 +34,14 @@ namespace Cortside.Common.Health {
 
         public Check Create(CheckConfiguration check) {
             check.Value = ExpandTemplate(check.Value);
-            switch (check.Type) {
-                case "url":
-                    return new UrlCheck(check, cache, logger, recorder);
-                case "dbcontext":
-                    return new DbContextCheck(check, cache, logger, serviceProvider, recorder);
-                default:
-                    throw new ArgumentException("Invalid Type", check.Type);
+
+            if (checks.ContainsKey(check.Type)) {
+                var type = checks[check.Type];
+                var instance = serviceProvider.GetService(type) as Check;
+                instance.Initialize(check);
+                return instance;
+            } else {
+                throw new ArgumentException("Invalid Type", check.Type);
             }
         }
 
@@ -55,6 +62,10 @@ namespace Cortside.Common.Health {
             }
 
             return template;
+        }
+
+        public void RegisterCheck(string name, Type type) {
+            checks.Add(name, type);
         }
     }
 }

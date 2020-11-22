@@ -13,7 +13,7 @@ namespace Cortside.Common.Health.Checks {
         private readonly BuildModel build;
         private readonly List<Check> checks;
 
-        public HealthCheck(CheckConfiguration check, List<Check> checks, BuildModel build, IMemoryCache cache, ILogger<Check> logger, IAvailabilityRecorder recorder) : base(check, cache, logger, recorder) {
+        public HealthCheck(List<Check> checks, BuildModel build, IMemoryCache cache, ILogger<Check> logger, IAvailabilityRecorder recorder) : base(cache, logger, recorder) {
             this.build = build;
             this.checks = checks;
         }

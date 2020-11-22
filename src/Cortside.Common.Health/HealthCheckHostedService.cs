@@ -23,7 +23,10 @@ namespace Cortside.Common.Health {
             foreach (var check in config.Checks) {
                 checks.Add(factory.Create(check));
             }
-            checks.Add(new HealthCheck(new CheckConfiguration() { Name = config.Name, CacheDuration = config.CacheDuration }, checks, build, cache, factory.Logger, factory.Recorder));
+
+            var healthCheck = new HealthCheck(checks, build, cache, factory.Logger, factory.Recorder);
+            healthCheck.Initialize(new CheckConfiguration() { Name = config.Name, CacheDuration = config.CacheDuration });
+            checks.Add(healthCheck);
         }
 
         protected override async Task ExecuteIntervalAsync() {

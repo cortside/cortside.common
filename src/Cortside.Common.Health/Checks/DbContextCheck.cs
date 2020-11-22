@@ -10,7 +10,7 @@ namespace Cortside.Common.Health.Checks {
     public class DbContextCheck : Check {
         private readonly IServiceProvider serviceProvider;
 
-        public DbContextCheck(CheckConfiguration check, IMemoryCache cache, ILogger<Check> logger, IServiceProvider serviceProvider, IAvailabilityRecorder recorder) : base(check, cache, logger, recorder) {
+        public DbContextCheck(IMemoryCache cache, ILogger<Check> logger, IServiceProvider serviceProvider, IAvailabilityRecorder recorder) : base(cache, logger, recorder) {
             this.serviceProvider = serviceProvider;
         }
 
