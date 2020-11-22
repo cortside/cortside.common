@@ -22,5 +22,6 @@ namespace Cortside.Common.Health.Models {
         public bool Required { get; set; }
         public int CacheDuration { get; set; }
         public int Timeout { get; set; }
+        public int Interval { get; internal set; }
     }
 }

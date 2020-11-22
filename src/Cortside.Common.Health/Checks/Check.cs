@@ -23,6 +23,19 @@ namespace Cortside.Common.Health.Checks {
 
         internal void Initialize(CheckConfiguration check) {
             this.check = check;
+
+            // fix up and make sure that interval and cache duration are set
+            if (check.Interval == 0 && check.CacheDuration == 0) {
+                check.Interval = 30;
+            }
+            if (check.Interval == 0 && check.CacheDuration > 0) {
+                check.Interval = check.CacheDuration;
+            }
+            if (check.CacheDuration < check.Interval) {
+                check.CacheDuration = check.Interval * 2;
+            }
+
+            logger.LogInformation($"Initializing {check.Name} check of type {this.GetType().Name} with interval of {check.Interval} and cache duration of {check.CacheDuration}");
         }
 
         public string Name => check.Name;
@@ -42,7 +55,7 @@ namespace Cortside.Common.Health.Checks {
 
             var item = cache.Get<ServiceStatusModel>(Name);
             var age = item != null ? (DateTime.UtcNow - item.Timestamp).TotalSeconds : int.MaxValue;
-            if (age >= check.CacheDuration) {
+            if (age >= check.Interval) {
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
 
@@ -64,7 +77,7 @@ namespace Cortside.Common.Health.Checks {
                 recorder.RecordAvailability(Name, stopwatch.Elapsed, serviceStatusModel.Healthy, JsonConvert.SerializeObject(serviceStatusModel));
 
                 // Store it in cache
-                cache.Set(Name, serviceStatusModel, DateTimeOffset.Now.AddSeconds(check.CacheDuration * 1.5));
+                cache.Set(Name, serviceStatusModel, DateTimeOffset.Now.AddSeconds(check.CacheDuration));
             }
         }
 
