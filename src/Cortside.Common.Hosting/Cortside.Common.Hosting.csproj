@@ -8,4 +8,8 @@
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Cortside.Common.Correlation\Cortside.Common.Correlation.csproj" />
+  </ItemGroup>
+
 </Project>

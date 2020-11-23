@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Cortside.Common.Correlation;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -15,14 +17,16 @@ namespace Cortside.Common.Hosting {
         protected readonly ILogger logger;
         private readonly int interval;
         private readonly bool enabled;
+        private readonly bool generateCorrelationId;
 
         /// <summary>
         /// Initializes new instance of the Hosted Service
         /// </summary>
-        protected TimedHostedService(ILogger logger, bool enabled, int interval) {
+        protected TimedHostedService(ILogger logger, bool enabled, int interval, bool generateCorrelationId = true) {
             this.logger = logger;
             this.interval = interval;
             this.enabled = enabled;
+            this.generateCorrelationId = generateCorrelationId;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken) {
@@ -42,16 +46,23 @@ namespace Cortside.Common.Hosting {
         }
 
         private async Task IntervalAsync() {
-            //TODO: create correlationId and set in logging context
-            logger.LogDebug($"{this.GetType().Name} is working");
-            await semaphore.WaitAsync();
+            var correlationId = CorrelationContext.GetCorrelationId();
+            if (generateCorrelationId && string.IsNullOrWhiteSpace(correlationId)) {
+                correlationId = Guid.NewGuid().ToString();
+                CorrelationContext.SetCorrelationId(correlationId);
+            }
 
-            try {
-                await ExecuteIntervalAsync().ConfigureAwait(false);
-            } catch (Exception ex) {
-                logger.LogError(ex, this.GetType().Name);
-            } finally {
-                semaphore.Release();
+            using (logger.BeginScope(new Dictionary<string, object> { ["CorrelationId"] = correlationId })) {
+                logger.LogDebug($"{this.GetType().Name} is working");
+                await semaphore.WaitAsync();
+
+                try {
+                    await ExecuteIntervalAsync().ConfigureAwait(false);
+                } catch (Exception ex) {
+                    logger.LogError(ex, this.GetType().Name);
+                } finally {
+                    semaphore.Release();
+                }
             }
         }
 
