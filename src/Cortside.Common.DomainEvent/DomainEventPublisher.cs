@@ -22,27 +22,35 @@ namespace Cortside.Common.DomainEvent {
             var data = JsonConvert.SerializeObject(@event);
             var eventType = @event.GetType().FullName;
             var address = Settings.Address + @event.GetType().Name;
-            await SendAsync(eventType, address, data, null);
+            await SendAsync(eventType, address, data, null, null);
         }
 
         public async Task SendAsync<T>(T @event, string correlationId) where T : class {
             var data = JsonConvert.SerializeObject(@event);
             var eventType = @event.GetType().FullName;
             var address = Settings.Address + @event.GetType().Name;
-            await SendAsync(eventType, address, data, correlationId);
-        }
-        public async Task SendAsync<T>(T @event, string eventType, string address, string correlationId) where T : class {
-            var data = JsonConvert.SerializeObject(@event);
-            await SendAsync(eventType, address, data, correlationId);
+            await SendAsync(eventType, address, data, correlationId, null);
         }
 
-        public async Task SendAsync(string eventType, string address, string data, string correlationId) {
-            var message = CreateMessage(eventType, data, correlationId);
+        public async Task SendAsync<T>(T @event, string correlationId, string messageId) where T : class {
+            var data = JsonConvert.SerializeObject(@event);
+            var eventType = @event.GetType().FullName;
+            var address = Settings.Address + @event.GetType().Name;
+            await SendAsync(eventType, address, data, correlationId, messageId);
+        }
+
+        public async Task SendAsync<T>(T @event, string eventType, string address, string correlationId) where T : class {
+            var data = JsonConvert.SerializeObject(@event);
+            await SendAsync(eventType, address, data, correlationId, null);
+        }
+
+        public async Task SendAsync(string eventType, string address, string data, string correlationId, string messageId) {
+            var message = CreateMessage(eventType, data, correlationId, messageId);
             await InnerSendAsync(address, message);
         }
 
         public async Task ScheduleMessageAsync(string data, string eventType, string address, string correlationId, DateTime scheduledEnqueueTimeUtc) {
-            var message = CreateMessage(eventType, data, correlationId);
+            var message = CreateMessage(eventType, data, correlationId, null);
             message.MessageAnnotations[new Symbol(SCHEDULED_ENQUEUE_TIME_UTC)] = scheduledEnqueueTimeUtc;
 
             await InnerSendAsync(address, message);
@@ -67,8 +75,8 @@ namespace Cortside.Common.DomainEvent {
             await ScheduleMessageAsync(data, eventType, address, correlationId, scheduledEnqueueTimeUtc);
         }
 
-        private Message CreateMessage(string eventType, string data, string correlationId) {
-            var messageId = Guid.NewGuid().ToString();
+        private Message CreateMessage(string eventType, string data, string correlationId, string messageId) {
+            var messageIdentifier = messageId ?? Guid.NewGuid().ToString();
             var message = new Message(data) {
                 Header = new Header {
                     Durable = (Settings.Durable == 2)
@@ -76,7 +84,7 @@ namespace Cortside.Common.DomainEvent {
                 ApplicationProperties = new ApplicationProperties(),
                 MessageAnnotations = new MessageAnnotations(),
                 Properties = new Properties {
-                    MessageId = messageId,
+                    MessageId = messageIdentifier,
                     GroupId = eventType,
                     CorrelationId = correlationId
                 }
