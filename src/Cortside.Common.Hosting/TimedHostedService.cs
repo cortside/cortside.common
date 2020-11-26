@@ -46,12 +46,7 @@ namespace Cortside.Common.Hosting {
         }
 
         private async Task IntervalAsync() {
-            var correlationId = CorrelationContext.GetCorrelationId();
-            if (generateCorrelationId && string.IsNullOrWhiteSpace(correlationId)) {
-                correlationId = Guid.NewGuid().ToString();
-                CorrelationContext.SetCorrelationId(correlationId);
-            }
-
+            var correlationId = CorrelationContext.GetCorrelationId(generateCorrelationId);
             using (logger.BeginScope(new Dictionary<string, object> { ["CorrelationId"] = correlationId })) {
                 logger.LogDebug($"{this.GetType().Name} is working");
                 await semaphore.WaitAsync();
