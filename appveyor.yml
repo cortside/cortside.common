@@ -1,6 +1,6 @@
 ## https://www.appveyor.com/docs/appveyor-yml/
 
-image: Visual Studio 2017
+image: Visual Studio 2019
 
 version: 1.0.{build}
 
@@ -44,12 +44,15 @@ after_build:
     if($branch -ne 'master') {
         $fileVersion = "${fileVersion}-${branch}"; 
     }
-    gci -include *.nuspec -Recurse | %{ 
-        $csproj = ($_.Fullname).Replace('.nuspec','.csproj')
-        if((Test-Path -path $_.Fullname) -and (Test-Path -path $csproj )) { 
-            dotnet pack $csproj --configuration $env:configuration -o ((get-location).Path + '\artifacts') /property:Version=$fileVersion 
-        }
-    }
+    
+    dotnet pack src/cortside.common.sln --configuration $env:configuration -o ((get-location).Path + '\artifacts') /property:Version=$fileVersion 
+    
+    #gci -include *.nuspec -Recurse | %{ 
+    #    $csproj = ($_.Fullname).Replace('.nuspec','.csproj')
+    #    if((Test-Path -path $_.Fullname) -and (Test-Path -path $csproj )) { 
+    #        dotnet pack $csproj --configuration $env:configuration -o ((get-location).Path + '\artifacts') /property:Version=$fileVersion 
+    #    }
+    #}
     
 artifacts:
 - path: artifacts\**\*.*
@@ -75,4 +78,4 @@ test:
 deploy:
 - provider: NuGet
   api_key:
-    secure: ObtpuUmk0xC2aZ3+pVBY1xARi6fM7LdzNqot5Cr8Iwoitol4oElmDnU9SNGkD+3w
+    secure: w5Ze2msHkcTFwH4T9Etikd0pXBy6vjtkwCTbvmlG3yNTuSkiKgsapR0mwxD1+f1v

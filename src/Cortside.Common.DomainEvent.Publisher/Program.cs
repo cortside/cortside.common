@@ -64,7 +64,7 @@ namespace Cortside.Common.DomainEvent.Publisher {
             }
 
             try {
-                publisher.SendAsync(opts.EventType, opts.Address, opts.Data).GetAwaiter().GetResult();
+                publisher.SendAsync(opts.EventType, opts.Address, opts.Data, null).GetAwaiter().GetResult();
             } finally {
                 if (publisher.Error == null) {
                     logger.LogInformation("message sent");
