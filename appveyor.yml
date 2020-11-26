@@ -44,12 +44,15 @@ after_build:
     if($branch -ne 'master') {
         $fileVersion = "${fileVersion}-${branch}"; 
     }
-    gci -include *.nuspec -Recurse | %{ 
-        $csproj = ($_.Fullname).Replace('.nuspec','.csproj')
-        if((Test-Path -path $_.Fullname) -and (Test-Path -path $csproj )) { 
-            dotnet pack $csproj --configuration $env:configuration -o ((get-location).Path + '\artifacts') /property:Version=$fileVersion 
-        }
-    }
+    
+    dotnet pack src/cortside.common.sln --configuration $env:configuration -o ((get-location).Path + '\artifacts') /property:Version=$fileVersion 
+    
+    #gci -include *.nuspec -Recurse | %{ 
+    #    $csproj = ($_.Fullname).Replace('.nuspec','.csproj')
+    #    if((Test-Path -path $_.Fullname) -and (Test-Path -path $csproj )) { 
+    #        dotnet pack $csproj --configuration $env:configuration -o ((get-location).Path + '\artifacts') /property:Version=$fileVersion 
+    #    }
+    #}
     
 artifacts:
 - path: artifacts\**\*.*
