@@ -54,7 +54,13 @@ namespace Cortside.Common.Correlation {
             RequestId.Value = requestId;
         }
 
-        public static string GetCorrelationId() {
+        public static string GetCorrelationId(bool generateCorrelationId = true) {
+            var correlationId = CorrelationId.Value;
+            if (generateCorrelationId && string.IsNullOrWhiteSpace(correlationId)) {
+                correlationId = Guid.NewGuid().ToString();
+                SetCorrelationId(correlationId);
+            }
+
             return CorrelationId.Value;
         }
 
