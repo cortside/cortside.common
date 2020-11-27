@@ -60,8 +60,11 @@ namespace Cortside.Common.Json {
 
             if (reader.TokenType == JsonToken.String) {
                 var timeSpanText = reader.Value.ToString();
-
-                return System.Xml.XmlConvert.ToTimeSpan(timeSpanText);
+                if (timeSpanText.StartsWith("P")) {
+                    return System.Xml.XmlConvert.ToTimeSpan(timeSpanText);
+                } else {
+                    return TimeSpan.Parse(timeSpanText);
+                }
             }
 
             throw new JsonSerializationException($"Unexpected token {reader.TokenType} when parsing TimeSpan.");
