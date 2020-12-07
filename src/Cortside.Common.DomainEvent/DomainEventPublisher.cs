@@ -49,8 +49,8 @@ namespace Cortside.Common.DomainEvent {
             await InnerSendAsync(address, message);
         }
 
-        public async Task ScheduleMessageAsync(string data, string eventType, string address, string correlationId, DateTime scheduledEnqueueTimeUtc) {
-            var message = CreateMessage(eventType, data, correlationId, null);
+        public async Task ScheduleMessageAsync(string data, string eventType, string address, string correlationId, string messageId, DateTime scheduledEnqueueTimeUtc) {
+            var message = CreateMessage(eventType, data, correlationId, messageId);
             message.MessageAnnotations[new Symbol(SCHEDULED_ENQUEUE_TIME_UTC)] = scheduledEnqueueTimeUtc;
 
             await InnerSendAsync(address, message);
@@ -60,19 +60,26 @@ namespace Cortside.Common.DomainEvent {
             var data = JsonConvert.SerializeObject(@event);
             var eventType = @event.GetType().FullName;
             var address = Settings.Address + @event.GetType().Name;
-            await ScheduleMessageAsync(data, eventType, address, null, scheduledEnqueueTimeUtc);
+            await ScheduleMessageAsync(data, eventType, address, null, null, scheduledEnqueueTimeUtc);
         }
 
         public async Task ScheduleMessageAsync<T>(T @event, string correlationId, DateTime scheduledEnqueueTimeUtc) where T : class {
             var data = JsonConvert.SerializeObject(@event);
             var eventType = @event.GetType().FullName;
             var address = Settings.Address + @event.GetType().Name;
-            await ScheduleMessageAsync(data, eventType, address, correlationId, scheduledEnqueueTimeUtc);
+            await ScheduleMessageAsync(data, eventType, address, correlationId, null, scheduledEnqueueTimeUtc);
+        }
+
+        public async Task ScheduleMessageAsync<T>(T @event, string correlationId, string messageId, DateTime scheduledEnqueueTimeUtc) where T : class {
+            var data = JsonConvert.SerializeObject(@event);
+            var eventType = @event.GetType().FullName;
+            var address = Settings.Address + @event.GetType().Name;
+            await ScheduleMessageAsync(data, eventType, address, correlationId, messageId, scheduledEnqueueTimeUtc);
         }
 
         public async Task ScheduleMessageAsync<T>(T @event, string eventType, string address, string correlationId, DateTime scheduledEnqueueTimeUtc) where T : class {
             var data = JsonConvert.SerializeObject(@event);
-            await ScheduleMessageAsync(data, eventType, address, correlationId, scheduledEnqueueTimeUtc);
+            await ScheduleMessageAsync(data, eventType, address, correlationId, null, scheduledEnqueueTimeUtc);
         }
 
         private Message CreateMessage(string eventType, string data, string correlationId, string messageId) {
