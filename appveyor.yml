@@ -35,7 +35,10 @@ build:
   verbosity: minimal
 
 build_script:
+- dotnet tool install --global dotnet-sonarscanner --version 5.0.4
+- dotnet sonarscanner begin /o:"cortside" /k:"cortside_cortside.common" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="021713ee092c1bbc3d1369bd322ca2536bef5dfa"
 - dotnet build src/Cortside.Common.sln --configuration %Configuration% /property:Version=%APPVEYOR_BUILD_VERSION%
+- dotnet sonarscanner end /d:sonar.login="021713ee092c1bbc3d1369bd322ca2536bef5dfa"
 
 after_build:
 - ps: >-
