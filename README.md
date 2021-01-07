@@ -1,3 +1,5 @@
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=cortside_cortside.common)
+
 # Cortside.Common
 
 convert json to c# classes
