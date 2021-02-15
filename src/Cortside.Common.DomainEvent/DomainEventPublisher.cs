@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Cortside.Common.DomainEvent {
+
     public class DomainEventPublisher : DomainEventComms, IDomainEventPublisher {
         public const string SCHEDULED_ENQUEUE_TIME_UTC = "x-opt-scheduled-enqueue-time";
 
@@ -46,12 +47,15 @@ namespace Cortside.Common.DomainEvent {
 
         public async Task SendAsync(string eventType, string address, string data, string correlationId, string messageId) {
             var message = CreateMessage(eventType, data, correlationId, messageId);
+            address = address + eventType;
+
             await InnerSendAsync(address, message);
         }
 
         public async Task ScheduleMessageAsync(string data, string eventType, string address, string correlationId, string messageId, DateTime scheduledEnqueueTimeUtc) {
             var message = CreateMessage(eventType, data, correlationId, messageId);
             message.MessageAnnotations[new Symbol(SCHEDULED_ENQUEUE_TIME_UTC)] = scheduledEnqueueTimeUtc;
+            address = address + eventType;
 
             await InnerSendAsync(address, message);
         }
@@ -144,4 +148,3 @@ namespace Cortside.Common.DomainEvent {
         }
     }
 }
-
