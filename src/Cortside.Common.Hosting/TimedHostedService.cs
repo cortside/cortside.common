@@ -30,6 +30,9 @@ namespace Cortside.Common.Hosting {
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken) {
+            // Prevent BackgroundService from locking before Startup.Configure()
+            await Task.Yield();
+
             if (enabled) {
                 logger.LogInformation($"{this.GetType().Name} is starting with interval of {interval} seconds");
 
