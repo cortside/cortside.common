@@ -18,15 +18,17 @@ namespace Cortside.Common.Hosting {
         private readonly int interval;
         private readonly bool enabled;
         private readonly bool generateCorrelationId;
+        private readonly int startupDelay;
 
         /// <summary>
         /// Initializes new instance of the Hosted Service
         /// </summary>
-        protected TimedHostedService(ILogger logger, bool enabled, int interval, bool generateCorrelationId = true) {
+        protected TimedHostedService(ILogger logger, bool enabled, int interval, bool generateCorrelationId = true, int startupDelay = 0) {
             this.logger = logger;
             this.interval = interval;
             this.enabled = enabled;
             this.generateCorrelationId = generateCorrelationId;
+            this.startupDelay = startupDelay;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken) {
