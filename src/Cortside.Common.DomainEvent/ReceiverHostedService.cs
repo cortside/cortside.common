@@ -9,7 +9,7 @@ namespace Cortside.Common.DomainEvent {
     /// <summary>
     /// Message receiver hosted service
     /// </summary>
-    public class ReceiverHostedService : IHostedService, IDisposable {
+    public class ReceiverHostedService : BackgroundService {
         private readonly ILogger logger;
         private readonly IServiceProvider services;
         private readonly ReceiverHostedServiceSettings settings;
@@ -24,10 +24,14 @@ namespace Cortside.Common.DomainEvent {
             this.settings = settings;
         }
 
+        public override Task StartAsync(CancellationToken ct) {
+            return base.StartAsync(ct);
+        }
+
         /// <summary>
         /// Interface method to start service
         /// </summary>
-        public async Task StartAsync(CancellationToken cancellationToken) {
+        protected async override Task ExecuteAsync(CancellationToken cancellationToken) {
             if (settings.Disabled) {
                 logger.LogInformation("Receiverhostedservice is disabled");
             } else if (settings.MessageTypes == null) {
@@ -54,7 +58,7 @@ namespace Cortside.Common.DomainEvent {
         /// <summary>
         /// Interface method to stop service
         /// </summary>
-        public Task StopAsync(CancellationToken cancellationToken) {
+        public override Task StopAsync(CancellationToken cancellationToken) {
             logger.LogInformation("Receiver Hosted Service is stopping.");
             DisposeReceiver();
             return Task.CompletedTask;
@@ -75,7 +79,7 @@ namespace Cortside.Common.DomainEvent {
         /// <summary>
         /// Dispose
         /// </summary>
-        public void Dispose() {
+        public override void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
