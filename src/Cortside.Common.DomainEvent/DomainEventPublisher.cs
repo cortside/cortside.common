@@ -11,36 +11,47 @@ namespace Cortside.Common.DomainEvent {
     public class DomainEventPublisher : DomainEventComms, IDomainEventPublisher {
         public const string SCHEDULED_ENQUEUE_TIME_UTC = "x-opt-scheduled-enqueue-time";
 
+        private readonly JsonSerializerSettings serializerSettings;
+
         public event PublisherClosedCallback Closed;
 
-        public DomainEventPublisher(ServiceBusPublisherSettings settings, ILogger<DomainEventComms> logger)
-            : base(settings, logger) { }
+        public DomainEventPublisher(ServiceBusPublisherSettings settings, ILogger<DomainEventComms> logger) : base(settings, logger) {
+            serializerSettings = settings.SerializerSettings;
+        }
 
         public DomainEventError Error { get; set; }
 
+        private string SerializeObject(object o) {
+            if (serializerSettings != null) {
+                return JsonConvert.SerializeObject(o, serializerSettings);
+            }
+
+            return JsonConvert.SerializeObject(o);
+        }
+
         public async Task SendAsync<T>(T @event) where T : class {
-            var data = JsonConvert.SerializeObject(@event);
+            var data = SerializeObject(@event);
             var eventType = @event.GetType().FullName;
             var address = Settings.Address + @event.GetType().Name;
             await SendAsync(eventType, address, data, null, null);
         }
 
         public async Task SendAsync<T>(T @event, string correlationId) where T : class {
-            var data = JsonConvert.SerializeObject(@event);
+            var data = SerializeObject(@event);
             var eventType = @event.GetType().FullName;
             var address = Settings.Address + @event.GetType().Name;
             await SendAsync(eventType, address, data, correlationId, null);
         }
 
         public async Task SendAsync<T>(T @event, string correlationId, string messageId) where T : class {
-            var data = JsonConvert.SerializeObject(@event);
+            var data = SerializeObject(@event);
             var eventType = @event.GetType().FullName;
             var address = Settings.Address + @event.GetType().Name;
             await SendAsync(eventType, address, data, correlationId, messageId);
         }
 
         public async Task SendAsync<T>(T @event, string eventType, string address, string correlationId) where T : class {
-            var data = JsonConvert.SerializeObject(@event);
+            var data = SerializeObject(@event);
             await SendAsync(eventType, address, data, correlationId, null);
         }
 
@@ -57,28 +68,28 @@ namespace Cortside.Common.DomainEvent {
         }
 
         public async Task ScheduleMessageAsync<T>(T @event, DateTime scheduledEnqueueTimeUtc) where T : class {
-            var data = JsonConvert.SerializeObject(@event);
+            var data = SerializeObject(@event);
             var eventType = @event.GetType().FullName;
             var address = Settings.Address + @event.GetType().Name;
             await ScheduleMessageAsync(data, eventType, address, null, null, scheduledEnqueueTimeUtc);
         }
 
         public async Task ScheduleMessageAsync<T>(T @event, string correlationId, DateTime scheduledEnqueueTimeUtc) where T : class {
-            var data = JsonConvert.SerializeObject(@event);
+            var data = SerializeObject(@event);
             var eventType = @event.GetType().FullName;
             var address = Settings.Address + @event.GetType().Name;
             await ScheduleMessageAsync(data, eventType, address, correlationId, null, scheduledEnqueueTimeUtc);
         }
 
         public async Task ScheduleMessageAsync<T>(T @event, string correlationId, string messageId, DateTime scheduledEnqueueTimeUtc) where T : class {
-            var data = JsonConvert.SerializeObject(@event);
+            var data = SerializeObject(@event);
             var eventType = @event.GetType().FullName;
             var address = Settings.Address + @event.GetType().Name;
             await ScheduleMessageAsync(data, eventType, address, correlationId, messageId, scheduledEnqueueTimeUtc);
         }
 
         public async Task ScheduleMessageAsync<T>(T @event, string eventType, string address, string correlationId, DateTime scheduledEnqueueTimeUtc) where T : class {
-            var data = JsonConvert.SerializeObject(@event);
+            var data = SerializeObject(@event);
             await ScheduleMessageAsync(data, eventType, address, correlationId, null, scheduledEnqueueTimeUtc);
         }
 
@@ -144,4 +155,3 @@ namespace Cortside.Common.DomainEvent {
         }
     }
 }
-
