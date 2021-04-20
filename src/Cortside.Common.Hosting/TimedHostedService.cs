@@ -30,6 +30,9 @@ namespace Cortside.Common.Hosting {
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken) {
+            // force async so that hosted service does not block Startup
+            await Task.Yield();
+
             if (enabled) {
                 logger.LogInformation($"{this.GetType().Name} is starting with interval of {interval} seconds");
 
