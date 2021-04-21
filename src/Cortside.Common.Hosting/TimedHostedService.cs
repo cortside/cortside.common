@@ -52,15 +52,16 @@ namespace Cortside.Common.Hosting {
             var correlationId = CorrelationContext.GetCorrelationId(generateCorrelationId);
             using (logger.BeginScope(new Dictionary<string, object> { ["CorrelationId"] = correlationId })) {
                 logger.LogDebug($"{this.GetType().Name} is working");
-                await semaphore.WaitAsync();
+                //await semaphore.WaitAsync();
 
                 try {
                     await ExecuteIntervalAsync().ConfigureAwait(false);
                 } catch (Exception ex) {
                     logger.LogError(ex, this.GetType().Name);
-                } finally {
-                    semaphore.Release();
                 }
+                //finally {
+                //semaphore.Release();
+                //}
             }
         }
 
