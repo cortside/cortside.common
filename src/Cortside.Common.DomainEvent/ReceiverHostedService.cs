@@ -34,6 +34,8 @@ namespace Cortside.Common.DomainEvent {
         /// Interface method to start service
         /// </summary>
         protected async override Task ExecuteAsync(CancellationToken cancellationToken) {
+            await Task.Yield();
+
             if (settings.Disabled) {
                 logger.LogInformation("Receiverhostedservice is disabled");
             } else if (settings.MessageTypes == null) {
