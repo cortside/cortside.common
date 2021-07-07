@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\appveyor.yml = ..\appveyor.yml
 		Build.ps1 = Build.ps1
 		default.build = default.build
+		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Configuration", "Cortside.Common.Configuration\Cortside.Common.Configuration.csproj", "{22684E18-2ADE-4218-BA96-307DE6F0E70D}"
@@ -43,7 +44,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Hosting", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Json", "Cortside.Common.Json\Cortside.Common.Json.csproj", "{2613552A-3A3E-4E70-B331-A2401C06D8BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortside.Common.Json.Tests", "Cortside.Common.Json.Tests\Cortside.Common.Json.Tests.csproj", "{607DF5AE-159F-4341-8E7B-7E5A3848AA74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Json.Tests", "Cortside.Common.Json.Tests\Cortside.Common.Json.Tests.csproj", "{607DF5AE-159F-4341-8E7B-7E5A3848AA74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortside.Common.Threading", "Cortside.Common.Threading\Cortside.Common.Threading.csproj", "{C1D47B6E-94AB-40EC-B748-B177EEC38E1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortside.Common.Threading.Tests", "Cortside.Common.Threading.Tests\Cortside.Common.Threading.Tests.csproj", "{68B29CC6-0742-43E1-A7B3-C9C202548BAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,6 +124,14 @@ Global
 		{607DF5AE-159F-4341-8E7B-7E5A3848AA74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{607DF5AE-159F-4341-8E7B-7E5A3848AA74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{607DF5AE-159F-4341-8E7B-7E5A3848AA74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1D47B6E-94AB-40EC-B748-B177EEC38E1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1D47B6E-94AB-40EC-B748-B177EEC38E1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1D47B6E-94AB-40EC-B748-B177EEC38E1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1D47B6E-94AB-40EC-B748-B177EEC38E1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68B29CC6-0742-43E1-A7B3-C9C202548BAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68B29CC6-0742-43E1-A7B3-C9C202548BAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68B29CC6-0742-43E1-A7B3-C9C202548BAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68B29CC6-0742-43E1-A7B3-C9C202548BAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,22 @@
 # Cortside.Common
 
-convert json to c# classes
-http://json2csharp.com
+## Cortside.Common.Threading
+Threading related classes.
+### Examples
+```
+try
+{
+    await DoStuffAsync().WithTimeout(TimeSpan.FromSeconds(5));
+}
+catch (TimeoutException)
+{
+    // Handle timeout.
+}
+```
+```
+var result = await DoStuffAsync().WithUnwrappedTimeout(TimeSpan.FromSeconds(5));
+
+```
 
 ## Cortside.Common.DomainEvents
 Classes for sending and listening to a message bus. Uses AMQPNETLITE (AMQP 1. 0 protocol).
