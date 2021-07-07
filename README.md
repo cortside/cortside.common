@@ -17,6 +17,10 @@ catch (TimeoutException)
 var result = await DoStuffAsync().WithUnwrappedTimeout(TimeSpan.FromSeconds(5));
 
 ```
+```
+var cts = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+var task = Task.Run(() => DoStuffAsync()).WithCancellation(cts.Token);
+```
 
 ## Cortside.Common.DomainEvents
 Classes for sending and listening to a message bus. Uses AMQPNETLITE (AMQP 1. 0 protocol).
