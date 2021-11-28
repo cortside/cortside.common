@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30204.135
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{335B1379-6C95-4DCE-8D89-6602C387C26D}"
 	ProjectSection(SolutionItems) = preProject
@@ -46,9 +46,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Json", "Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Json.Tests", "Cortside.Common.Json.Tests\Cortside.Common.Json.Tests.csproj", "{607DF5AE-159F-4341-8E7B-7E5A3848AA74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortside.Common.Threading", "Cortside.Common.Threading\Cortside.Common.Threading.csproj", "{C1D47B6E-94AB-40EC-B748-B177EEC38E1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Threading", "Cortside.Common.Threading\Cortside.Common.Threading.csproj", "{C1D47B6E-94AB-40EC-B748-B177EEC38E1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortside.Common.Threading.Tests", "Cortside.Common.Threading.Tests\Cortside.Common.Threading.Tests.csproj", "{68B29CC6-0742-43E1-A7B3-C9C202548BAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Threading.Tests", "Cortside.Common.Threading.Tests\Cortside.Common.Threading.Tests.csproj", "{68B29CC6-0742-43E1-A7B3-C9C202548BAE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Security", "Cortside.Common.Security\Cortside.Common.Security.csproj", "{C369A8C8-E5AF-40AA-AD2A-55396E3B5F6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortside.Common.Security.Tests", "Cortside.Common.Security.Tests\Cortside.Common.Security.Tests.csproj", "{68CD4C02-CC3B-4913-A945-10DFF9FB6F0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -132,6 +136,14 @@ Global
 		{68B29CC6-0742-43E1-A7B3-C9C202548BAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68B29CC6-0742-43E1-A7B3-C9C202548BAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68B29CC6-0742-43E1-A7B3-C9C202548BAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C369A8C8-E5AF-40AA-AD2A-55396E3B5F6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C369A8C8-E5AF-40AA-AD2A-55396E3B5F6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C369A8C8-E5AF-40AA-AD2A-55396E3B5F6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C369A8C8-E5AF-40AA-AD2A-55396E3B5F6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68CD4C02-CC3B-4913-A945-10DFF9FB6F0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68CD4C02-CC3B-4913-A945-10DFF9FB6F0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68CD4C02-CC3B-4913-A945-10DFF9FB6F0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68CD4C02-CC3B-4913-A945-10DFF9FB6F0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
