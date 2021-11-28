@@ -10,7 +10,6 @@ namespace Cortside.Common.Security {
     /// Subject principal class
     /// </summary>
     public class SubjectPrincipal : ISubjectPrincipal {
-
         private readonly List<ClaimsIdentity> identities = new List<ClaimsIdentity>();
         private SubjectPrincipal actor;
 
@@ -43,15 +42,14 @@ namespace Cortside.Common.Security {
             identities.Add(new ClaimsIdentity(claims));
         }
 
-        public string SubjectId { get => Actor?.SubjectId ?? Claims.FirstOrDefault(c => c.Type == "sub")?.Value; }
-        public string Name { get => Actor?.Name ?? FindFirst(c => c.Type == "name")?.Value; }
-        public string GivenName { get => Actor?.GivenName ?? FindFirst(c => c.Type == "given_name")?.Value; }
-        public string FamilyName { get => Actor?.FamilyName ?? FindFirst(c => c.Type == "family_name")?.Value; }
-        public string UserPrincipalName { get => Actor?.UserPrincipalName ?? FindFirst(c => c.Type == "upn")?.Value ?? FindFirst(c => c.Type == "client_id")?.Value; }
+        public string SubjectId { get => Actor != null ? Actor.SubjectId : Claims.FirstOrDefault(c => c.Type == "sub")?.Value; }
+        public string Name { get => Actor != null ? Actor.Name : FindFirst(c => c.Type == "name")?.Value; }
+        public string GivenName { get => Actor != null ? Actor.GivenName : FindFirst(c => c.Type == "given_name")?.Value; }
+        public string FamilyName { get => Actor != null ? Actor.FamilyName : FindFirst(c => c.Type == "family_name")?.Value; }
+        public string UserPrincipalName { get => Actor != null ? Actor.UserPrincipalName : FindFirst(c => c.Type == "upn")?.Value ?? FindFirst(c => c.Type == "client_id")?.Value; }
 
         public SubjectPrincipal Actor {
             get {
-
                 if (actor != null) {
                     return actor;
                 }
@@ -72,10 +70,10 @@ namespace Cortside.Common.Security {
         /// Retrieves a <see cref="IEnumerable{Claim}"/> where each claim is matched by <param name="match"/>.
         /// </summary>
         /// <param name="match">The predicate that performs the matching logic.</param>
-        /// <returns>A <see cref="IEnumerable{Claim}"/> of matched claims.</returns>  
+        /// <returns>A <see cref="IEnumerable{Claim}"/> of matched claims.</returns>
         /// <remarks>Returns claims from all Identities</remarks>
         /// SafeCritical since it access m_identities
-        public IEnumerable<Claim> Claims {
+        public IEnumerable<SubjectClaim> Claims {
             get {
                 List<Claim> claims = new List<Claim>();
 
@@ -85,7 +83,8 @@ namespace Cortside.Common.Security {
                     }
                 }
 
-                return claims.AsReadOnly().OrderBy(x => x.Type);
+                var subjectClaims = claims.Select(x => new SubjectClaim(x.Type, x.Value)).ToList();
+                return subjectClaims.AsReadOnly().OrderBy(x => x.Type);
             }
         }
 
