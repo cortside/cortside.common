@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>Cortside.Common.IoC Class Library</Description>
     <Authors>cort</Authors>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.1</TargetFrameworks>
     <AssemblyName>Cortside.Common.IoC</AssemblyName>
     <PackageId>Cortside.Common.IoC</PackageId>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
