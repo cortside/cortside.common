@@ -106,6 +106,7 @@ namespace Cortside.Common.Threading {
             }
         }
 
+        //https://stackoverflow.com/a/61066995/435290
         /// <summary>
         ///     Blocks until condition is true or task is canceled.
         /// </summary>
