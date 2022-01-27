@@ -1,39 +1,24 @@
-using System;
-using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Cortside.Common.Messages {
-    public class MessageListException : ApplicationException {
-        readonly MessageList messages = new MessageList();
+    [Serializable]
+    public class MessageListException : MessageException {
+        public List<MessageException> Messages { get; protected set; }
 
-        public MessageListException(MessageList messages) {
-            this.messages = messages == null ? new MessageList() : messages;
+        public MessageListException() : base("One or more error occurred.") {
+            Messages = new List<MessageException>();
         }
 
-        public MessageList Messages {
-            get {
-                return messages;
-            }
+        public MessageListException(params MessageException[] messages) : this(messages.ToList()) { }
+
+        public MessageListException(IEnumerable<MessageException> messages) {
+            Messages = new List<MessageException>();
+            Messages.AddRange(messages);
         }
 
-        // overrides the Message property on the base class Exception
-        public override string Message {
-            get {
-                if (messages.Count > 0) {
-                    IMessageFormatter formatter = null;
-                    //if (ClassRegistry.CanResolve(typeof(IMessageFormatter))) {
-                    //    formatter = ClassRegistry.Resolve<IMessageFormatter>();
-                    //} else {
-                    formatter = new SimpleFormatter();
-                    //}
-                    StringBuilder sb = new StringBuilder();
-                    foreach (Message m in messages) {
-                        sb.Append(formatter.Format(m) + Environment.NewLine);
-                    }
-                    return sb.ToString();
-                } else {
-                    return base.Message;
-                }
-            }
-        }
+        protected MessageListException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

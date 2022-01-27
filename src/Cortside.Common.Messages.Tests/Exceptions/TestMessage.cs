@@ -1,8 +1,8 @@
-namespace Cortside.Common.Messages {
+namespace Cortside.Common.Messages.Tests.Exceptions {
     /// <summary>
     /// Simple message for testing and to show how messages are created.
     /// </summary>
-    public class TestMessage : Message {
+    public class TestMessage : MessageException {
         private readonly string param1 = string.Empty;
         private readonly string param2 = string.Empty;
 

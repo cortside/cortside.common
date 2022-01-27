@@ -1,5 +1,5 @@
-namespace Cortside.Common.Messages {
-    public class InvalidTypeFormatError : Message {
+namespace Cortside.Common.Messages.MessageExceptions {
+    public class InvalidTypeFormatError : MessageException {
         readonly string property = null;
         readonly string value = null;
 

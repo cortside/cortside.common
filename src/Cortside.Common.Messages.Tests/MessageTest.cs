@@ -1,4 +1,6 @@
 using System;
+using Cortside.Common.Messages.Formatters;
+using Cortside.Common.Messages.Tests.Exceptions;
 using Xunit;
 
 namespace Cortside.Common.Messages.Tests {
