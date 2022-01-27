@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 
 namespace Cortside.Common.Json {
     public class IsoTimeSpanConverter : JsonConverter {
-
         /// <summary>
         /// Writes the JSON representation of the object.
         /// </summary>

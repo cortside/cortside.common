@@ -1,9 +1,7 @@
 using System;
 
 namespace Cortside.Common.Data.Exceptions {
-
     public class EntityExistsException : Exception {
-
         public EntityExistsException() {
         }
 

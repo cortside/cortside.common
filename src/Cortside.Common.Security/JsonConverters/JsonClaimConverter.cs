@@ -5,9 +5,7 @@ using Newtonsoft.Json.Linq;
 using Formatting = Newtonsoft.Json.Formatting;
 
 namespace Cortside.Common.Security.JsonConverters {
-
     public class JsonClaimConverter : JsonConverter {
-
         public override bool CanConvert(Type objectType) {
             return (objectType == typeof(Claim));
         }

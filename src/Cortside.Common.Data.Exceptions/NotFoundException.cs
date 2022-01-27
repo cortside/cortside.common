@@ -1,9 +1,7 @@
 using System;
 
 namespace Cortside.Common.Data.Exceptions {
-
     public class NotFoundException : Exception {
-
         public NotFoundException() {
         }
 

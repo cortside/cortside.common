@@ -1,5 +1,4 @@
 ﻿namespace Cortside.Common.Security {
-
     public class SubjectClaim {
         private readonly string type;
         private readonly string value;

@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Cortside.Common.BootStrap {
-
     public class BootStrapper {
         protected IList<IInstaller> installers;
 
@@ -85,6 +84,5 @@ namespace Cortside.Common.BootStrap {
             DI.SetContainer(serviceProvider);
             return serviceProvider;
         }
-
     }
 }

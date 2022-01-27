@@ -1,7 +1,6 @@
 ﻿using System;
 
 namespace Cortside.Common.Configuration {
-
     /// <summary>
     /// Summary description for IConfigurationProvider.
     /// </summary>

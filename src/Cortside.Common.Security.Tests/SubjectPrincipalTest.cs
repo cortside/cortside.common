@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using Xunit;
 
 namespace Cortside.Common.Security.Tests {
-
     public class SubjectPrincipalTest {
         private ClaimsPrincipal claimsPrincipal;
 

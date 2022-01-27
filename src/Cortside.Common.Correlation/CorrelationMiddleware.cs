@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Serilog.Context;
 
 namespace Cortside.Common.Correlation {
-
     /// <summary>
     /// Middleware to fix 2.2.x bug with HttpContextAccessor
     /// </summary>
@@ -37,7 +36,7 @@ namespace Cortside.Common.Correlation {
             }
 
             using (LogContext.PushProperty("CorrelationId", correlationId)) {
-                await _next.Invoke(context);
+                await _next.Invoke(context).ConfigureAwait(false);
             }
         }
     }
