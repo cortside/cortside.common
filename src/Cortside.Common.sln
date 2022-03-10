@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\appveyor.yml = ..\appveyor.yml
 		Build.ps1 = Build.ps1
 		default.build = default.build
+		..\NOTES.md = ..\NOTES.md
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
@@ -40,9 +41,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Messages", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Messages.Tests", "Cortside.Common.Messages.Tests\Cortside.Common.Messages.Tests.csproj", "{7D141ABA-454E-4A94-A400-026B4EA15810}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortside.Common.Cryptography", "Cortside.Common.Cryptography\Cortside.Common.Cryptography.csproj", "{90118D2B-4AF6-4D4D-A878-BE98058F94C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Cryptography", "Cortside.Common.Cryptography\Cortside.Common.Cryptography.csproj", "{90118D2B-4AF6-4D4D-A878-BE98058F94C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortside.Common.Cryptography.Tests", "Cortside.Common.Cryptography.Tests\Cortside.Common.Cryptography.Tests.csproj", "{DC381297-51A9-4E05-AC40-880F2FD33CDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Cryptography.Tests", "Cortside.Common.Cryptography.Tests\Cortside.Common.Cryptography.Tests.csproj", "{DC381297-51A9-4E05-AC40-880F2FD33CDC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortside.Common.Validation", "Cortside.Common.Validation\Cortside.Common.Validation.csproj", "{E02EF7C7-5BEB-48DA-987A-E4045CBBA9DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortside.Common.Validation.Tests", "Cortside.Common.Validation.Tests\Cortside.Common.Validation.Tests.csproj", "{492F472B-E52B-475B-B6BB-8FD260E25BCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -114,6 +119,14 @@ Global
 		{DC381297-51A9-4E05-AC40-880F2FD33CDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC381297-51A9-4E05-AC40-880F2FD33CDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC381297-51A9-4E05-AC40-880F2FD33CDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E02EF7C7-5BEB-48DA-987A-E4045CBBA9DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E02EF7C7-5BEB-48DA-987A-E4045CBBA9DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E02EF7C7-5BEB-48DA-987A-E4045CBBA9DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E02EF7C7-5BEB-48DA-987A-E4045CBBA9DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{492F472B-E52B-475B-B6BB-8FD260E25BCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{492F472B-E52B-475B-B6BB-8FD260E25BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{492F472B-E52B-475B-B6BB-8FD260E25BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{492F472B-E52B-475B-B6BB-8FD260E25BCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

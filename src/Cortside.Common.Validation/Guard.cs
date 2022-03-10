@@ -1,7 +1,12 @@
 ﻿using System;
 
-namespace Cortside.Common.Messages {
+namespace Cortside.Common.Validation {
+    public sealed class GuardClause {
+    }
+
     public static class Guard {
+        public static GuardClause From { get; } = new GuardClause();
+
         public static void Against<T>(Func<bool> check) where T : Exception, new() {
             if (check()) {
                 throw new T();

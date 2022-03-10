@@ -8,7 +8,7 @@ namespace Cortside.Common.Cryptography.Tests {
         private readonly IEncryptionService encryptionService;
 
         public EncryptionServiceTests() {
-            var secret = "*G-KaPdSgVkYp3s6v8y/B?E(H+MbQeTh";
+            const string secret = "secret";
             encryptionService = new EncryptionService(secret);
         }
 

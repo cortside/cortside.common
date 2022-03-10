@@ -4,23 +4,23 @@ using Xunit;
 
 namespace Cortside.Common.Threading.Tests {
     public class TaskExtensionsTest {
-        public async Task DoStuffAsync() {
-            await Task.Delay(TimeSpan.FromMilliseconds(200)).ConfigureAwait(false);
+        private Task DoStuffAsync() {
+            return Task.Delay(TimeSpan.FromMilliseconds(200));
         }
 
-        public async Task<bool> DoBoolStuffAsync() {
+        private async Task<bool> DoBoolStuffAsync() {
             await Task.Delay(TimeSpan.FromMilliseconds(200)).ConfigureAwait(false);
             return true;
         }
 
         [Fact]
-        public async Task ShouldThrowTimeoutException() {
-            await Assert.ThrowsAsync<TimeoutException>(() => DoStuffAsync().WithTimeout(TimeSpan.FromMilliseconds(100))).ConfigureAwait(false);
+        public Task ShouldThrowTimeoutException() {
+            return Assert.ThrowsAsync<TimeoutException>(() => DoStuffAsync().WithTimeout(TimeSpan.FromMilliseconds(100)));
         }
 
         [Fact]
-        public async Task ShouldThrowTimeoutException2() {
-            await Assert.ThrowsAsync<TimeoutException>(() => DoBoolStuffAsync().WithTimeout(TimeSpan.FromMilliseconds(100))).ConfigureAwait(false);
+        public Task ShouldThrowTimeoutException2() {
+            return Assert.ThrowsAsync<TimeoutException>(() => DoBoolStuffAsync().WithTimeout(TimeSpan.FromMilliseconds(100)));
         }
 
         [Fact]
