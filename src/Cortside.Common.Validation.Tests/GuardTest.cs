@@ -1,4 +1,6 @@
 using System;
+using Cortside.Common.Messages.MessageExceptions;
+using Cortside.Common.Messages.Models;
 using Xunit;
 
 namespace Cortside.Common.Validation.Tests {
@@ -13,6 +15,9 @@ namespace Cortside.Common.Validation.Tests {
         public void AgainstNull() {
             string s = null;
             Assert.Throws<ArgumentException>(() => Guard.From.Null(s, nameof(s), $"{nameof(s)} was null"));
+
+            ErrorModel o = null;
+            Assert.Throws<BadRequestResponseException>(() => Guard.From.Null<BadRequestResponseException>(o, "model is null"));
         }
 
         [Fact]
