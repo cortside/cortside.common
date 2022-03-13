@@ -23,3 +23,5 @@ src/packages/
 **/_Ncrunch_*/
 *.ncrunchsolution
 *.ncrunchproject
+
+nCrunchTemp*.*

@@ -29,7 +29,6 @@ namespace Cortside.Common.Json.Tests {
             var model = JsonConvert.DeserializeObject<TestModel>(json, new JsonSerializerSettings() { Converters = new List<JsonConverter>() { new IsoTimeSpanConverter() } });
             model.Duration.Should().Be(new TimeSpan(2, 14, 28, 13));
         }
-
     }
 
     internal class TestModel {

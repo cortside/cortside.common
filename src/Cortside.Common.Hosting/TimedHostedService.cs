@@ -28,7 +28,9 @@ namespace Cortside.Common.Hosting {
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken) {
             // force async so that hosted service does not block Startup
+#pragma warning disable _MissingConfigureAwait // Consider using .ConfigureAwait(false).
             await Task.Yield();
+#pragma warning restore _MissingConfigureAwait // Consider using .ConfigureAwait(false).
 
             if (enabled) {
                 logger.LogInformation($"{this.GetType().Name} is starting with interval of {interval} seconds");
@@ -37,7 +39,7 @@ namespace Cortside.Common.Hosting {
 
                 while (!stoppingToken.IsCancellationRequested) {
                     await IntervalAsync();
-                    await Task.Delay(TimeSpan.FromSeconds(interval), stoppingToken);
+                    await Task.Delay(TimeSpan.FromSeconds(interval), stoppingToken).ConfigureAwait(false);
                 }
                 logger.LogInformation($"{this.GetType().Name} is stopping");
             } else {

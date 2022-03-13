@@ -5,7 +5,6 @@ using System.Security.Claims;
 using System.Security.Principal;
 
 namespace Cortside.Common.Security {
-
     /// <summary>
     /// Subject principal class
     /// </summary>

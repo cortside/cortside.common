@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
 namespace Cortside.Common.Security {
-
     public interface ISubjectPrincipal {
         string SubjectId { get; }
 

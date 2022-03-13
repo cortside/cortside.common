@@ -4,7 +4,6 @@ using System.Threading;
 using Microsoft.AspNetCore.Http;
 
 namespace Cortside.Common.Correlation {
-
     public static class CorrelationContext {
         private static readonly AsyncLocal<string> CorrelationId = new AsyncLocal<string>();
         private static readonly AsyncLocal<string> RequestId = new AsyncLocal<string>();

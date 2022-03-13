@@ -57,7 +57,7 @@ namespace Cortside.Common.Threading {
         public static async Task WaitWhileAsync(CancellationToken ct, Func<bool> condition, int pollDelay = 25) {
             try {
                 while (condition()) {
-                    await Task.Delay(pollDelay, ct).ConfigureAwait(true);
+                    await Task.Delay(pollDelay, ct).ConfigureAwait(false);
                 }
             } catch (TaskCanceledException) {
                 // ignore: Task.Delay throws this exception when ct.IsCancellationRequested = true
@@ -94,11 +94,11 @@ namespace Cortside.Common.Threading {
             using (CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(ct)) {
                 Task waitTask = WaitWhileAsync(cts.Token, condition, pollDelay);
                 Task timeoutTask = Task.Delay(timeout, cts.Token);
-                Task finishedTask = await Task.WhenAny(waitTask, timeoutTask).ConfigureAwait(true);
+                Task finishedTask = await Task.WhenAny(waitTask, timeoutTask).ConfigureAwait(false);
 
                 if (!ct.IsCancellationRequested) {
                     cts.Cancel();                            // Cancel unfinished task
-                    await finishedTask.ConfigureAwait(true); // Propagate exceptions
+                    await finishedTask.ConfigureAwait(false); // Propagate exceptions
                     if (finishedTask == timeoutTask) {
                         throw new TimeoutException();
                     }
@@ -108,6 +108,7 @@ namespace Cortside.Common.Threading {
 
         /// <summary>
         ///     Blocks until condition is true or task is canceled.
+        ///     borrowered from https://stackoverflow.com/a/61066995/435290
         /// </summary>
         /// <param name="ct">
         ///     Cancellation token.
@@ -124,7 +125,7 @@ namespace Cortside.Common.Threading {
         public static async Task WaitUntilAsync(CancellationToken ct, Func<bool> condition, int pollDelay = 25) {
             try {
                 while (!condition()) {
-                    await Task.Delay(pollDelay, ct).ConfigureAwait(true);
+                    await Task.Delay(pollDelay, ct).ConfigureAwait(false);
                 }
             } catch (TaskCanceledException) {
                 // ignore: Task.Delay throws this exception when ct.IsCancellationRequested = true
@@ -161,11 +162,11 @@ namespace Cortside.Common.Threading {
             using (CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(ct)) {
                 Task waitTask = WaitUntilAsync(cts.Token, condition, pollDelay);
                 Task timeoutTask = Task.Delay(timeout, cts.Token);
-                Task finishedTask = await Task.WhenAny(waitTask, timeoutTask).ConfigureAwait(true);
+                Task finishedTask = await Task.WhenAny(waitTask, timeoutTask).ConfigureAwait(false);
 
                 if (!ct.IsCancellationRequested) {
                     cts.Cancel();                            // Cancel unfinished task
-                    await finishedTask.ConfigureAwait(true); // Propagate exceptions
+                    await finishedTask.ConfigureAwait(false); // Propagate exceptions
                     if (finishedTask == timeoutTask) {
                         throw new TimeoutException();
                     }
