@@ -9,7 +9,7 @@ namespace Cortside.Common.Json {
         /// <param name="writer">The <see cref="JsonWriter"/> to write to.</param>
         /// <param name="value">The value.</param>
         /// <param name="serializer">The calling serializer.</param>
-        public override void WriteJson(JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer) {
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) {
             if (value == null) {
                 writer.WriteNull();
                 return;
@@ -22,7 +22,7 @@ namespace Cortside.Common.Json {
 
             var timeSpan = (TimeSpan)value;
             if (timeSpan == TimeSpan.MaxValue) {
-                var text = "P99Y12M31DT23H59M59S";
+                const string text = "P99Y12M31DT23H59M59S";
                 writer.WriteValue(text);
             } else {
                 var totalDays = Math.Floor(timeSpan.TotalDays);
