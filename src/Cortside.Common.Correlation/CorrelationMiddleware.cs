@@ -17,23 +17,17 @@ namespace Cortside.Common.Correlation {
         }
 
         public async Task InvokeAsync(HttpContext context) {
-            //if (context.Request.Headers.ContainsKey("X-Correlation-Id")) {
-            //    context.TraceIdentifier = context.Request.Headers["X-Correlation-Id"];
-            //    // WORKAROUND: On ASP.NET Core 2.2.1 we need to re-store in AsyncLocal the new TraceId, HttpContext Pair
-            //    _httpAccessor.HttpContext = context;
-            //}
-
-            //// Call the next delegate/middleware in the pipeline
-            //await _next(context);
-
             var correlationId = CorrelationContext.SetFromHttpContext(context);
-            //TODO: need to check if it exists first
-            //context.Request.Headers.Add("Request-Id", correlationId);
 
             var a = Activity.Current;
             if (a.ParentId == null) {
                 a.SetParentId(correlationId);
             }
+
+            context.Response.OnStarting(() => {
+                context.Response.Headers.Add("X-Correlation-Id", new[] { correlationId });
+                return Task.CompletedTask;
+            });
 
             using (LogContext.PushProperty("CorrelationId", correlationId)) {
                 await _next.Invoke(context).ConfigureAwait(false);
