@@ -21,8 +21,6 @@ namespace Cortside.Common.Messages.Filters {
             MessageException exception = context.Exception as MessageException;
             if (exception == null) {
                 return;
-            } else {
-                logger.LogError($"Exception: {exception}");
             }
 
             if (exception is NotFoundResponseException) {
