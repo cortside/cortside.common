@@ -3,7 +3,5 @@ namespace Cortside.Common.Messages {
         public PropertyMessageException(string property) : base($"{property} is required.", property, $"{property} is required.") {
             Property = property;
         }
-
-        public string Property { get; }
     }
 }

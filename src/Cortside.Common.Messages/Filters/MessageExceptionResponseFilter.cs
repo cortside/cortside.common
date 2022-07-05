@@ -57,8 +57,7 @@ namespace Cortside.Common.Messages.Filters {
         public ErrorsModel GetErrorsModel(MessageException exception) {
             var errorsModel = new ErrorsModel();
 
-            if (exception is MessageListException) {
-                var parent = (MessageListException)exception;
+            if (exception is MessageListException parent) {
                 foreach (var ex in parent.Messages) {
                     errorsModel.AddError(ex);
                 }

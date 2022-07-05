@@ -5,8 +5,6 @@ namespace Cortside.Common.Messages.MessageExceptions {
             Value = value;
         }
 
-        public string Property { get; }
-
         public string Value { get; }
     }
 }
