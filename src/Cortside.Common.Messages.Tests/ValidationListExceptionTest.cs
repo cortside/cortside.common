@@ -32,10 +32,9 @@ namespace Cortside.Common.Messages.Tests {
 
             Assert.NotNull(model);
             Assert.NotEmpty(model.Errors);
-            Assert.Single(model.Errors);
-            Assert.Equal(2, model.Errors[0].Fields.Count);
+            Assert.Equal(2, model.Errors.Count);
 
-            Assert.Equal("{\"Errors\":[{\"Type\":\"ValidationListException\",\"Field\":null,\"Message\":\"Validation failed\",\"Description\":null,\"Fields\":[{\"Type\":\"MissingRequiredFieldError\",\"Field\":null,\"Message\":\"property1 is required.\",\"Description\":null,\"Fields\":[]},{\"Type\":\"InvalidTypeFormatError\",\"Field\":null,\"Message\":\"abc is not a valid value for property2.\",\"Description\":null,\"Fields\":[]}]}]}", model.ToJson());
+            Assert.Equal("{\"Errors\":[{\"Type\":\"MissingRequiredFieldError\",\"Property\":\"property1\",\"Message\":\"property1 is required.\"},{\"Type\":\"InvalidTypeFormatError\",\"Property\":\"property2\",\"Message\":\"abc is not a valid value for property2.\"}]}", model.ToJson());
         }
     }
 }

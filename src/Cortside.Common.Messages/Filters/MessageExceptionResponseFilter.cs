@@ -53,10 +53,12 @@ namespace Cortside.Common.Messages.Filters {
             var errorsModel = new ErrorsModel();
 
             if (exception is MessageListException) {
-                var ex = (MessageListException)exception;
-                errorsModel.AddError(exception.GetType().Name, exception.Field, exception.Message, exception.Description, ex.Messages);
+                var parent = (MessageListException)exception;
+                foreach (var ex in parent.Messages) {
+                    errorsModel.AddError(ex);
+                }
             } else {
-                errorsModel.AddError(exception.GetType().Name, exception.Field, exception.Message, exception.Description, null);
+                errorsModel.AddError(exception);
             }
 
             return errorsModel;

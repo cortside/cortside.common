@@ -22,22 +22,12 @@ namespace Cortside.Common.Messages.Models {
         /// </summary>
         /// <param name="type"></param>
         /// <param name="message"></param>
-        public void AddError(string type, string field, string message, string description, List<MessageException> fields) {
+        public void AddError(MessageException message) {
             var error = new ErrorModel() {
-                Type = type,
-                Field = field,
-                Message = message,
-                Description = description
+                Type = message.GetType().Name,
+                Property = message.Property,
+                Message = message.Message
             };
-
-            foreach (var f in fields ?? new List<MessageException>()) {
-                error.Fields.Add(new ErrorModel() {
-                    Type = f.GetType().Name,
-                    Field = f.Field,
-                    Message = f.Message,
-                    Description = f.Description
-                });
-            }
 
             Errors.Add(error);
         }
