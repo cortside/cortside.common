@@ -47,6 +47,7 @@ namespace Cortside.Common.Messages.Tests.Filters {
         public static IEnumerable<object[]> GetCommonMessageExceptionScenarios() {
             yield return new object[] { new NotFoundResponseException(), (Func<IActionResult, bool>)((result) => result is NotFoundObjectResult) };
             yield return new object[] { new UnprocessableEntityResponseException(), (Func<IActionResult, bool>)((result) => ((ObjectResult)result).StatusCode == StatusCodes.Status422UnprocessableEntity) };
+            yield return new object[] { new ForbiddenAccessResponseException(), (Func<IActionResult, bool>)((result) => ((ObjectResult)result).StatusCode == StatusCodes.Status403Forbidden) };
         }
 
         public static IEnumerable<object[]> GetPassThroughScenarios() {

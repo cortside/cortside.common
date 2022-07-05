@@ -42,6 +42,11 @@ namespace Cortside.Common.Messages.Filters {
                     StatusCode = StatusCodes.Status409Conflict
                 };
                 context.Result = result;
+            } else if (exception is ForbiddenAccessResponseException) {
+                var result = new ObjectResult(GetErrorsModel(exception)) {
+                    StatusCode = StatusCodes.Status403Forbidden
+                };
+                context.Result = result;
             } else {
                 return;
             }
