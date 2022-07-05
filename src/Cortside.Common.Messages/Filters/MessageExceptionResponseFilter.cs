@@ -49,9 +49,16 @@ namespace Cortside.Common.Messages.Filters {
             context.ExceptionHandled = true;
         }
 
-        private ErrorsModel GetErrorsModel(MessageException exception) {
+        public ErrorsModel GetErrorsModel(MessageException exception) {
             var errorsModel = new ErrorsModel();
-            errorsModel.AddError(exception.GetType().Name, exception.Message);
+
+            if (exception is MessageListException) {
+                var ex = (MessageListException)exception;
+                errorsModel.AddError(exception.GetType().Name, exception.Field, exception.Message, exception.Description, ex.Messages);
+            } else {
+                errorsModel.AddError(exception.GetType().Name, exception.Field, exception.Message, exception.Description, null);
+            }
+
             return errorsModel;
         }
 
