@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -18,6 +19,10 @@ namespace Cortside.Common.Messages.Models {
             Errors = modelState.Keys
                         .SelectMany(key => modelState[key].Errors.Select(x => new ErrorModel(x.Exception?.GetType()?.Name ?? "ModelStateValidation", key, x.ErrorMessage)))
                         .ToList();
+        }
+
+        public ErrorsModel(Exception ex) {
+            Errors = new List<ErrorModel>() { new ErrorModel(ex) };
         }
 
         /// <summary>

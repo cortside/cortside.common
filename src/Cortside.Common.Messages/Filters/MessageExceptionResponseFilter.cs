@@ -25,6 +25,8 @@ namespace Cortside.Common.Messages.Filters {
 
             if (exception is NotFoundResponseException) {
                 context.Result = new NotFoundObjectResult(GetErrorsModel(exception));
+            } else if (exception is ValidationListException) {
+                context.Result = new BadRequestObjectResult(GetErrorsModel(exception));
             } else if (exception is BadRequestResponseException) {
                 context.Result = new BadRequestObjectResult(GetErrorsModel(exception));
             } else if (exception is InternalServerErrorResponseException) {
