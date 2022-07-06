@@ -29,6 +29,7 @@ var task = Task.Run(() => DoStuffAsync()).WithCancellation(cts.Token);
 ```csharp
 services.AddControllers(options => {
     options.Filters.Add<MessageExceptionResponseFilter>();
+    options.Filters.Add<UnhandledExceptionFilter>();
 })
 .ConfigureApiBehaviorOptions(options => {
     options.InvalidModelStateResponseFactory = context => {
