@@ -16,11 +16,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AsyncAnalyzers" Version="1.1.7">
-      <PrivateAssets>all</PrivateAssets>
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.2.32">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Lindhart.Analyser.MissingAwaitWarning" Version="2.0.0" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />
   </ItemGroup>
 

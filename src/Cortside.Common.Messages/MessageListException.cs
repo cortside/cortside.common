@@ -12,6 +12,10 @@ namespace Cortside.Common.Messages {
             Messages = new List<MessageException>();
         }
 
+        public MessageListException(string message) : base(message) {
+            Messages = new List<MessageException>();
+        }
+
         public MessageListException(params MessageException[] messages) : this(messages.ToList()) { }
 
         public MessageListException(IEnumerable<MessageException> messages) {

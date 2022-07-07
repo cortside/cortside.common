@@ -1,4 +1,8 @@
-﻿namespace System.Threading.Tasks {
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace Cortside.Common.Threading.Tasks {
     public static class TaskExtensions {
         public static async Task WithTimeout(this Task task, TimeSpan timeout) {
             if (task == await Task.WhenAny(task, Task.Delay(timeout)).ConfigureAwait(false)) {

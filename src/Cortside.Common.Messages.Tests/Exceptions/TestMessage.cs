@@ -6,7 +6,7 @@ namespace Cortside.Common.Messages.Tests.Exceptions {
         private readonly string param1 = string.Empty;
         private readonly string param2 = string.Empty;
 
-        public TestMessage(string param1, string param2) : base("First parameter is {0}. Second parameter is {1}.", param1, param2) {
+        public TestMessage(string param1, string param2) : base("First parameter is {0}. Second parameter is {1}.", null, param1, param2) {
         }
     }
 }
