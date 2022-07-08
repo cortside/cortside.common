@@ -25,6 +25,8 @@ namespace Cortside.Common.Messages.Filters {
 
             if (exception is NotFoundResponseException) {
                 context.Result = new NotFoundObjectResult(GetErrorsModel(exception));
+            } else if (exception is ValidationListException) {
+                context.Result = new BadRequestObjectResult(GetErrorsModel(exception));
             } else if (exception is BadRequestResponseException) {
                 context.Result = new BadRequestObjectResult(GetErrorsModel(exception));
             } else if (exception is InternalServerErrorResponseException) {
@@ -54,9 +56,17 @@ namespace Cortside.Common.Messages.Filters {
             context.ExceptionHandled = true;
         }
 
-        private ErrorsModel GetErrorsModel(MessageException exception) {
+        public ErrorsModel GetErrorsModel(MessageException exception) {
             var errorsModel = new ErrorsModel();
-            errorsModel.AddError(exception.GetType().Name, exception.Message);
+
+            if (exception is MessageListException parent) {
+                foreach (var ex in parent.Messages) {
+                    errorsModel.AddError(ex);
+                }
+            } else {
+                errorsModel.AddError(exception);
+            }
+
             return errorsModel;
         }
 

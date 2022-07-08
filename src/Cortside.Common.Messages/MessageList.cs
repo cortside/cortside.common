@@ -35,5 +35,13 @@ namespace Cortside.Common.Messages {
                 throw new MessageListException(this);
             }
         }
+
+        public void ThrowIfAny<T>() where T : MessageListException, new() {
+            if (Count > 0) {
+                var ex = new T();
+                ex.Messages.AddRange(this);
+                throw ex;
+            }
+        }
     }
 }
