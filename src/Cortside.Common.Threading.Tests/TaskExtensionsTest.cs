@@ -15,48 +15,48 @@ namespace Cortside.Common.Threading.Tests {
         }
 
         [Fact]
-        public Task ShouldThrowTimeoutException() {
-            return Assert.ThrowsAsync<TimeoutException>(() => DoStuffAsync().WithTimeout(TimeSpan.FromMilliseconds(100)));
+        public Task ShouldThrowTimeoutExceptionAsync() {
+            return Assert.ThrowsAsync<TimeoutException>(() => DoStuffAsync().WithTimeoutAsync(TimeSpan.FromMilliseconds(100)));
         }
 
         [Fact]
-        public Task ShouldThrowTimeoutException2() {
-            return Assert.ThrowsAsync<TimeoutException>(() => DoBoolStuffAsync().WithTimeout(TimeSpan.FromMilliseconds(100)));
+        public Task ShouldThrowTimeoutException2Async() {
+            return Assert.ThrowsAsync<TimeoutException>(() => DoBoolStuffAsync().WithTimeoutAsync(TimeSpan.FromMilliseconds(100)));
         }
 
         [Fact]
-        public async Task ShouldNotThrowTimeoutException() {
-            await DoStuffAsync().WithTimeout(TimeSpan.FromMilliseconds(300)).ConfigureAwait(false);
+        public async Task ShouldNotThrowTimeoutExceptionAsync() {
+            await DoStuffAsync().WithTimeoutAsync(TimeSpan.FromMilliseconds(300)).ConfigureAwait(false);
             Assert.True(true);
         }
 
         [Fact]
-        public async Task ShouldNotThrowTimeoutException2() {
-            await DoBoolStuffAsync().WithTimeout(TimeSpan.FromMilliseconds(300)).ConfigureAwait(false);
+        public async Task ShouldNotThrowTimeoutException2Async() {
+            await DoBoolStuffAsync().WithTimeoutAsync(TimeSpan.FromMilliseconds(300)).ConfigureAwait(false);
             Assert.True(true);
         }
 
         [Fact]
-        public async Task ShouldThrowTimeoutException3() {
-            await DoStuffAsync().WithUnwrappedTimeout(TimeSpan.FromMilliseconds(100)).ConfigureAwait(false);
+        public async Task ShouldThrowTimeoutException3Async() {
+            await DoStuffAsync().WithUnwrappedTimeoutAsync(TimeSpan.FromMilliseconds(100)).ConfigureAwait(false);
             Assert.True(true);
         }
 
         [Fact]
-        public async Task ShouldNotThrowTimeoutException3() {
-            await DoStuffAsync().WithUnwrappedTimeout(TimeSpan.FromMilliseconds(300)).ConfigureAwait(false);
+        public async Task ShouldNotThrowTimeoutException3Async() {
+            await DoStuffAsync().WithUnwrappedTimeoutAsync(TimeSpan.FromMilliseconds(300)).ConfigureAwait(false);
             Assert.True(true);
         }
 
         [Fact]
-        public async Task ShouldUnwrapTimeout() {
-            var b = await DoBoolStuffAsync().WithUnwrappedTimeout(TimeSpan.FromMilliseconds(100)).ConfigureAwait(false);
+        public async Task ShouldUnwrapTimeoutAsync() {
+            var b = await DoBoolStuffAsync().WithUnwrappedTimeoutAsync(TimeSpan.FromMilliseconds(100)).ConfigureAwait(false);
             Assert.False(b);
         }
 
         [Fact]
-        public async Task ShouldUnwrapBoolStuff() {
-            var b = await DoBoolStuffAsync().WithUnwrappedTimeout(TimeSpan.FromMilliseconds(300)).ConfigureAwait(false);
+        public async Task ShouldUnwrapBoolStuffAsync() {
+            var b = await DoBoolStuffAsync().WithUnwrappedTimeoutAsync(TimeSpan.FromMilliseconds(300)).ConfigureAwait(false);
             Assert.True(b);
         }
     }

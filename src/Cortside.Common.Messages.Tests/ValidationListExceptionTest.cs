@@ -16,7 +16,7 @@ namespace Cortside.Common.Messages.Tests {
             }
             MessageListException ex = new MessageListException(messages);
             string errorMessage = ex.Message;
-            Assert.NotEqual(errorMessage, boringOldErrorMessage);
+            Assert.NotEqual(boringOldErrorMessage, errorMessage);
         }
 
         [Fact]

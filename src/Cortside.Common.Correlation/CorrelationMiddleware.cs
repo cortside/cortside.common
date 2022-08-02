@@ -5,7 +5,8 @@ using Serilog.Context;
 
 namespace Cortside.Common.Correlation {
     /// <summary>
-    /// Middleware to fix 2.2.x bug with HttpContextAccessor
+    /// Middleware to fix 2.2.x bug with HttpContextAccessor.
+    /// This class should be the first thing at the top of the Configure method to ensure that it's around everything
     /// </summary>
     public class CorrelationMiddleware {
         private readonly RequestDelegate _next;
@@ -20,7 +21,7 @@ namespace Cortside.Common.Correlation {
             var correlationId = CorrelationContext.SetFromHttpContext(context);
 
             var a = Activity.Current;
-            if (a.ParentId == null) {
+            if (a != null && a.ParentId == null) {
                 a.SetParentId(correlationId);
             }
 
