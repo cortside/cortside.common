@@ -5,6 +5,11 @@
             Value = value;
         }
 
+        public InvalidValueError(string property, string value, string message) : base(message, property, null) {
+            Property = property;
+            Value = value;
+        }
+
         public string Value { get; }
     }
 }
