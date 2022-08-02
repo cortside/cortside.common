@@ -35,7 +35,7 @@ namespace Cortside.Common.Messages.Tests {
             }
             MessageListException ex = new MessageListException(messages);
             string errorMessage = ex.Message;
-            Assert.NotEqual(errorMessage, boringOldErrorMessage); // this is the undescriptive error message if we do not override it
+            Assert.NotEqual(boringOldErrorMessage, errorMessage); // this is the undescriptive error message if we do not override it
         }
     }
 }
