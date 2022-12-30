@@ -135,13 +135,13 @@
 | 6cd3fdc | <span style="white-space:nowrap;">2018-01-15</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  reformatting; test develop branch build
 | 420a197 | <span style="white-space:nowrap;">2018-02-15</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add a bootstrapper overload to init with an IConfigurationRoot for when it's already built
 | 2a49a7c | <span style="white-space:nowrap;">2018-02-15</span> | <span style="white-space:nowrap;">cYCL157</span> |  Merge pull request #1 from cortside/develop
-| 85fd4d2 | <span style="white-space:nowrap;">2018-02-23</span> | <span style="white-space:nowrap;">ENERBANK\jnielsen</span> |  Add callback for fault tolerance Add setting for Durable queues
+| 85fd4d2 | <span style="white-space:nowrap;">2018-02-23</span> | <span style="white-space:nowrap;">jnielsen</span> |  Add callback for fault tolerance Add setting for Durable queues
 | 9e772d0 | <span style="white-space:nowrap;">2018-02-26</span> | <span style="white-space:nowrap;">cYCL157</span> |  Merge pull request #2 from nielsenjeff/develop
-| 919c09e | <span style="white-space:nowrap;">2018-02-26</span> | <span style="white-space:nowrap;">ENERBANK\jnielsen</span> |  add callback to publisher
-| 9a68024 | <span style="white-space:nowrap;">2018-03-02</span> | <span style="white-space:nowrap;">ENERBANK\jnielsen</span> |  update nuget packages add callback to domain event publisher expand comments on domain event settings
-| 6c13072 | <span style="white-space:nowrap;">2018-03-22</span> | <span style="white-space:nowrap;">ENERBANK\jnielsen</span> |  Add more detail to readme for azure configuration.
-| d2e82ff | <span style="white-space:nowrap;">2018-03-22</span> | <span style="white-space:nowrap;">ENERBANK\jnielsen</span> |  skip unit test
-| 1ab6787 | <span style="white-space:nowrap;">2018-03-22</span> | <span style="white-space:nowrap;">ENERBANK\jnielsen</span> |  fix extra brace in config.json
+| 919c09e | <span style="white-space:nowrap;">2018-02-26</span> | <span style="white-space:nowrap;">jnielsen</span> |  add callback to publisher
+| 9a68024 | <span style="white-space:nowrap;">2018-03-02</span> | <span style="white-space:nowrap;">jnielsen</span> |  update nuget packages add callback to domain event publisher expand comments on domain event settings
+| 6c13072 | <span style="white-space:nowrap;">2018-03-22</span> | <span style="white-space:nowrap;">jnielsen</span> |  Add more detail to readme for azure configuration.
+| d2e82ff | <span style="white-space:nowrap;">2018-03-22</span> | <span style="white-space:nowrap;">jnielsen</span> |  skip unit test
+| 1ab6787 | <span style="white-space:nowrap;">2018-03-22</span> | <span style="white-space:nowrap;">jnielsen</span> |  fix extra brace in config.json
 | 05212ab | <span style="white-space:nowrap;">2018-03-27</span> | <span style="white-space:nowrap;">cYCL157</span> |  Merge pull request #4 from nielsenjeff/develop
 | 65b3c0b | <span style="white-space:nowrap;">2018-12-06</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add some additional logging for troubleshooting
 | bdcdd62 | <span style="white-space:nowrap;">2018-12-06</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update nuget packages to latest versions; remove logging of message body
@@ -245,7 +245,7 @@
 | 28a44e6 | <span style="white-space:nowrap;">2022-01-06</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  remove commented out config
 | 9a0040c | <span style="white-space:nowrap;">2022-01-26</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'develop' of github.com:cortside/cortside.common into develop
 | 928e4f5 | <span style="white-space:nowrap;">2022-01-26</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  fork spring2.core.message
-| 7a03fee | <span style="white-space:nowrap;">2022-01-26</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  merge in changes from EnerBank
+| 7a03fee | <span style="white-space:nowrap;">2022-01-26</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  merge in changes
 | e888e85 | <span style="white-space:nowrap;">2022-02-09</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add tests for message filter
 | 8aeaa6d | <span style="white-space:nowrap;">2022-02-09</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add tests for message filter
 | a2e529b | <span style="white-space:nowrap;">2022-03-09</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add aes based encryption class that handles serialized objects and strings
