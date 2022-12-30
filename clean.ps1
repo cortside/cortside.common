@@ -1,36 +1,48 @@
+[cmdletBinding()]
+param(
+	[switch]$quiet
+)
+
 Function remove {
     param([string]$item)
     If (Test-Path $item){
-        Write-Host "Removing $item"
+		if (-not $quiet.IsPresent) {
+			Write-Host "Removing $item"
+		}
         Remove-Item $item -Force -Recurse
     }
 }
 
 Function Invoke-Cleanup {
-        Write-Host "---------------------"
-        Write-Host "Invoke-Cleanup"
-        Write-Host "---------------------"
-        # clean package, bin and obj folders
-        Get-ChildItem .\ -include packages,bin,obj,node_modules -Recurse | Where-Object {$_.FullName -NotMatch "BuildScripts"} | foreach ($_) { Write-Host "Removing " + $_.fullname; remove-item $_.fullname -Force -Recurse }
+	if (-not $quiet.IsPresent) {
+		Write-Host "---------------------"
+		Write-Host "Invoke-Cleanup"
+		Write-Host "---------------------"
+	}
 
-        #Find nunit files
-        Get-ChildItem -include *.nunit -Recurse |
-        ForEach-Object{
-                Write-Host $_
+	# clean package, bin and obj folders
+	Get-ChildItem .\ -include packages,bin,obj,node_modules -Recurse | Where-Object {$_.FullName -NotMatch "BuildScripts"} | foreach ($_) { Write-Host "Removing " + $_.fullname; remove-item $_.fullname -Force -Recurse }
 
-                $results = $_.BaseName + ".xml"
-                If (Test-Path $results){
-                        Write-Host "Removing $results"
-                        Remove-Item $results
-                }
-        }
+	#Find nunit files
+	Get-ChildItem -include *.nunit -Recurse |
+	ForEach-Object{
+		if (-not $quiet.IsPresent) {
+			Write-Host $_
+		}
 
-        remove "TestResults"
-        remove "OpenCover"
-        remove "Publish"
-        remove "TestBin"
+		$results = $_.BaseName + ".xml"
+		If (Test-Path $results){
+				if (-not $quiet.IsPresent) {
+					Write-Host "Removing $results"
+				}
+				Remove-Item $results
+		}
+	}
 
-        #return $true
+	remove "TestResults"
+	remove "OpenCover"
+	remove "Publish"
+	remove "TestBin"
 }
 
 # stop extraneous processes
