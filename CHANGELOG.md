@@ -1,5 +1,20 @@
-# Release 1.1
+# Release 1.2
 
+|Commit|Date|Author|Message|
+|---|---|---|---|
+| 445749c | <span style="white-space:nowrap;">2022-08-01</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  [correlationtests] add tests to assert correlationId works; add async suffix to async methods
+| c5c9aa6 | <span style="white-space:nowrap;">2022-08-01</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'develop' into correlationtests
+| d599421 | <span style="white-space:nowrap;">2022-08-01</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'develop' into correlationtests
+| cf68bbd | <span style="white-space:nowrap;">2022-08-01</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'develop' into correlationtests
+| 72826d6 | <span style="white-space:nowrap;">2022-08-02</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge pull request #47 from cortside/correlationtests
+| 74e47a7 | <span style="white-space:nowrap;">2022-12-21</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update nuget api key
+| 9a25b58 | <span style="white-space:nowrap;">2022-12-29</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  [feature/BOT-20221229] updated nuget packages
+| 19ce7e8 | <span style="white-space:nowrap;">2022-12-29</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  (origin/feature/BOT-20221229, feature/BOT-20221229) update build and helper scripts
+| 3e71e1b | <span style="white-space:nowrap;">2022-12-29</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge pull request #49 from cortside/feature/BOT-20221229
+| b2709a3 | <span style="white-space:nowrap;">2022-12-29</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  (HEAD -> release/1.2, origin/develop, origin/HEAD, develop) initial changelog
+****
+
+# Release 1.1
 |Commit|Date|Author|Message|
 |---|---|---|---|
 | 73eec9b | <span style="white-space:nowrap;">2013-01-23</span> | <span style="white-space:nowrap;">cort@Pahia.spring2tech.com</span> |  move from SVN
