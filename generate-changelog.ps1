@@ -8,7 +8,6 @@ Param
 
 $commits = (git --no-pager log --pretty=format:'| %h | <span style="white-space:nowrap;">%ad</span> | <span style="white-space:nowrap;">%aN</span> | %d %s' --date=short master.. --reverse)
 
-#$contents = Get-Content CHANGELOG.md -raw
 $contents = ((Get-Content CHANGELOG.md -Raw) -replace "(?m)^\s*`r`n",'').trim()
 
 "# Release $version" | Out-File CHANGELOG.md -Encoding utf8 # no append so that file is rewritten

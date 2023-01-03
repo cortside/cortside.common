@@ -1,0 +1,133 @@
+# After committing the .gitattributes file, your changes won’t take effect immediately for files checked into 
+# Git prior to the addition of .gitattributes. To force an update, you can use the following command
+# git add --renormalize .
+
+# If you want to verify that the files in your repo are using the correct line endings after all of these steps, you can 
+# run the following command:
+# git ls-files --eol
+
+###############################
+# Git Line Endings            #
+###############################
+
+# Set default behaviour to automatically normalize line endings.
+* text=auto
+
+# Force batch scripts to always use CRLF line endings so that if a repo is accessed
+# in Windows via a file share from Linux, the scripts will work.
+*.{cmd,[cC][mM][dD]} text eol=crlf
+*.{bat,[bB][aA][tT]} text eol=crlf
+
+# Force bash scripts to always use LF line endings so that if a repo is accessed
+# in Unix via a file share from Windows, the scripts will work.
+*.sh text eol=lf
+
+###############################
+# Git Large File System (LFS) #
+###############################
+
+# Archives
+*.7z filter=lfs diff=lfs merge=lfs -text
+*.br filter=lfs diff=lfs merge=lfs -text
+*.gz filter=lfs diff=lfs merge=lfs -text
+*.tar filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+
+# Documents
+*.pdf filter=lfs diff=lfs merge=lfs -text
+
+# Images
+*.gif filter=lfs diff=lfs merge=lfs -text
+*.ico filter=lfs diff=lfs merge=lfs -text
+*.jpg filter=lfs diff=lfs merge=lfs -text
+*.pdf filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+*.psd filter=lfs diff=lfs merge=lfs -text
+*.webp filter=lfs diff=lfs merge=lfs -text
+
+# Fonts
+*.woff2 filter=lfs diff=lfs merge=lfs -text
+
+# Other
+*.exe filter=lfs diff=lfs merge=lfs -text
+
+# Standard to msysgit
+*.doc	 diff=astextplain
+*.DOC	 diff=astextplain
+*.docx diff=astextplain
+*.DOCX diff=astextplain
+*.dot  diff=astextplain
+*.DOT  diff=astextplain
+*.pdf  diff=astextplain
+*.PDF	 diff=astextplain
+*.rtf	 diff=astextplain
+*.RTF	 diff=astextplain
+
+*.md         text
+*.sql        text
+*.ps1        text
+
+
+###############################################################################
+# Set default behavior to automatically normalize line endings.
+###############################################################################
+*            text=auto
+
+###############################################################################
+# Set the merge driver for project and solution files
+#
+# Merging from the command prompt will add diff markers to the files if there
+# are conflicts (Merging from VS is not affected by the settings below, in VS
+# the diff markers are never inserted). Diff markers may cause the following
+# file extensions to fail to load in VS. An alternative would be to treat
+# these files as binary and thus will always conflict and require user
+# intervention with every merge. To do so, just comment the entries below and
+# uncomment the group further below
+###############################################################################
+*.cs      text diff=csharp
+*.*proj   text
+*.sln     text
+*.html    text diff=html
+*.cshtml  text diff=html
+*.css     text
+*.less    text
+*.js      text
+*.config  text
+*.targets text
+*.aspx    text
+*.asax    text
+*.xml     text
+*.xaml    text
+*.txt     text
+*.sql     text
+*.cmd     text
+*.md      text
+*.tt      text
+*.ps1     text
+*.py      text
+*.yaml    text
+*.yml     text
+*.rst     text
+*.conf    eol=lf
+
+# Docker
+*.dockerignore    text
+Dockerfile        text
+
+*.sln        text eol=crlf
+*.csproj     text eol=crlf
+*.vbproj     text eol=crlf
+*.vcxproj    text eol=crlf
+*.vcproj     text eol=crlf
+*.dbproj     text eol=crlf
+*.fsproj     text eol=crlf
+*.lsproj     text eol=crlf
+*.wixproj    text eol=crlf
+*.modelproj  text eol=crlf
+*.sqlproj    text eol=crlf
+*.wmaproj    text eol=crlf
+
+*.xproj      text eol=crlf
+*.props      text eol=crlf
+*.filters    text eol=crlf
+*.vcxitems   text eol=crlf

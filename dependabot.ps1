@@ -47,14 +47,6 @@ git status
 Invoke-Exe git -args "checkout develop"
 Invoke-Exe git -args "pull"
 
-cp C:\work\clean\cortside\cortside.templates\templates\api-editorconfig\src\.editorconfig .\src\.editorconfig
-cp C:\work\clean\cortside\cortside.templates\templates\api\clean.ps1
-cp C:\work\clean\cortside\cortside.templates\templates\api\update-nugetpackages.ps1
-
-if (Test-Path -path "cleanup.ps1") {
-	rm cleanup.ps1
-}
-
 echo "prepping"
 
 .\clean.ps1 -quiet
@@ -90,11 +82,6 @@ if ($files -ne "0") {
 	}
 
 	git add *.csproj
-	git add clea*.ps1 
-	git add update-nugetpackages.ps1 
-	git add dependabot.ps1
-	git add git-pruneremote.ps1
-	git add ./src/.editorconfig
 	git status
 	git checkout -b $branch
 	if ($package -eq "") { 
