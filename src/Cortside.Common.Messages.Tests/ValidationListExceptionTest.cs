@@ -10,7 +10,6 @@ namespace Cortside.Common.Messages.Tests {
         [Fact]
         public void HasMessageOfType() {
             // arrange
-            const string boringOldErrorMessage = "Error in the application.";
             MessageList messages = new MessageList();
             messages.Add(new TestMessage("Param1", "Param2"));
             messages.Add(new NotFoundResponseException());
