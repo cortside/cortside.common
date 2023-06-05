@@ -8,6 +8,24 @@ using Xunit;
 namespace Cortside.Common.Messages.Tests {
     public class ValidationListExceptionTest {
         [Fact]
+        public void HasMessageOfType() {
+            // arrange
+            const string boringOldErrorMessage = "Error in the application.";
+            MessageList messages = new MessageList();
+            messages.Add(new TestMessage("Param1", "Param2"));
+            messages.Add(new NotFoundResponseException());
+
+            // act
+            MessageListException ex = new MessageListException(messages);
+
+            // assert
+            Assert.True(ex.HasMessageOfType<TestMessage>());
+            Assert.True(ex.HasMessageOfType<NotFoundResponseException>());
+            Assert.False(ex.HasMessageOfType<InvalidTypeFormatError>());
+        }
+
+
+        [Fact]
         public void ValidationListExceptionString() {
             const string boringOldErrorMessage = "Error in the application.";
             MessageList messages = new MessageList();
