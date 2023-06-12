@@ -238,3 +238,6 @@ dotnet_diagnostic.VC0000.severity = none
 
 # RCS1021: Convert lambda expression body to expression body.
 dotnet_diagnostic.RCS1021.severity = none
+
+# PH_P013: Discouraged EntityFramework Method
+dotnet_diagnostic.PH_P013.severity = none
