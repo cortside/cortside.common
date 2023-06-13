@@ -18,41 +18,44 @@ namespace Cortside.Common.Messages.Filters {
         }
 
         public void OnActionExecuted(ActionExecutedContext context) {
-            MessageException exception = context.Exception as MessageException;
-            if (exception == null) {
+            if (!(context.Exception is MessageException exception)) {
                 return;
             }
 
-            if (exception is NotFoundResponseException) {
-                context.Result = new NotFoundObjectResult(GetErrorsModel(exception));
-            } else if (exception is ValidationListException) {
-                context.Result = new BadRequestObjectResult(GetErrorsModel(exception));
-            } else if (exception is BadRequestResponseException) {
-                context.Result = new BadRequestObjectResult(GetErrorsModel(exception));
-            } else if (exception is InternalServerErrorResponseException) {
-                var result = new ObjectResult(GetErrorsModel(exception)) {
-                    StatusCode = StatusCodes.Status500InternalServerError
-                };
-                context.Result = result;
-            } else if (exception is UnprocessableEntityResponseException) {
-                var result = new ObjectResult(GetErrorsModel(exception)) {
-                    StatusCode = StatusCodes.Status422UnprocessableEntity
-                };
-                context.Result = result;
-            } else if (exception is ConflictResponseException) {
-                var result = new ObjectResult(GetErrorsModel(exception)) {
-                    StatusCode = StatusCodes.Status409Conflict
-                };
-                context.Result = result;
-            } else if (exception is ForbiddenAccessResponseException) {
-                var result = new ObjectResult(GetErrorsModel(exception)) {
-                    StatusCode = StatusCodes.Status403Forbidden
-                };
-                context.Result = result;
-            } else {
-                return;
+            switch (exception) {
+                case NotFoundResponseException _:
+                    context.Result = new NotFoundObjectResult(GetErrorsModel(exception));
+                    break;
+                case ValidationListException _:
+                case BadRequestResponseException _:
+                    context.Result = new BadRequestObjectResult(GetErrorsModel(exception));
+                    break;
+                case InternalServerErrorResponseException _:
+                    context.Result = new ObjectResult(GetErrorsModel(exception)) {
+                        StatusCode = StatusCodes.Status500InternalServerError
+                    };
+                    break;
+                case UnprocessableEntityResponseException _:
+                    context.Result = new ObjectResult(GetErrorsModel(exception)) {
+                        StatusCode = StatusCodes.Status422UnprocessableEntity
+                    };
+                    break;
+                case ConflictResponseException _:
+                    context.Result = new ObjectResult(GetErrorsModel(exception)) {
+                        StatusCode = StatusCodes.Status409Conflict
+                    };
+                    break;
+                case ForbiddenAccessResponseException _:
+                    context.Result = new ObjectResult(GetErrorsModel(exception)) {
+                        StatusCode = StatusCodes.Status403Forbidden
+                    };
+                    break;
+                default:
+                    return;
             }
 
+            var result = context.Result as ObjectResult;
+            logger.LogDebug("Handled exception of type {Type}, returning status code of {StatusCode}", exception.GetType(), result?.StatusCode);
             context.ExceptionHandled = true;
         }
 

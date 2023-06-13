@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Cortside.Common.Messages;
 
 namespace Cortside.Common.Messages.MessageExceptions {
     [Serializable]

@@ -10,9 +10,10 @@ namespace Cortside.Common.Messages.Tests {
         [Fact]
         public void HasMessageOfType() {
             // arrange
-            MessageList messages = new MessageList();
-            messages.Add(new TestMessage("Param1", "Param2"));
-            messages.Add(new NotFoundResponseException());
+            MessageList messages = new MessageList {
+                new TestMessage("Param1", "Param2"),
+                new NotFoundResponseException()
+            };
 
             // act
             MessageListException ex = new MessageListException(messages);
@@ -22,7 +23,6 @@ namespace Cortside.Common.Messages.Tests {
             Assert.True(ex.HasMessageOfType<NotFoundResponseException>());
             Assert.False(ex.HasMessageOfType<InvalidTypeFormatError>());
         }
-
 
         [Fact]
         public void ValidationListExceptionString() {
