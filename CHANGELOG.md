@@ -1,5 +1,32 @@
-# Release 1.2
+# Release 1.3
 
+|Commit|Date|Author|Message|
+|---|---|---|---|
+| fa86848 | <span style="white-space:nowrap;">2022-12-29</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update version
+| 0800b0e | <span style="white-space:nowrap;">2022-12-30</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'release/1.2' into develop
+| b864ad3 | <span style="white-space:nowrap;">2023-01-02</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'master' into develop
+| 2e93192 | <span style="white-space:nowrap;">2023-01-02</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'master' into develop
+| 2eac9c0 | <span style="white-space:nowrap;">2023-01-03</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  minor cleanup
+| 7622185 | <span style="white-space:nowrap;">2023-01-03</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  minor cleanup
+| f71b825 | <span style="white-space:nowrap;">2023-01-03</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  merge from master
+| 442455c | <span style="white-space:nowrap;">2023-01-03</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  (origin/release/1.2) Merge branch 'master' into release/1.2
+| 813dc7f | <span style="white-space:nowrap;">2023-01-03</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'release/1.2' into develop
+| 30dd98d | <span style="white-space:nowrap;">2023-01-04</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'master' into develop
+| 1c97007 | <span style="white-space:nowrap;">2023-01-04</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'master' into release/1.2
+| 92ec10e | <span style="white-space:nowrap;">2023-01-04</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'release/1.2' into develop
+| 88090e9 | <span style="white-space:nowrap;">2023-06-05</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add helper method to MessageListException for inspecting message types
+| b685b7b | <span style="white-space:nowrap;">2023-06-05</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  cleanup of lint warnings
+| 44297e8 | <span style="white-space:nowrap;">2023-06-12</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Create dotnet.yml
+| e013a6a | <span style="white-space:nowrap;">2023-06-12</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Update dotnet.yml
+| 09ede25 | <span style="white-space:nowrap;">2023-06-12</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Update dotnet.yml
+| 6df25f6 | <span style="white-space:nowrap;">2023-06-12</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Create codeql.yml
+| 6fe59bd | <span style="white-space:nowrap;">2023-06-12</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Update codeql.yml
+| ceb5423 | <span style="white-space:nowrap;">2023-06-12</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Create codeql-config.yml
+| 335efc3 | <span style="white-space:nowrap;">2023-06-12</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update from template
+| df0df6a | <span style="white-space:nowrap;">2023-06-12</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  (HEAD -> release/1.3, origin/develop, origin/HEAD, develop) update from template
+****
+
+# Release 1.2
 |Commit|Date|Author|Message|
 |---|---|---|---|
 | 445749c | <span style="white-space:nowrap;">2022-08-01</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  [correlationtests] add tests to assert correlationId works; add async suffix to async methods
@@ -13,7 +40,6 @@
 | 3e71e1b | <span style="white-space:nowrap;">2022-12-29</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge pull request #49 from cortside/feature/BOT-20221229
 | b2709a3 | <span style="white-space:nowrap;">2022-12-29</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  (HEAD -> release/1.2, origin/develop, origin/HEAD, develop) initial changelog
 ****
-
 # Release 1.1
 |Commit|Date|Author|Message|
 |---|---|---|---|

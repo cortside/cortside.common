@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -60,12 +61,9 @@ namespace Cortside.Common.Correlation.Tests {
                    app.UseMiddleware<CorrelationMiddleware>();
                    app.UseExceptionHandler(error => error.Run(_ => Task.CompletedTask));
 
-                   app.Use(async (ctx, next) => {
-                       // trigger exception
-                       var z = 0;
-                       var _ = 1 / z;
-
-                       await next.Invoke();
+                   _ = app.Use(async (_, __) => {
+                       await Task.Delay(1);
+                       throw new Exception();
                    });
                })
                .ConfigureServices(services => {

@@ -24,5 +24,18 @@ namespace Cortside.Common.Messages {
         }
 
         protected MessageListException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+        protected MessageListException(string key, string property, params object[] properties) : base(key, property, properties) {
+        }
+
+        protected MessageListException(string message, string property) : base(message, property) {
+        }
+
+        protected MessageListException(string message, Exception innerException) : base(message, innerException) {
+        }
+
+        public bool HasMessageOfType<T>() {
+            return Messages.Any(m => m is T);
+        }
     }
 }

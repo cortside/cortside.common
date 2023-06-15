@@ -35,7 +35,7 @@ Function Invoke-Exe {
 }
 
 Function Get-Version {
-	if (Test-Path 'appveyor.yml') {
+	if ((Test-Path 'appveyor.yml') -and !(Test-Path 'repository.json')) {
 		Get-Content appveyor.yml | ForEach-Object { 
 			# version: 1.0.{build}
 			if ($_ -like 'version: *') {
@@ -47,13 +47,13 @@ Function Get-Version {
 			}
 		}	
 	} else {
-		$a = Get-Content './src/version.json' -raw | ConvertFrom-Json
+		$a = Get-Content './repository.json' -raw | ConvertFrom-Json
 		return $a.version
 	}
 }
 
 Function Update-Version {
-	if (Test-Path 'appveyor.yml') {
+	if ((Test-Path 'appveyor.yml') -and !(Test-Path 'repository.json')) {
 		$contents = Get-Content appveyor.yml 
 		$contents | ForEach-Object {
 			# version: 1.0.{build}
@@ -74,7 +74,7 @@ Function Update-Version {
 		
 		git commit -m "update version" appveyor.yml
 	} else {
-		$a = Get-Content './src/version.json' -raw | ConvertFrom-Json
+		$a = Get-Content './repository.json' -raw | ConvertFrom-Json
 		$version = [version] $a.version
 		$versionStringIncremented =  [string] [version]::new(
 		  $version.Major,
@@ -82,9 +82,9 @@ Function Update-Version {
 		)
 		$a.version = $versionStringIncremented
 
-		$a | ConvertTo-Json -depth 32| set-content './src/version.json'
+		$a | ConvertTo-Json -depth 32| set-content './repository.json'
 		
-		git commit -m "update version" ./src/version.json
+		git commit -m "update version" ./repository.json
 	}
 }
 
