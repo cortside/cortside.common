@@ -1,4 +1,8 @@
-﻿using System;
+﻿#pragma warning disable VSTHRD003 // Avoid awaiting or returning a Task representing work that was not started within your context as that can lead to deadlocks.
+// Start the work within this context, or use JoinableTaskFactory.RunAsync to start the task and await the returned JoinableTask instead.
+#pragma warning disable VSTHRD105 // Avoid method overloads that assume TaskScheduler.Current. Use an overload that accepts a TaskScheduler and specify TaskScheduler.Default (or any other) explicitly
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,7 +35,7 @@ namespace Cortside.Common.Threading.Tasks {
         public static async Task<T> WithCancellationAsync<T>(this Task<T> task, CancellationToken cancellationToken) {
             var cancellationCompletionSource = new TaskCompletionSource<bool>();
 
-            using (cancellationToken.Register(() => cancellationCompletionSource.TrySetResult(true))) {
+            await using (cancellationToken.Register(() => cancellationCompletionSource.TrySetResult(true))) {
                 if (task != await Task.WhenAny(task, cancellationCompletionSource.Task).ConfigureAwait(false)) {
                     throw new OperationCanceledException(cancellationToken);
                 }

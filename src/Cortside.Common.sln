@@ -49,7 +49,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Validation"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Validation.Tests", "Cortside.Common.Validation.Tests\Cortside.Common.Validation.Tests.csproj", "{492F472B-E52B-475B-B6BB-8FD260E25BCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortside.Common.Correlation.Tests", "Cortside.Common.Correlation.Tests\Cortside.Common.Correlation.Tests.csproj", "{AA8EC366-CFA0-470D-BDBE-FD391E3E1DD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Correlation.Tests", "Cortside.Common.Correlation.Tests\Cortside.Common.Correlation.Tests.csproj", "{AA8EC366-CFA0-470D-BDBE-FD391E3E1DD1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

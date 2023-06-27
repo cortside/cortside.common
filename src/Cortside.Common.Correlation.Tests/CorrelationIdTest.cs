@@ -61,9 +61,12 @@ namespace Cortside.Common.Correlation.Tests {
                    app.UseMiddleware<CorrelationMiddleware>();
                    app.UseExceptionHandler(error => error.Run(_ => Task.CompletedTask));
 
-                   _ = app.Use(async (_, __) => {
-                       await Task.Delay(1);
-                       throw new Exception();
+                   _ = app.Use((context, next) => {
+                       if (DateTime.Now.Day > 0) {
+                           throw new Exception();
+                       }
+
+                       return next(context);
                    });
                })
                .ConfigureServices(services => {

@@ -4,12 +4,8 @@ using Microsoft.Extensions.Configuration;
 namespace Cortside.Common.IoC {
     public static class DI {
         private static IServiceProvider privateContainer;
-        private static object lockObject;
-        private static IConfigurationRoot configuration;
-
-        static DI() {
-            lockObject = new object();
-        }
+        private static readonly object lockObject = new object();
+        private static IConfiguration configuration;
 
         public static void SetContainer(IServiceProvider container) {
             lock (lockObject) {
@@ -21,13 +17,13 @@ namespace Cortside.Common.IoC {
             get { return privateContainer; }
         }
 
-        public static void SetConfiguration(IConfigurationRoot configurationRoot) {
+        public static void SetConfiguration(IConfiguration configuration) {
             lock (lockObject) {
-                configuration = configurationRoot;
+                DI.configuration = configuration;
             }
         }
 
-        public static IConfigurationRoot Configuration {
+        public static IConfiguration Configuration {
             get { return configuration; }
         }
     }

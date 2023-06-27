@@ -3,6 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Cortside.Common.BootStrap {
     public interface IInstaller {
-        void Install(IServiceCollection services, IConfigurationRoot configuration);
+        void Install(IServiceCollection services, IConfiguration configuration);
     }
 }
