@@ -1,11 +1,9 @@
 using System;
-using Cortside.Common.IoC;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using Xunit;
 
-namespace Cortside.Common.Ioc.Tests {
-
+namespace Cortside.Common.IoC.Tests {
     public static class DITests {
         [Fact]
         public static void CanCallSetContainer() {
