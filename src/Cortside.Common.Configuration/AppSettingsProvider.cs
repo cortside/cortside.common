@@ -9,12 +9,10 @@ namespace Cortside.Common.Configuration {
         public AppSettingsProvider(IConfigurationProvider provider) : this(null, provider) { }
 
         public AppSettingsProvider(string section, IConfigurationProvider provider) : base(provider) {
-            if (string.IsNullOrEmpty(section)) {
-                settings = base.settings;
-            } else {
+            if (!string.IsNullOrEmpty(section)) {
                 settings = new NameValueCollection() {
-            { section, provider.Get(section) }
-        };
+                    { section, provider.Get(section) }
+                };
             }
         }
     }
