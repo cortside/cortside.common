@@ -62,7 +62,7 @@ namespace Cortside.Common.BootStrap {
 
         protected internal virtual IServiceProvider InternalInitialize(IServiceCollection services, IInstaller[] installers) {
             var configuration = new ConfigurationBuilder()
-            .AddJsonFile("../config.json");
+            .AddJsonFile("appsettings.json");
             return InternalInitialize(configuration, services, installers);
         }
 
