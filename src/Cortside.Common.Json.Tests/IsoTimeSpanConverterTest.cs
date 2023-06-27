@@ -18,14 +18,14 @@ namespace Cortside.Common.Json.Tests {
 
         [Fact]
         public void GetDeserializeDisbursementParameterTest() {
-            var json = "{ \"Duration\":\"P0Y0M0DT1H2M3S\" }";
+            const string json = "{ \"Duration\":\"P0Y0M0DT1H2M3S\" }";
             var model = JsonConvert.DeserializeObject<TestModel>(json, new JsonSerializerSettings() { Converters = new List<JsonConverter>() { new IsoTimeSpanConverter() } });
             model.Duration.Should().Be(new TimeSpan(1, 2, 3));
         }
 
         [Fact]
         public void GetDeserializeDisbursementParameterTest2() {
-            var json = "{ \"Duration\":\"2.14:28:13\" }";
+            const string json = "{ \"Duration\":\"2.14:28:13\" }";
             var model = JsonConvert.DeserializeObject<TestModel>(json, new JsonSerializerSettings() { Converters = new List<JsonConverter>() { new IsoTimeSpanConverter() } });
             model.Duration.Should().Be(new TimeSpan(2, 14, 28, 13));
         }

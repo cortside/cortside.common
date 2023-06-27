@@ -1,12 +1,11 @@
-namespace Cortside.Common.Hosting.Tests {
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Cortside.Common.Hosting;
-    using Microsoft.Extensions.Logging;
-    using Moq;
-    using Xunit;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Moq;
+using Xunit;
 
+namespace Cortside.Common.Hosting.Tests {
     public class TimedHostedServiceTests {
         private class TestTimedHostedService : TimedHostedService {
             public TestTimedHostedService(ILogger logger, bool enabled, int interval, bool generateCorrelationId = true) : base(logger, enabled, interval, generateCorrelationId) {
@@ -18,14 +17,14 @@ namespace Cortside.Common.Hosting.Tests {
 
             protected override Task ExecuteIntervalAsync() {
                 Executed = true;
-                return default(Task);
+                return Task.CompletedTask;
             }
 
             public bool Executed { get; set; } = false;
         }
 
-        private TestTimedHostedService instance;
-        private Mock<ILogger> logger;
+        private readonly TestTimedHostedService instance;
+        private readonly Mock<ILogger> logger;
 
         public TimedHostedServiceTests() {
             logger = new Mock<ILogger>();
@@ -34,7 +33,7 @@ namespace Cortside.Common.Hosting.Tests {
 
         [Fact(Skip = "probably a good check to add")]
         public void CannotConstructWithNullLogger() {
-            Assert.Throws<ArgumentNullException>(() => new TestTimedHostedService(default(ILogger), true, 5000, false));
+            Assert.Throws<ArgumentNullException>(() => new TestTimedHostedService(default, true, 5000, false));
         }
 
         [Fact]
