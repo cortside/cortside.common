@@ -5,7 +5,7 @@ namespace Cortside.Common.Configuration {
     /// Summary description for IConfigurationProvider.
     /// </summary>
     public interface IConfigurationProvider {
-        Nullable<T> Get<T>(String key) where T : struct;
-        String Get(String key);
+        Nullable<T> Get<T>(string key) where T : struct;
+        string Get(string key);
     }
 }

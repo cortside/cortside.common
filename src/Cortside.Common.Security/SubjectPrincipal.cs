@@ -95,7 +95,7 @@ namespace Cortside.Common.Security {
         /// <remarks>All identities are queried.</remarks>
         private Claim FindFirst(Predicate<Claim> match) {
             if (match == null) {
-                throw new ArgumentNullException("match");
+                throw new ArgumentNullException(nameof(match));
             }
 
             Claim claim = null;
@@ -120,7 +120,7 @@ namespace Cortside.Common.Security {
         /// <remarks>Comparison is made using Ordinal case in-sensitive, all identities are queried.</remarks>
         public Claim FindFirst(string type) {
             if (type == null) {
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             }
 
             Claim claim = null;

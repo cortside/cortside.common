@@ -10,12 +10,14 @@ namespace Cortside.Common.Validation {
         }
 
         public static void Null<T>(this GuardClause g, object input, string errorMessage) where T : Exception, new() {
-            if (input == null) {
-                Type classType = typeof(T);
-                ConstructorInfo classConstructor = classType.GetConstructor(new Type[] { typeof(string) });
-                T ex = (T)classConstructor.Invoke(parameters: new object[] { errorMessage });
-                throw ex;
+            if (input != null) {
+                return;
             }
+
+            Type classType = typeof(T);
+            ConstructorInfo classConstructor = classType.GetConstructor(new Type[] { typeof(string) });
+            T ex = (T)classConstructor.Invoke(parameters: new object[] { errorMessage });
+            throw ex;
         }
 
         public static void NullOrEmpty(this GuardClause g, string? input, string argumentName, string? errorMessage = null) {

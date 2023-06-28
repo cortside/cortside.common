@@ -32,7 +32,7 @@ namespace Cortside.Common.Correlation {
             // check for correlationId as Request-Id from request
             context.Request.Headers.TryGetValue(header, out var ids);
             var id = ids.FirstOrDefault();
-            if (!String.IsNullOrWhiteSpace(id)) {
+            if (!string.IsNullOrWhiteSpace(id)) {
                 return id;
             }
 

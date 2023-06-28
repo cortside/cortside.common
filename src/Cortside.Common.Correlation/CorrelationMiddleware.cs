@@ -5,16 +5,16 @@ using Serilog.Context;
 
 namespace Cortside.Common.Correlation {
     /// <summary>
-    /// Middleware to fix 2.2.x bug with HttpContextAccessor.
-    /// This class should be the first thing at the top of the Configure method to ensure that it's around everything
+    /// Middleware handling getting and setting correlationId/requestId headers.
+    /// This class should be the first thing at the top of the Configure method to ensure that it's around everything.
     /// </summary>
     public class CorrelationMiddleware {
-        private readonly RequestDelegate _next;
-        private readonly IHttpContextAccessor _httpAccessor;
+        private readonly RequestDelegate next;
+        private readonly IHttpContextAccessor httpAccessor;
 
         public CorrelationMiddleware(RequestDelegate next, IHttpContextAccessor httpAccessor) {
-            _next = next;
-            _httpAccessor = httpAccessor;
+            this.next = next;
+            this.httpAccessor = httpAccessor;
         }
 
         public async Task InvokeAsync(HttpContext context) {
@@ -31,7 +31,7 @@ namespace Cortside.Common.Correlation {
             });
 
             using (LogContext.PushProperty("CorrelationId", correlationId)) {
-                await _next.Invoke(context).ConfigureAwait(false);
+                await next.Invoke(context).ConfigureAwait(false);
             }
         }
     }
