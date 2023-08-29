@@ -22,7 +22,7 @@ namespace Cortside.Common.Configuration {
             chainedProvider = provider;
         }
 
-        public Nullable<T> Get<T>(string key) where T : struct {
+        public T? Get<T>(string key) where T : struct {
             T? result = null;
             if (settings.AllKeys.Contains(key)) {
                 object safeValue = settings[key];

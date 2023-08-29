@@ -1,7 +1,8 @@
 [cmdletBinding()]
 param(
 	[switch]$update=[switch]::Present,
-	[Parameter(Mandatory=$false)][switch]$NoVersionLock
+	[Parameter(Mandatory=$false)][switch]$NoVersionLock,
+	[switch]$cortside
 )
 
 dotnet tool update --global dotnet-outdated-tool
@@ -22,4 +23,8 @@ if ($NoVersionLock.IsPresent) {
 	dotnet outdated ./src --pre-release Never --upgrade --exclude restsharp
 } else {
 	dotnet outdated ./src --version-lock Major --pre-release Never --upgrade
+}
+
+if ($cortside.IsPresent) {
+	dotnet outdated ./src --include Cortside --upgrade
 }

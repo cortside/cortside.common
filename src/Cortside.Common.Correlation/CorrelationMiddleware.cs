@@ -10,11 +10,9 @@ namespace Cortside.Common.Correlation {
     /// </summary>
     public class CorrelationMiddleware {
         private readonly RequestDelegate next;
-        private readonly IHttpContextAccessor httpAccessor;
 
-        public CorrelationMiddleware(RequestDelegate next, IHttpContextAccessor httpAccessor) {
+        public CorrelationMiddleware(RequestDelegate next) {
             this.next = next;
-            this.httpAccessor = httpAccessor;
         }
 
         public async Task InvokeAsync(HttpContext context) {

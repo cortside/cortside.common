@@ -1,9 +1,11 @@
-﻿using System;
+﻿#pragma warning disable RCS1175 // Unused 'this' parameter.
+
+using System;
 using System.Reflection;
 
 namespace Cortside.Common.Validation {
     public static class GuardExtensions {
-        public static void Null(this GuardClause g, object input, string argumentName, string? errorMessage = null) {
+        public static void Null(this GuardClause g, object input, string argumentName, string errorMessage = null) {
             if (input == null) {
                 throw new ArgumentException(errorMessage, argumentName);
             }
@@ -20,13 +22,13 @@ namespace Cortside.Common.Validation {
             throw ex;
         }
 
-        public static void NullOrEmpty(this GuardClause g, string? input, string argumentName, string? errorMessage = null) {
+        public static void NullOrEmpty(this GuardClause g, string input, string argumentName, string errorMessage = null) {
             if (string.IsNullOrEmpty(input)) {
                 throw new ArgumentException(errorMessage, argumentName);
             }
         }
 
-        public static void NullOrWhitespace(this GuardClause g, string? input, string argumentName, string? errorMessage = null) {
+        public static void NullOrWhitespace(this GuardClause g, string input, string argumentName, string errorMessage = null) {
             if (string.IsNullOrWhiteSpace(input)) {
                 throw new ArgumentException(errorMessage, argumentName);
             }
