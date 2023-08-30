@@ -1,3 +1,28 @@
+# Release 6.0
+
+|Commit|Date|Author|Message|
+|---|---|---|---|
+| 5fa0531 | <span style="white-space:nowrap;">2023-06-12</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  merge from release
+| 8ff9b4c | <span style="white-space:nowrap;">2023-06-20</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'master' into develop
+| efab617 | <span style="white-space:nowrap;">2023-06-26</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  [net6] update to net6
+| fc87c1e | <span style="white-space:nowrap;">2023-06-26</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  [net6] update to net6
+| 4ec9f20 | <span style="white-space:nowrap;">2023-06-27</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  [net6] cleanup from build lint analysis
+| a5f003f | <span style="white-space:nowrap;">2023-06-27</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  [net6] cleanup from build lint analysis
+| cb0e249 | <span style="white-space:nowrap;">2023-06-27</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  [net6] add some unit tests to address lint analysis
+| aace252 | <span style="white-space:nowrap;">2023-06-27</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  [net6] cleanup from build lint analysis
+| cc57bd9 | <span style="white-space:nowrap;">2023-06-27</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  [net6] update to net6
+| a1e6f00 | <span style="white-space:nowrap;">2023-06-27</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  [net6] cleanup of lint warnings
+| 56e9250 | <span style="white-space:nowrap;">2023-06-27</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  [net6] fix namespace casing
+| ee8d225 | <span style="white-space:nowrap;">2023-06-27</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  [net6] fix namespace casing
+| 2033755 | <span style="white-space:nowrap;">2023-06-27</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  [net6] fix namespace casing
+| 471b316 | <span style="white-space:nowrap;">2023-06-27</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  (origin/net6, net6) [net6] fix namespace casing
+| 7c41b93 | <span style="white-space:nowrap;">2023-06-27</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge pull request #53 from cortside/net6
+| 0c4fbdc | <span style="white-space:nowrap;">2023-07-17</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update version to 6.x to be in line with dotnet and net6 version numbers
+| aa6bbd3 | <span style="white-space:nowrap;">2023-07-17</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update version to 6.x to be in line with dotnet and net6 version numbers
+| c2ddf75 | <span style="white-space:nowrap;">2023-08-29</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  use FrameworkReference to remove deprecated nuget references; update to latest nuget packages
+| 8b5c3b2 | <span style="white-space:nowrap;">2023-08-29</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  (HEAD -> release/6.0, origin/develop, origin/HEAD, develop) use FrameworkReference to remove deprecated nuget references; update to latest nuget packages
+****
+
 # Release 1.3
 
 |Commit|Date|Author|Message|
