@@ -46,7 +46,7 @@ namespace Cortside.Common.BootStrap {
         public virtual IServiceProvider InitIoCContainer(IConfigurationBuilder config, IServiceCollection services) {
             return InternalInitialize(config, services, installers.ToArray());
         }
-        public virtual IServiceProvider InitIoCContainer(IConfigurationRoot configuration, IServiceCollection services) {
+        public virtual IServiceProvider InitIoCContainer(IConfiguration configuration, IServiceCollection services) {
             return InternalInitialize(configuration, services, installers.ToArray());
         }
 
@@ -62,7 +62,7 @@ namespace Cortside.Common.BootStrap {
 
         protected internal virtual IServiceProvider InternalInitialize(IServiceCollection services, IInstaller[] installers) {
             var configuration = new ConfigurationBuilder()
-            .AddJsonFile("../config.json");
+            .AddJsonFile("appsettings.json");
             return InternalInitialize(configuration, services, installers);
         }
 
@@ -71,14 +71,14 @@ namespace Cortside.Common.BootStrap {
             return InternalInitialize(configuration, services, installers);
         }
 
-        protected internal virtual IServiceProvider InternalInitialize(IConfigurationRoot configuration, IServiceCollection services, IInstaller[] installers) {
+        protected internal virtual IServiceProvider InternalInitialize(IConfiguration configuration, IServiceCollection services, IInstaller[] installers) {
             DI.SetConfiguration(configuration);
 
             foreach (var i in installers) {
                 i.Install(services, configuration);
             }
 
-            services.AddSingleton<IConfigurationRoot>(configuration);
+            services.AddSingleton<IConfiguration>(configuration);
             var serviceProvider = services.BuildServiceProvider();
 
             DI.SetContainer(serviceProvider);

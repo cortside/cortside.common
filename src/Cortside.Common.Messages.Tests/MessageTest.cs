@@ -1,4 +1,3 @@
-using System;
 using Cortside.Common.Messages.Formatters;
 using Cortside.Common.Messages.Tests.Exceptions;
 using Xunit;
@@ -15,13 +14,13 @@ namespace Cortside.Common.Messages.Tests {
         [Fact]
         public void TestMessageListException() {
             MessageList messages = new MessageList();
-            for (Int32 i = 0; i < 3; i++) {
+            for (int i = 0; i < 3; i++) {
                 messages.Add(new TestMessage("Param1", "Param2"));
             }
             MessageListException ex = new MessageListException(messages);
             Assert.Equal(3, ex.Messages.Count);
             IMessageFormatter formatter = new SimpleFormatter();
-            for (Int32 i = 0; i < 3; i++) {
+            for (int i = 0; i < 3; i++) {
                 Assert.Equal("First parameter is Param1. Second parameter is Param2.", formatter.Format(ex.Messages[i]));
             }
         }
@@ -30,7 +29,7 @@ namespace Cortside.Common.Messages.Tests {
         public void TestMessageListExceptionString() {
             const string boringOldErrorMessage = "Error in the application.";
             MessageList messages = new MessageList();
-            for (Int32 i = 0; i < 3; i++) {
+            for (int i = 0; i < 3; i++) {
                 messages.Add(new TestMessage("Param1", "Param2"));
             }
             MessageListException ex = new MessageListException(messages);

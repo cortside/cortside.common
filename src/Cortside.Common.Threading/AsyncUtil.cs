@@ -1,4 +1,7 @@
-﻿using System;
+﻿#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
+#pragma warning disable AsyncFixer04 //cts, a disposable object, is used in a fire-and-forget async call in an using block, causing potential exception error or wrong result
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -7,8 +10,7 @@ namespace Cortside.Common.Threading {
     /// Helper class to run async methods within a sync process.
     /// </summary>
     public static class AsyncUtil {
-        private static readonly TaskFactory _taskFactory = new
-            TaskFactory(CancellationToken.None,
+        private static readonly TaskFactory taskFactory = new TaskFactory(CancellationToken.None,
                         TaskCreationOptions.None,
                         TaskContinuationOptions.None,
                         TaskScheduler.Default);
@@ -19,7 +21,7 @@ namespace Cortside.Common.Threading {
         /// </summary>
         /// <param name="task">Task method to execute</param>
         public static void RunSync(Func<Task> task)
-            => _taskFactory
+            => taskFactory
                 .StartNew(task)
                 .Unwrap()
                 .GetAwaiter()
@@ -33,7 +35,7 @@ namespace Cortside.Common.Threading {
         /// <param name="task">Task<T> method to execute</param>
         /// <returns></returns>
         public static TResult RunSync<TResult>(Func<Task<TResult>> task)
-            => _taskFactory
+            => taskFactory
                 .StartNew(task)
                 .Unwrap()
                 .GetAwaiter()

@@ -11,7 +11,6 @@ using Xunit;
 
 namespace Cortside.Common.Messages.Tests.Filters {
     public class MessageExceptionResponseFilterTest {
-
         private readonly MessageExceptionResponseFilter filter = null;
         public MessageExceptionResponseFilterTest() {
             filter = new MessageExceptionResponseFilter(new Logger<MessageExceptionResponseFilter>(new LoggerFactory()));

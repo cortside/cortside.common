@@ -1,16 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <NoWarn>1701;1702;VSTHRD200;</NoWarn>
     <IsPackable>false</IsPackable>
+    <NoWarn>1701;1702;VSTHRD200;</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.7.30">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Moq" Version="4.20.69" />
     <PackageReference Include="xunit" Version="2.5.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.0">
       <PrivateAssets>all</PrivateAssets>
@@ -22,6 +22,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cortside.Common.Json\Cortside.Common.Json.csproj" />
+    <ProjectReference Include="..\Cortside.Common.IoC\Cortside.Common.IoC.csproj" />
   </ItemGroup>
 </Project>

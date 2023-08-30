@@ -5,7 +5,7 @@ namespace Cortside.Common.Json {
         /// <summary>
         /// The string representation of null.
         /// </summary>
-        private static readonly string Null = "null";
+        private const string Null = "null";
 
         /// <summary>
         /// To json.

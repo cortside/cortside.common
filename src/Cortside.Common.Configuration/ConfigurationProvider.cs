@@ -5,31 +5,24 @@ using System.Reflection;
 
 namespace Cortside.Common.Configuration {
     public abstract class ConfigurationProvider : IConfigurationProvider {
-        #region Static
         private static IConfigurationProvider instance = null;
 
         public static IConfigurationProvider Instance {
-            get {
-                if (instance == null) {
-                    instance = new AppSettingsProvider();
-                }
-                return instance;
-            }
+            get { return instance ??= new AppSettingsProvider(); }
         }
 
         public static void SetConfigurationProvider(IConfigurationProvider provider) {
             instance = provider;
         }
-        #endregion
 
         protected IConfigurationProvider chainedProvider = null;
         protected NameValueCollection settings = null;
 
-        public ConfigurationProvider(IConfigurationProvider provider) {
+        protected ConfigurationProvider(IConfigurationProvider provider) {
             chainedProvider = provider;
         }
 
-        public Nullable<T> Get<T>(string key) where T : struct {
+        public T? Get<T>(string key) where T : struct {
             T? result = null;
             if (settings.AllKeys.Contains(key)) {
                 object safeValue = settings[key];
@@ -38,8 +31,7 @@ namespace Cortside.Common.Configuration {
                         Type t = typeof(T);
 
                         if (t.GetTypeInfo().IsEnum) {
-                            T enumVal;
-                            if (Enum.TryParse<T>(safeValue.ToString(), out enumVal)) {
+                            if (Enum.TryParse<T>(safeValue.ToString(), out T enumVal)) {
                                 safeValue = enumVal;
                             }
                         } else {
@@ -61,7 +53,7 @@ namespace Cortside.Common.Configuration {
 
         public string Get(string key) {
             string setting = settings[key];
-            if (String.IsNullOrEmpty(setting) && chainedProvider != null) {
+            if (string.IsNullOrEmpty(setting) && chainedProvider != null) {
                 setting = chainedProvider.Get(key);
             }
             return setting;

@@ -1,9 +1,6 @@
 ﻿using System;
 
 namespace Cortside.Common.Validation {
-    public sealed class GuardClause {
-    }
-
     public static class Guard {
         public static GuardClause From { get; } = new GuardClause();
 

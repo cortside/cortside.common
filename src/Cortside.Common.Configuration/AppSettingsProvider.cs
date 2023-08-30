@@ -1,21 +1,18 @@
-using System;
 using System.Collections.Specialized;
 
 namespace Cortside.Common.Configuration {
     public class AppSettingsProvider : ConfigurationProvider {
         public AppSettingsProvider() : this(null, null) { }
 
-        public AppSettingsProvider(String section) : this(section, null) { }
+        public AppSettingsProvider(string section) : this(section, null) { }
 
         public AppSettingsProvider(IConfigurationProvider provider) : this(null, provider) { }
 
-        public AppSettingsProvider(String section, IConfigurationProvider provider) : base(provider) {
-            if (String.IsNullOrEmpty(section)) {
-                settings = base.settings;
-            } else {
+        public AppSettingsProvider(string section, IConfigurationProvider provider) : base(provider) {
+            if (!string.IsNullOrEmpty(section)) {
                 settings = new NameValueCollection() {
-            { section, provider.Get(section) }
-        };
+                    { section, provider.Get(section) }
+                };
             }
         }
     }
