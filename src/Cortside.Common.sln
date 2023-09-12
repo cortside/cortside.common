@@ -54,6 +54,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.IoC.Tests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Hosting.Tests", "Cortside.Common.Hosting.Tests\Cortside.Common.Hosting.Tests.csproj", "{B37C0DB5-5EEA-4B52-99AB-A68BE115ECEA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Testing", "Cortside.Common.Testing\Cortside.Common.Testing.csproj", "{3ED5C7CF-5924-42AF-BE19-43EAD522B79C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Testing.Tests", "Cortside.Common.Testing.Tests\Cortside.Common.Testing.Tests.csproj", "{D44E7EBE-BF49-477F-86FA-81BAE6378940}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -148,6 +152,14 @@ Global
 		{B37C0DB5-5EEA-4B52-99AB-A68BE115ECEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B37C0DB5-5EEA-4B52-99AB-A68BE115ECEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B37C0DB5-5EEA-4B52-99AB-A68BE115ECEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ED5C7CF-5924-42AF-BE19-43EAD522B79C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ED5C7CF-5924-42AF-BE19-43EAD522B79C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ED5C7CF-5924-42AF-BE19-43EAD522B79C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ED5C7CF-5924-42AF-BE19-43EAD522B79C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D44E7EBE-BF49-477F-86FA-81BAE6378940}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D44E7EBE-BF49-477F-86FA-81BAE6378940}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D44E7EBE-BF49-477F-86FA-81BAE6378940}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D44E7EBE-BF49-477F-86FA-81BAE6378940}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
