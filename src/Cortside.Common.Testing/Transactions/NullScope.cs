@@ -1,15 +1,19 @@
 using System;
 
-namespace Cortside.Common.Testing.Logging {
-    public class TransactionScope : IDisposable {
-        bool _disposed = false;
+namespace Cortside.Common.Testing.Transactions {
+    public class NullScope : IDisposable {
+        public static NullScope Instance { get; } = new NullScope();
+        bool disposed = false;
+
+        private NullScope() {
+        }
 
         protected virtual void Dispose(bool disposing) {
-            if (!_disposed && disposing) // only dispose once!
+            if (!disposed && disposing) // only dispose once!
             {
                 // perform cleanup for this object
             }
-            _disposed = true;
+            disposed = true;
         }
 
         public void Dispose() {
@@ -19,7 +23,7 @@ namespace Cortside.Common.Testing.Logging {
             GC.SuppressFinalize(this);
         }
 
-        ~TransactionScope() {
+        ~NullScope() {
             Dispose(false);
         }
     }

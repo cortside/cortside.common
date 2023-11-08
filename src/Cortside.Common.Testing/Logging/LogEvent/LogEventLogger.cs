@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Cortside.Common.Testing.Transactions;
 using Microsoft.Extensions.Logging;
 
-namespace Cortside.Common.Testing.Logging {
+namespace Cortside.Common.Testing.Logging.LogEvent {
     public class LogEventLogger<T> : ILogger<T> {
         public List<LogEvent> LogEvents { get; }
 
@@ -23,7 +24,7 @@ namespace Cortside.Common.Testing.Logging {
         }
 
         public IDisposable BeginScope<TState>(TState state) {
-            return new TransactionScope();
+            return NullScope.Instance;
         }
     }
 }
