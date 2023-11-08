@@ -26,37 +26,37 @@ namespace Cortside.Common.Threading.Tests {
 
         [Fact]
         public async Task ShouldNotThrowTimeoutExceptionAsync() {
-            await DoStuffAsync().WithTimeoutAsync(TimeSpan.FromMilliseconds(300)).ConfigureAwait(false);
+            await DoStuffAsync().WithTimeoutAsync(TimeSpan.FromMilliseconds(300));
             Assert.True(true);
         }
 
         [Fact]
         public async Task ShouldNotThrowTimeoutException2Async() {
-            await DoBoolStuffAsync().WithTimeoutAsync(TimeSpan.FromMilliseconds(300)).ConfigureAwait(false);
+            await DoBoolStuffAsync().WithTimeoutAsync(TimeSpan.FromMilliseconds(300));
             Assert.True(true);
         }
 
         [Fact]
         public async Task ShouldThrowTimeoutException3Async() {
-            await DoStuffAsync().WithUnwrappedTimeoutAsync(TimeSpan.FromMilliseconds(100)).ConfigureAwait(false);
+            await DoStuffAsync().WithUnwrappedTimeoutAsync(TimeSpan.FromMilliseconds(100));
             Assert.True(true);
         }
 
         [Fact]
         public async Task ShouldNotThrowTimeoutException3Async() {
-            await DoStuffAsync().WithUnwrappedTimeoutAsync(TimeSpan.FromMilliseconds(300)).ConfigureAwait(false);
+            await DoStuffAsync().WithUnwrappedTimeoutAsync(TimeSpan.FromMilliseconds(300));
             Assert.True(true);
         }
 
         [Fact]
         public async Task ShouldUnwrapTimeoutAsync() {
-            var b = await DoBoolStuffAsync().WithUnwrappedTimeoutAsync(TimeSpan.FromMilliseconds(100)).ConfigureAwait(false);
+            var b = await DoBoolStuffAsync().WithUnwrappedTimeoutAsync(TimeSpan.FromMilliseconds(100));
             Assert.False(b);
         }
 
         [Fact]
         public async Task ShouldUnwrapBoolStuffAsync() {
-            var b = await DoBoolStuffAsync().WithUnwrappedTimeoutAsync(TimeSpan.FromMilliseconds(300)).ConfigureAwait(false);
+            var b = await DoBoolStuffAsync().WithUnwrappedTimeoutAsync(TimeSpan.FromMilliseconds(300));
             Assert.True(b);
         }
     }
