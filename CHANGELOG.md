@@ -1,19 +1,5 @@
 # Release 6.1
 
-|Commit|Date|Author|Message|
-|---|---|---|---|
-| 9b1a714 | <span style="white-space:nowrap;">2023-08-29</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update version
-| 1007bdd | <span style="white-space:nowrap;">2023-08-29</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update release notes
-| f0f453f | <span style="white-space:nowrap;">2023-09-04</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'master' into develop
-| 3c480ba | <span style="white-space:nowrap;">2023-09-12</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add new project for common unit and integration test related classes
-| a11f4cd | <span style="white-space:nowrap;">2023-10-16</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Add LogEventLogger to help in validating and testing log output
-| e2f06ca | <span style="white-space:nowrap;">2023-10-31</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add extension method for unregistering a service from service collection
-| 184c4a2 | <span style="white-space:nowrap;">2023-11-08</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add new XunitLogger for capturing ITestOutputHelper output
-| 5efb5a7 | <span style="white-space:nowrap;">2023-11-08</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  (HEAD -> release/6.1, origin/develop, origin/HEAD, develop) update to latest nuget packages
-****
-
-# Release 6.1
-
 * Update nuget dependencies to latest stable versions
 * Add ScopedLocalTimeZone for use with tests to set predictable timezone regardless of environment
     ```csharp
