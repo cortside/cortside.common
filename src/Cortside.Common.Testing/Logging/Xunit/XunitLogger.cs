@@ -6,7 +6,7 @@ namespace Microsoft.Extensions.Logging.Debug {
     /// <summary>
     /// A logger that writes messages to xUnit ITestOutputHelper.
     /// </summary>
-    internal sealed class XunitLogger : ILogger {
+    public sealed class XunitLogger : ILogger {
         private readonly string name;
         private readonly ITestOutputHelper output;
 
