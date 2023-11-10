@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Cortside.Common.Testing {
+namespace Cortside.Common.Testing.Extensions {
     public static class ServiceCollectionExtensions {
         /// <summary>
         /// Removes a registered type
