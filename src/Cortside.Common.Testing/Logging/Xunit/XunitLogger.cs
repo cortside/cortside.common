@@ -1,12 +1,13 @@
 ﻿using System;
 using Cortside.Common.Testing.Transactions;
+using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 
-namespace Microsoft.Extensions.Logging.Debug {
+namespace Cortside.Common.Testing.Logging.Xunit {
     /// <summary>
     /// A logger that writes messages to xUnit ITestOutputHelper.
     /// </summary>
-    internal sealed class XunitLogger : ILogger {
+    public sealed class XunitLogger : ILogger {
         private readonly string name;
         private readonly ITestOutputHelper output;
 

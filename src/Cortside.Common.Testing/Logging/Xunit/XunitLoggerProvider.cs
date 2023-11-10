@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Debug;
 using Xunit.Abstractions;
 
 namespace Cortside.Common.Testing.Logging.Xunit {
