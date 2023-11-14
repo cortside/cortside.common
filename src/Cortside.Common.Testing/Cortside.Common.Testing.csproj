@@ -20,8 +20,6 @@
     <PackageReference Include="xunit.abstractions" Version="2.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="README.md">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 </Project>
