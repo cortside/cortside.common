@@ -1,7 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Serilog.Context;
+using Microsoft.Extensions.Logging;
 
 namespace Cortside.Common.Correlation {
     /// <summary>
@@ -10,9 +11,11 @@ namespace Cortside.Common.Correlation {
     /// </summary>
     public class CorrelationMiddleware {
         private readonly RequestDelegate next;
+        private readonly ILogger<CorrelationMiddleware> logger;
 
-        public CorrelationMiddleware(RequestDelegate next) {
+        public CorrelationMiddleware(RequestDelegate next, ILogger<CorrelationMiddleware> logger) {
             this.next = next;
+            this.logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext context) {
@@ -28,7 +31,7 @@ namespace Cortside.Common.Correlation {
                 return Task.CompletedTask;
             });
 
-            using (LogContext.PushProperty("CorrelationId", correlationId)) {
+            using (logger.BeginScope(new Dictionary<string, object> { ["CorrelationId"] = correlationId })) {
                 await next.Invoke(context).ConfigureAwait(false);
             }
         }
