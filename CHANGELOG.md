@@ -1,3 +1,20 @@
+# Release 6.2
+
+|Commit|Date|Author|Message|
+|---|---|---|---|
+| b58632a | <span style="white-space:nowrap;">2023-11-08</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update version
+| 4b22be9 | <span style="white-space:nowrap;">2023-11-08</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'release/6.1' into develop
+| f46254d | <span style="white-space:nowrap;">2023-11-08</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'master' into develop
+| 9583465 | <span style="white-space:nowrap;">2023-11-08</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'master' into develop
+| eb2dd89 | <span style="white-space:nowrap;">2023-11-09</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Update XunitLogger to make it public
+| d68abce | <span style="white-space:nowrap;">2023-11-09</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  use readme.md for nuget.org
+| 87b08fa | <span style="white-space:nowrap;">2023-11-09</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add and move extension classes
+| 4f141e6 | <span style="white-space:nowrap;">2023-11-09</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'master' into develop
+| d064072 | <span style="white-space:nowrap;">2023-11-09</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'develop' of github.com:cortside/cortside.common into develop
+| f893534 | <span style="white-space:nowrap;">2023-11-14</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'master' into develop
+| 8d673e2 | <span style="white-space:nowrap;">2023-12-22</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  (HEAD -> release/6.2, origin/develop, origin/HEAD, develop) update to latest nuget packages and remove any direct serilog references
+****
+
 # Release 6.1
 
 * Update nuget dependencies to latest stable versions
