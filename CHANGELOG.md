@@ -1,5 +1,10 @@
 # Release 6.2
 
+* Update and cleanup nuget dependencies to latest stable versions
+* Remove any direct serilog references to break Serilog coupling, needed for making cortside libraries easier to multitarget net6.0 and net8.0
+* Include README.md in nuget pagckage in attempt to make changes more evident
+
+
 |Commit|Date|Author|Message|
 |---|---|---|---|
 | b58632a | <span style="white-space:nowrap;">2023-11-08</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update version

@@ -17,7 +17,7 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 
 [*.json]
-indent_size = 4
+indent_size = 2
 
 # XML Configuration Files
 [*.{xml,config,props,targets,nuspec,resx,ruleset,vsixmanifest,vsct}]
@@ -241,3 +241,7 @@ dotnet_diagnostic.RCS1021.severity = none
 
 # PH_P013: Discouraged EntityFramework Method
 dotnet_diagnostic.PH_P013.severity = none
+
+# for dotnet-format to help cleanup IDE0005 unnecessary import warnings
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0005.severity = warning
