@@ -51,7 +51,7 @@ namespace Cortside.Common.Messages.Tests {
             Assert.NotEmpty(model.Errors);
             Assert.Equal(2, model.Errors.Count);
 
-            Assert.Equal("{\"Errors\":[{\"Type\":\"MissingRequiredFieldError\",\"Property\":\"property1\",\"Message\":\"property1 is required.\"},{\"Type\":\"InvalidTypeFormatError\",\"Property\":\"property2\",\"Message\":\"abc is not a valid value for property2.\"}]}", model.ToJson());
+            Assert.Equal("{\"Errors\":[{\"Type\":\"MissingRequiredFieldError\",\"Property\":\"property1\",\"Message\":\"property1 is required.\",\"Exception\":null},{\"Type\":\"InvalidTypeFormatError\",\"Property\":\"property2\",\"Message\":\"abc is not a valid value for property2.\",\"Exception\":null}]}", model.ToJson());
         }
     }
 }
