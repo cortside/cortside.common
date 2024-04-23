@@ -12,7 +12,7 @@ namespace Cortside.Common.BootStrap {
         /// <param name="services"></param>
         /// <param name="suffix"></param>
         /// <returns></returns>
-        public static IServiceCollection AddScopedBySuffix<T>(this IServiceCollection services, string suffix) where T : class {
+        public static IServiceCollection AddScopedInterfacesBySuffix<T>(this IServiceCollection services, string suffix) where T : class {
             typeof(T).GetTypeInfo().Assembly.GetTypes()
                 .Where(x => (x.Name.EndsWith(suffix, StringComparison.InvariantCulture))
                             && x.GetTypeInfo().IsClass
@@ -22,6 +22,17 @@ namespace Cortside.Common.BootStrap {
                     x.GetInterfaces().ToList()
                         .ForEach(i => services.AddScoped(i, x));
                 });
+
+            return services;
+        }
+
+        public static IServiceCollection AddSingletonClassesBySuffix<T>(this IServiceCollection services, string suffix) where T : class {
+            typeof(T).GetTypeInfo().Assembly.GetTypes()
+                .Where(x => (x.Name.EndsWith(suffix, StringComparison.InvariantCulture))
+                    && x.GetTypeInfo().IsClass
+                    && !x.GetTypeInfo().IsAbstract)
+                .ToList()
+                .ForEach(x => services.AddSingleton(x));
 
             return services;
         }
