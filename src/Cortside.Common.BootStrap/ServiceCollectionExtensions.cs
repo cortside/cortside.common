@@ -5,7 +5,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Cortside.Common.BootStrap {
     public static class ServiceCollectionExtensions {
-        public static IServiceCollection RegisterClassesWithSuffix<T>(this IServiceCollection services, string suffix) where T : class {
+        /// <summary>
+        /// Add scoped classes with specified suffix from assembly that contains T
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="services"></param>
+        /// <param name="suffix"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddScopedBySuffix<T>(this IServiceCollection services, string suffix) where T : class {
             typeof(T).GetTypeInfo().Assembly.GetTypes()
                 .Where(x => (x.Name.EndsWith(suffix, StringComparison.InvariantCulture))
                             && x.GetTypeInfo().IsClass
