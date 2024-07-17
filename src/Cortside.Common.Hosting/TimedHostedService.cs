@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Cortside.Common.Correlation;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -15,6 +14,7 @@ namespace Cortside.Common.Hosting {
         private readonly int interval;
         private readonly bool enabled;
         private readonly bool generateCorrelationId;
+        private static readonly AsyncLocal<string> CorrelationId = new AsyncLocal<string>();
 
         /// <summary>
         /// Initializes new instance of the Hosted Service
@@ -33,33 +33,41 @@ namespace Cortside.Common.Hosting {
 #pragma warning restore _MissingConfigureAwait // Consider using .ConfigureAwait(false).
 
             if (enabled) {
-                logger.LogInformation($"{this.GetType().Name} is starting with interval of {interval} seconds");
+                logger.LogInformation($"{GetType().Name} is starting with interval of {interval} seconds");
 
-                stoppingToken.Register(() => logger.LogDebug($"{this.GetType().Name} is stopping."));
+                stoppingToken.Register(() => logger.LogDebug($"{GetType().Name} is stopping."));
 
                 while (!stoppingToken.IsCancellationRequested) {
                     await IntervalAsync();
                     await Task.Delay(TimeSpan.FromSeconds(interval), stoppingToken).ConfigureAwait(false);
                 }
-                logger.LogInformation($"{this.GetType().Name} is stopping");
+                logger.LogInformation($"{GetType().Name} is stopping");
             } else {
-                logger.LogInformation($"{this.GetType().Name} is disabled");
+                logger.LogInformation($"{GetType().Name} is disabled");
             }
         }
 
         private async Task IntervalAsync() {
-            var correlationId = CorrelationContext.GetCorrelationId(generateCorrelationId);
+            var correlationId = GetCorrelationId(generateCorrelationId);
             using (logger.BeginScope(new Dictionary<string, object> { ["CorrelationId"] = correlationId })) {
-                logger.LogDebug($"{this.GetType().Name} is working");
+                logger.LogDebug($"{GetType().Name} is working");
 
                 try {
                     await ExecuteIntervalAsync().ConfigureAwait(false);
                 } catch (Exception ex) {
-                    logger.LogError(ex, this.GetType().Name);
+                    logger.LogError(ex, GetType().Name);
                 }
             }
         }
 
         protected abstract Task ExecuteIntervalAsync();
+
+        public static string GetCorrelationId(bool generateCorrelationId = true) {
+            var correlationId = CorrelationId.Value;
+            if (generateCorrelationId && string.IsNullOrWhiteSpace(correlationId)) {
+                CorrelationId.Value = Guid.NewGuid().ToString();
+            }
+            return CorrelationId.Value;
+        }
     }
 }
