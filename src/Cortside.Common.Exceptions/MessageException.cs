@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace Cortside.Common.Messages {
     public abstract class MessageException : Exception {

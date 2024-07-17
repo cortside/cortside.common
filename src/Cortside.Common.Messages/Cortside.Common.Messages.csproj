@@ -11,4 +11,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cortside.Common.Exceptions\Cortside.Common.Exceptions.csproj" />
+  </ItemGroup>
 </Project>

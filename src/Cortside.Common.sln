@@ -58,7 +58,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Testing", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Testing.Tests", "Cortside.Common.Testing.Tests\Cortside.Common.Testing.Tests.csproj", "{D44E7EBE-BF49-477F-86FA-81BAE6378940}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortside.Common.Testing.EntityFramework", "Cortside.Common.Testing.EntityFramework\Cortside.Common.Testing.EntityFramework.csproj", "{2DD5788C-9D4B-4616-965F-35DFC7D10762}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Testing.EntityFramework", "Cortside.Common.Testing.EntityFramework\Cortside.Common.Testing.EntityFramework.csproj", "{2DD5788C-9D4B-4616-965F-35DFC7D10762}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortside.Common.Exceptions", "Cortside.Common.Exceptions\Cortside.Common.Exceptions.csproj", "{A4EDC218-1789-4611-AE36-5E706A084F05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -166,6 +168,10 @@ Global
 		{2DD5788C-9D4B-4616-965F-35DFC7D10762}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DD5788C-9D4B-4616-965F-35DFC7D10762}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DD5788C-9D4B-4616-965F-35DFC7D10762}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4EDC218-1789-4611-AE36-5E706A084F05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4EDC218-1789-4611-AE36-5E706A084F05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4EDC218-1789-4611-AE36-5E706A084F05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4EDC218-1789-4611-AE36-5E706A084F05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

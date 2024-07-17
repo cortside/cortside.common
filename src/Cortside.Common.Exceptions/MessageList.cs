@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Cortside.Common.Messages {
+﻿namespace Cortside.Common.Messages {
     public class MessageList : List<MessageException> {
         public MessageList() : base() { }
         public MessageList(IEnumerable<MessageException> messages) : base(messages) { }
