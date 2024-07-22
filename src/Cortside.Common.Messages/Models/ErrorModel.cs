@@ -1,5 +1,4 @@
 ﻿using System;
-using Newtonsoft.Json;
 
 namespace Cortside.Common.Messages.Models {
     /// <summary>
@@ -37,7 +36,6 @@ namespace Cortside.Common.Messages.Models {
         /// <summary>
         /// Error field
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Property { get; set; }
 
         /// <summary>
@@ -48,7 +46,6 @@ namespace Cortside.Common.Messages.Models {
         /// <summary>
         /// Error exception
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Exception Exception { get; set; }
     }
 }
