@@ -62,7 +62,7 @@ namespace Cortside.Common.Hosting {
 
         protected abstract Task ExecuteIntervalAsync();
 
-        public static string GetCorrelationId(bool generateCorrelationId = true) {
+        public static string GetCorrelationId(bool generateCorrelationId) {
             var correlationId = CorrelationId.Value;
             if (generateCorrelationId && string.IsNullOrWhiteSpace(correlationId)) {
                 CorrelationId.Value = Guid.NewGuid().ToString();
