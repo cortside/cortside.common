@@ -171,9 +171,6 @@ if ($suffix){
 	Write-Host "##teamcity[setParameter name='env.OctopusVersion' value='$OctopusVersion']"
 }
 
-# copy generated build.json to needed applications
-#cp .\src\build.json .\src\Cortside.Common.WebApi\build.json -force
-
 # build
 $args = "clean $PSScriptRoot\src"
 Invoke-Exe -cmd dotnet -args $args
@@ -181,5 +178,3 @@ $args = "restore $PSScriptRoot\src --packages $PSScriptRoot\src\packages"
 Invoke-Exe -cmd dotnet -args $args
 $args = "build $PSScriptRoot\src --no-restore --configuration $msbuildconfig /p:Version=$BuildNumber"
 Invoke-Exe -cmd dotnet -args $args
-#$args = "publish $PSScriptRoot\src\Cortside.Common.WebApi\Cortside.Common.WebApi.csproj --no-restore /p:Version=$BuildNumber"
-#Invoke-Exe -cmd dotnet -args $args

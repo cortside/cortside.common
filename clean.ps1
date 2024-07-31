@@ -1,6 +1,7 @@
 [cmdletBinding()]
 param(
-	[switch]$quiet
+	[switch]$quiet,
+	[switch]$force
 )
 
 function Remove-EmptyFolders {
@@ -113,11 +114,13 @@ Function Invoke-Cleanup {
 	remove "TestBin"
 }
 
-# stop extraneous processes
-dotnet build-server shutdown
+if ($force.IsPresent) {
+	# stop extraneous processes
+	dotnet build-server shutdown
 
-# cleanup all nuget resources
-#dotnet nuget locals --clear all
+	# cleanup all nuget resources
+	#dotnet nuget locals --clear all
+}
 
 # remove all bin/obj folders
 Invoke-Cleanup

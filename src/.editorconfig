@@ -7,6 +7,10 @@
 # top-most EditorConfig file
 root = true
 
+# Ignore paths
+[*/Migrations/*]
+generated_code = true
+
 # Default settings:
 # A newline ending every file
 # Use 4 spaces as indentation
@@ -15,9 +19,17 @@ indent_style = space
 indent_size = 4
 trim_trailing_whitespace = true
 insert_final_newline = true
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+tab_width = 4
+end_of_line = crlf
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
+dotnet_style_prefer_auto_properties = true:suggestion
+dotnet_style_object_initializer = true:suggestion
 
 [*.json]
-indent_size = 4
+indent_size = 2
 
 # XML Configuration Files
 [*.{xml,config,props,targets,nuspec,resx,ruleset,vsixmanifest,vsct}]
@@ -91,16 +103,16 @@ dotnet_style_namespace_match_folder 									 = true
 csharp_style_var_for_built_in_types                                      = false : none
 csharp_style_var_when_type_is_apparent                                   = false : none
 csharp_style_var_elsewhere                                               = false : none
-csharp_style_namespace_declarations 									 = block_scoped
+csharp_style_namespace_declarations 									 = block_scoped:silent
 
 # use language keywords instead of BCL types
 dotnet_style_predefined_type_for_locals_parameters_members               = true : suggestion
 dotnet_style_predefined_type_for_member_access                           = true : suggestion
 
 # name all constant fields using ALL_UPPER
-dotnet_naming_rule.constant_fields_should_be_all_upper_case.severity     = suggestion
+dotnet_naming_rule.constant_fields_should_be_all_upper_case.severity = suggestion
 dotnet_naming_rule.constant_fields_should_be_all_upper_case.symbols      = constant_fields
-dotnet_naming_rule.constant_fields_should_be_all_upper_case.style        = all_upper_style
+dotnet_naming_rule.constant_fields_should_be_all_upper_case.style = all_upper_style
 
 dotnet_naming_symbols.constant_fields.applicable_kinds                   = field
 dotnet_naming_symbols.constant_fields.required_modifiers                 = const
@@ -111,7 +123,7 @@ dotnet_naming_style.all_upper_style.capitalization                       = all_u
 # static fields should have s_ prefix
 dotnet_naming_rule.static_fields_should_have_prefix.severity = suggestion
 dotnet_naming_rule.static_fields_should_have_prefix.symbols  = static_fields
-dotnet_naming_rule.static_fields_should_have_prefix.style    = static_prefix_style
+dotnet_naming_rule.static_fields_should_have_prefix.style = static_prefix_style
 dotnet_naming_symbols.static_fields.applicable_kinds   = field
 dotnet_naming_symbols.static_fields.required_modifiers = static
 dotnet_naming_symbols.static_fields.applicable_accessibilities = private, internal, private_protected
@@ -119,9 +131,9 @@ dotnet_naming_style.static_prefix_style.required_prefix = s_
 dotnet_naming_style.static_prefix_style.capitalization = camel_case 
 
 # internal and private fields should be camelCase
-dotnet_naming_rule.camel_case_for_private_internal_fields.severity       = suggestion
+dotnet_naming_rule.camel_case_for_private_internal_fields.severity = suggestion
 dotnet_naming_rule.camel_case_for_private_internal_fields.symbols        = private_internal_fields
-dotnet_naming_rule.camel_case_for_private_internal_fields.style          = camel_case_style
+dotnet_naming_rule.camel_case_for_private_internal_fields.style = camel_case_style
 
 dotnet_naming_symbols.private_internal_fields.applicable_kinds           = field
 dotnet_naming_symbols.private_internal_fields.applicable_accessibilities = private, internal
@@ -132,7 +144,7 @@ dotnet_naming_style.camel_case_style.capitalization                      = camel
 csharp_using_directive_placement = outside_namespace:suggestion
 dotnet_sort_system_directives_first                                      = true
 dotnet_separate_import_directive_groups                                  = false
-csharp_prefer_braces = true:refactoring
+csharp_prefer_braces = true:warning
 csharp_preserve_single_line_blocks                                       = true : none
 csharp_preserve_single_line_statements                                   = false :none
 csharp_prefer_static_local_function = true:suggestion
@@ -158,14 +170,14 @@ dotnet_style_prefer_conditional_expression_over_return = true:refactoring
 csharp_prefer_simple_default_expression = true:suggestion
 
 # Expression-bodied members
-csharp_style_expression_bodied_methods                                   = false : none
-csharp_style_expression_bodied_constructors                              = false : none
-csharp_style_expression_bodied_operators                                 = false : none
-csharp_style_expression_bodied_properties                                = true : none
-csharp_style_expression_bodied_indexers                                  = true : none
-csharp_style_expression_bodied_accessors                                 = true : none
-csharp_style_expression_bodied_lambdas = true:refactoring
-csharp_style_expression_bodied_local_functions = true:refactoring
+csharp_style_expression_bodied_methods                                   = false:none
+csharp_style_expression_bodied_constructors                              = false:none
+csharp_style_expression_bodied_operators                                 = false:none
+csharp_style_expression_bodied_properties                                = true:none
+csharp_style_expression_bodied_indexers                                  = true:none
+csharp_style_expression_bodied_accessors                                 = true:none
+csharp_style_expression_bodied_lambdas = true:silent
+csharp_style_expression_bodied_local_functions = true:silent
 
 # Pattern matching
 csharp_style_pattern_matching_over_is_with_cast_check                    = true : suggestion
@@ -221,7 +233,7 @@ dotnet_diagnostic.MVC1004.severity                                      =suggest
 #dotnet_diagnostic.S1135.severity = warning
 
 # IDE0063: Use simple 'using' statement
-csharp_prefer_simple_using_statement = false : none
+csharp_prefer_simple_using_statement = false:none
 
 # IDE0090: Use 'new(...)'
 dotnet_diagnostic.IDE0090.severity = none
@@ -241,3 +253,28 @@ dotnet_diagnostic.RCS1021.severity = none
 
 # PH_P013: Discouraged EntityFramework Method
 dotnet_diagnostic.PH_P013.severity = none
+
+# IDE0290: Use Primary Constructor
+dotnet_diagnostic.IDE0290.severity = none
+
+# RCS1129: Remove redundant field initialization
+dotnet_diagnostic.RCS1129.severity = none
+
+# CA1848: Use the LoggerMessage delegates
+dotnet_diagnostic.CA1848.severity = silent
+
+# IDE0005: Remove unnecessary usings/imports.
+dotnet_diagnostic.IDE0005.severity = error
+
+# CA1310: Specify StringComparison for correctness
+dotnet_diagnostic.CA1310.severity = suggestion
+csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_top_level_statements = true:silent
+csharp_style_prefer_primary_constructors = true:suggestion
+csharp_style_allow_blank_lines_between_consecutive_braces_experimental = true:silent
+dotnet_diagnostic.IDE0011.severity = warning
+
+# Warnings from Visual Studio Spell Checker that can be treated as informational
+# https://marketplace.visualstudio.com/items?itemName=EWoodruff.VisualStudioSpellCheckerVS2022andLater
+dotnet_diagnostic.VSSpell001.severity = suggestion
+dotnet_diagnostic.VSSpell002.severity = suggestion
