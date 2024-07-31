@@ -2,7 +2,7 @@
 
 image: Previous Visual Studio 2022
 
-version: 6.3.{build}
+version: 6.4.{build}
 
 configuration:
 - Debug
