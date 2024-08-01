@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		..\appveyor.yml = ..\appveyor.yml
+		..\CHANGELOG.md = ..\CHANGELOG.md
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
@@ -17,8 +18,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.IoC", "Cortside.Common.IoC\Cortside.Common.IoC.csproj", "{1144EC13-42B0-4CCC-AF93-90EF860CA5F3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.BootStrap", "Cortside.Common.BootStrap\Cortside.Common.BootStrap.csproj", "{BDB9E305-CCC1-4FAD-94B9-797CC0D47E0E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Hosting", "Cortside.Common.Hosting\Cortside.Common.Hosting.csproj", "{8EEC319B-95B5-4C38-9EAB-2581F873DCCA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Json", "Cortside.Common.Json\Cortside.Common.Json.csproj", "{2613552A-3A3E-4E70-B331-A2401C06D8BE}"
 EndProject
@@ -48,13 +47,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.BootStrap.T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.IoC.Tests", "Cortside.Common.IoC.Tests\Cortside.Common.IoC.Tests.csproj", "{66481E42-4223-420F-8756-B1F32256D1F1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Hosting.Tests", "Cortside.Common.Hosting.Tests\Cortside.Common.Hosting.Tests.csproj", "{B37C0DB5-5EEA-4B52-99AB-A68BE115ECEA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Testing", "Cortside.Common.Testing\Cortside.Common.Testing.csproj", "{3ED5C7CF-5924-42AF-BE19-43EAD522B79C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Testing.Tests", "Cortside.Common.Testing.Tests\Cortside.Common.Testing.Tests.csproj", "{D44E7EBE-BF49-477F-86FA-81BAE6378940}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortside.Common.Testing.EntityFramework", "Cortside.Common.Testing.EntityFramework\Cortside.Common.Testing.EntityFramework.csproj", "{2DD5788C-9D4B-4616-965F-35DFC7D10762}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Testing.EntityFramework", "Cortside.Common.Testing.EntityFramework\Cortside.Common.Testing.EntityFramework.csproj", "{2DD5788C-9D4B-4616-965F-35DFC7D10762}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,10 +75,6 @@ Global
 		{BDB9E305-CCC1-4FAD-94B9-797CC0D47E0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDB9E305-CCC1-4FAD-94B9-797CC0D47E0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDB9E305-CCC1-4FAD-94B9-797CC0D47E0E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8EEC319B-95B5-4C38-9EAB-2581F873DCCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8EEC319B-95B5-4C38-9EAB-2581F873DCCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8EEC319B-95B5-4C38-9EAB-2581F873DCCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8EEC319B-95B5-4C38-9EAB-2581F873DCCA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2613552A-3A3E-4E70-B331-A2401C06D8BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2613552A-3A3E-4E70-B331-A2401C06D8BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2613552A-3A3E-4E70-B331-A2401C06D8BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -138,10 +131,6 @@ Global
 		{66481E42-4223-420F-8756-B1F32256D1F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66481E42-4223-420F-8756-B1F32256D1F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66481E42-4223-420F-8756-B1F32256D1F1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B37C0DB5-5EEA-4B52-99AB-A68BE115ECEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B37C0DB5-5EEA-4B52-99AB-A68BE115ECEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B37C0DB5-5EEA-4B52-99AB-A68BE115ECEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B37C0DB5-5EEA-4B52-99AB-A68BE115ECEA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3ED5C7CF-5924-42AF-BE19-43EAD522B79C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3ED5C7CF-5924-42AF-BE19-43EAD522B79C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3ED5C7CF-5924-42AF-BE19-43EAD522B79C}.Release|Any CPU.ActiveCfg = Release|Any CPU
