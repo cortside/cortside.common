@@ -68,7 +68,6 @@ namespace Cortside.Common.Security {
         /// <summary>
         /// Retrieves a <see cref="IEnumerable{Claim}"/> where each claim is matched by <param name="match"/>.
         /// </summary>
-        /// <param name="match">The predicate that performs the matching logic.</param>
         /// <returns>A <see cref="IEnumerable{Claim}"/> of matched claims.</returns>
         /// <remarks>Returns claims from all Identities</remarks>
         /// SafeCritical since it access m_identities

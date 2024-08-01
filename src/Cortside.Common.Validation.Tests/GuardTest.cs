@@ -6,8 +6,8 @@ namespace Cortside.Common.Validation.Tests {
     public class GuardTest {
         [Fact]
         public void Against() {
-            string s = null;
-            Assert.Throws<ArgumentNullException>(() => Guard.Against(() => s == null, () => throw new ArgumentNullException(nameof(s), $"{nameof(s)} is null")));
+            string s = DateTime.Now.Second > 61 ? "what?" : null;
+            Assert.Throws<NullReferenceException>(() => Guard.Against(() => s == null, () => throw new NullReferenceException($"{nameof(s)} is null")));
         }
 
         [Fact]
