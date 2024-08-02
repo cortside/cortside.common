@@ -1,5 +1,46 @@
 # Release 6.3
 
+* Update nuget dependencies to latest stable versions
+* Added extension methods to make registration simpler
+    * AddScopedInterfacesBySuffix
+	```csharp
+	typeof(OrderService).GetTypeInfo().Assembly.GetTypes()
+		.Where(x => (x.Name.EndsWith("Service"))
+			&& x.GetTypeInfo().IsClass
+			&& !x.GetTypeInfo().IsAbstract
+			&& x.GetInterfaces().Length > 0)
+		.ToList().ForEach(x => {
+			x.GetInterfaces().ToList()
+				.ForEach(i => services.AddScoped(i, x));
+		});	
+	```
+	
+    	becomes
+	
+	```csharp
+	services.AddScopedInterfacesBySuffix<OrderService>("Service");	
+	```
+    * AddSingletonClassesBySuffix
+	```csharp
+	typeof(OrderMapper).GetTypeInfo().Assembly.GetTypes()
+		.Where(x => (x.Name.EndsWith("Mapper"))
+			&& x.GetTypeInfo().IsClass
+			&& !x.GetTypeInfo().IsAbstract)
+		.ToList()
+		.ForEach(x => services.AddSingleton(x));
+	```
+
+    	becomes
+
+	```csharp
+	services.AddSingletonClassesBySuffix<OrderMapper>("Mapper");
+	```
+* MessageExceptionResponseFilter, ValidationFailedResult, ErrorsModel and ErrorModel moved to Cortside.AspNetCore
+* Added DbSet extensions for adding data in tests
+    * SeedFromFileAsync<T>
+	* DataFromFile<T>
+
+
 |Commit|Date|Author|Message|
 |---|---|---|---|
 | 69ce3c9 | <span style="white-space:nowrap;">2024-01-09</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update version
