@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Cortside.Common.Correlation;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -13,14 +14,16 @@ namespace Cortside.Common.Hosting {
         protected readonly ILogger logger;
         private readonly int interval;
         private readonly bool enabled;
+        private readonly bool generateCorrelationId;
 
         /// <summary>
         /// Initializes new instance of the Hosted Service
         /// </summary>
-        protected TimedHostedService(ILogger logger, bool enabled, int interval) {
+        protected TimedHostedService(ILogger logger, bool enabled, int interval, bool generateCorrelationId = true) {
             this.logger = logger;
             this.interval = interval;
             this.enabled = enabled;
+            this.generateCorrelationId = generateCorrelationId;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken) {
@@ -45,7 +48,7 @@ namespace Cortside.Common.Hosting {
         }
 
         private async Task IntervalAsync() {
-            var correlationId = Guid.NewGuid().ToString();
+            var correlationId = CorrelationContext.GetCorrelationId(generateCorrelationId);
             using (logger.BeginScope(new Dictionary<string, object> { ["CorrelationId"] = correlationId })) {
                 logger.LogDebug($"{this.GetType().Name} is working");
 

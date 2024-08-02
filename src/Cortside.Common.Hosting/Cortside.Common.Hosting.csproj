@@ -9,4 +9,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cortside.Common.Correlation\Cortside.Common.Correlation.csproj" />
+  </ItemGroup>
 </Project>
