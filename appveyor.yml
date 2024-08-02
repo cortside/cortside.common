@@ -12,8 +12,8 @@ platform: Any CPU
 pull_requests:  
   do_not_increment_build_number: true
   
-# Do not build feature branch with open Pull Requests
-skip_branch_with_pr: false  
+## Do not build feature branch with open Pull Requests
+#skip_branch_with_pr: false  
 
 nuget:
   disable_publish_on_pr: true
@@ -39,8 +39,16 @@ init:
 - ps: $Env:LABEL = "CI" + $Env:APPVEYOR_BUILD_NUMBER.PadLeft(5, "0")
 - ps: Get-ChildItem "Env:"
 
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+
 before_build:
 - appveyor-retry dotnet restore src -v Minimal
+- set DNX_BUILD_VERSION=%APPVEYOR_BUILD_NUMBER%
 - dotnet --info
 - ps: ./prebuild.ps1
 
@@ -94,7 +102,7 @@ after_build:
     #$fileVersion = $fileVersion.replace("release/", "release-");
     $fileVersion = $fileVersion.replace("feature/", "");
     $fileVersion = $fileVersion.replace("bugfix/", "");
-    dotnet pack src --include-symbols -p:SymbolPackageFormat=snupkg --configuration $env:configuration -o ((get-location).Path + '\artifacts') /property:Version=$fileVersion
+    dotnet pack src --include-symbols -p:SymbolPackageFormat=snupkg --configuration $env:configuration -o ((get-location).Path + '\artifacts') /property:Version=$fileVersion 
     
 artifacts:
 - path: artifacts\**\*.*
