@@ -35,7 +35,6 @@
 	```csharp
 	services.AddSingletonClassesBySuffix<OrderMapper>("Mapper");
 	```
-* TimedHostedService moved to Cortside.AspNetCore
 * MessageExceptionResponseFilter, ValidationFailedResult, ErrorsModel and ErrorModel moved to Cortside.AspNetCore
 * Added DbSet extensions for adding data in tests
     * SeedFromFileAsync<T>
