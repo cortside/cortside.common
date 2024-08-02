@@ -18,7 +18,7 @@ skip_branch_with_pr: true
 skip_commits:
   files:
     - CHANGELOG.md
-    - appveyor.yml
+    - xappveyor.yml
     - repository.json
     - src/version.json  
 
@@ -98,6 +98,9 @@ artifacts:
 
 cache:
 - '%USERPROFILE%\.nuget\packages'
+  
+nuget:
+  disable_publish_on_pr: false
   
 deploy:
 - provider: NuGet
