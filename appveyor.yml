@@ -91,7 +91,7 @@ after_build:
     }
     
     #$fileVersion = $fileVersion.replace("release/", "");
-    $fileVersion = $fileVersion.replace("release/", "release-");
+    $fileVersion = $fileVersion.replace("release/", "release_");
     $fileVersion = $fileVersion.replace("feature/", "");
     $fileVersion = $fileVersion.replace("bugfix/", "");
     dotnet pack src --include-symbols -p:SymbolPackageFormat=snupkg --configuration $env:configuration -o ((get-location).Path + '\artifacts') /property:Version="$fileVersion"
