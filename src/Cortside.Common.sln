@@ -57,6 +57,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Hosting", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Hosting.Tests", "Cortside.Common.Hosting.Tests\Cortside.Common.Hosting.Tests.csproj", "{38FBF438-C05F-4640-9434-AEDBD307C744}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Correlation", "Cortside.Common.Correlation\Cortside.Common.Correlation.csproj", "{31BDB941-F06C-443A-A53C-8D1D6147A303}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Correlation.Tests", "Cortside.Common.Correlation.Tests\Cortside.Common.Correlation.Tests.csproj", "{58003B10-A4C3-4EF7-A5B8-5A7C927406FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -155,6 +159,14 @@ Global
 		{38FBF438-C05F-4640-9434-AEDBD307C744}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38FBF438-C05F-4640-9434-AEDBD307C744}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38FBF438-C05F-4640-9434-AEDBD307C744}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31BDB941-F06C-443A-A53C-8D1D6147A303}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31BDB941-F06C-443A-A53C-8D1D6147A303}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31BDB941-F06C-443A-A53C-8D1D6147A303}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31BDB941-F06C-443A-A53C-8D1D6147A303}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58003B10-A4C3-4EF7-A5B8-5A7C927406FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58003B10-A4C3-4EF7-A5B8-5A7C927406FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58003B10-A4C3-4EF7-A5B8-5A7C927406FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58003B10-A4C3-4EF7-A5B8-5A7C927406FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

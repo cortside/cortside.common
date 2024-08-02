@@ -18,7 +18,7 @@ skip_branch_with_pr: true
 skip_commits:
   files:
     - CHANGELOG.md
-    - xappveyor.yml
+    - appveyor.yml
     - repository.json
     - src/version.json  
 
@@ -36,16 +36,8 @@ init:
 - ps: $Env:LABEL = "CI" + $Env:APPVEYOR_BUILD_NUMBER.PadLeft(5, "0")
 - ps: Get-ChildItem "Env:"
 
-assembly_info:
-  patch: true
-  file: '**\AssemblyInfo.*'
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: '{version}'
-
 before_build:
 - appveyor-retry dotnet restore src -v Minimal
-- set DNX_BUILD_VERSION=%APPVEYOR_BUILD_NUMBER%
 - dotnet --info
 - ps: ./prebuild.ps1
 
@@ -106,11 +98,6 @@ artifacts:
 
 cache:
 - '%USERPROFILE%\.nuget\packages'
-  
-#nuget:
-#  disable_publish_on_pr: true
-#  account_feed: true
-#  project_feed: true
   
 deploy:
 - provider: NuGet
