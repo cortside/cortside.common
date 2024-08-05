@@ -19,10 +19,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.32" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cortside.Common.Correlation\Cortside.Common.Correlation.csproj" />
-    <ProjectReference Include="..\Cortside.Common.Messages\Cortside.Common.Messages.csproj" />
   </ItemGroup>
 </Project>
