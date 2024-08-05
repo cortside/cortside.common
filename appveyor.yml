@@ -10,13 +10,13 @@ configuration:
 platform: Any CPU
 
 pull_requests:  
-  do_not_increment_build_number: false
+  do_not_increment_build_number: true
   
-# Do not build feature branch with open Pull Requests
-skip_branch_with_pr: true
+## Do not build feature branch with open Pull Requests
+#skip_branch_with_pr: true
 
 nuget:
-  disable_publish_on_pr: false
+  disable_publish_on_pr: true
   
 skip_commits:
   files:
