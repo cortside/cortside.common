@@ -7,5 +7,4 @@
 // https://github.com/FishBasketGordo/Creelio.Framework/blob/master/Creelio.Framework/Guard.cs
 
 
-
 https://kodify.net/csharp/strings/left-right-mid/
