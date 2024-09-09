@@ -82,8 +82,8 @@ build_script:
     echo "building version $version from branch $branch targeting $target with analysis arguments of $analysisArgs";
 - dotnet tool install --global dotnet-sonarscanner
 - dotnet sonarscanner begin /n:"%SONAR_NAME%" /o:"cortside" /k:"%SONAR_PROJECT%" /v:"%APPVEYOR_BUILD_VERSION%" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="%SONAR_TOKEN%" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" %SONAR_ARGUMENTS%
-- dotnet build src --configuration %Configuration% /property:"Version=%APPVEYOR_BUILD_VERSION%"
-- dotnet test src --collect:"XPlat Code Coverage" --settings ./src/coverlet.runsettings.xml /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+- dotnet build src --no-restore --configuration %Configuration% /property:"Version=%APPVEYOR_BUILD_VERSION%"
+- dotnet test src --no-restore --no-build --collect:"XPlat Code Coverage" --settings ./src/coverlet.runsettings.xml /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 - dotnet sonarscanner end /d:sonar.login="%SONAR_TOKEN%"
 
 after_build:
