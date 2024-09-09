@@ -2,7 +2,7 @@
 
 image: Previous Visual Studio 2022
 
-version: 6.2.{build}
+version: 6.3.{build}
 
 configuration:
 - Debug
@@ -11,6 +11,19 @@ platform: Any CPU
 
 pull_requests:  
   do_not_increment_build_number: true
+  
+## Do not build feature branch with open Pull Requests
+#skip_branch_with_pr: true
+
+nuget:
+  disable_publish_on_pr: true
+  
+skip_commits:
+  files:
+    - CHANGELOG.md
+    - xappveyor.yml
+    - repository.json
+    - src/version.json  
 
 environment:
   # Don't report back to the mothership
@@ -85,7 +98,7 @@ after_build:
         $fileVersion = "${fileVersion}-${branch}"; 
     }
     
-    $fileVersion = $fileVersion.replace("release/", "");
+    $fileVersion = $fileVersion.replace("release/", "release-");
     $fileVersion = $fileVersion.replace("feature/", "");
     $fileVersion = $fileVersion.replace("bugfix/", "");
     dotnet pack src --include-symbols -p:SymbolPackageFormat=snupkg --configuration $env:configuration -o ((get-location).Path + '\artifacts') /property:Version=$fileVersion 
@@ -95,12 +108,7 @@ artifacts:
 
 cache:
 - '%USERPROFILE%\.nuget\packages'
-  
-nuget:
-  disable_publish_on_pr: true
-#  account_feed: true
-#  project_feed: true
-  
+   
 deploy:
 - provider: NuGet
   api_key:

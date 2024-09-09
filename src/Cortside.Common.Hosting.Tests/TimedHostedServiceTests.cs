@@ -8,7 +8,7 @@ using Xunit;
 namespace Cortside.Common.Hosting.Tests {
     public class TimedHostedServiceTests {
         private class TestTimedHostedService : TimedHostedService {
-            public TestTimedHostedService(ILogger logger, bool enabled, int interval, bool generateCorrelationId = true) : base(logger, enabled, interval, generateCorrelationId) {
+            public TestTimedHostedService(ILogger logger, bool enabled, int interval) : base(logger, enabled, interval) {
             }
 
             public Task PublicExecuteAsync(CancellationToken stoppingToken) {
@@ -28,12 +28,12 @@ namespace Cortside.Common.Hosting.Tests {
 
         public TimedHostedServiceTests() {
             logger = new Mock<ILogger>();
-            instance = new TestTimedHostedService(logger.Object, true, 500, false);
+            instance = new TestTimedHostedService(logger.Object, true, 500);
         }
 
         [Fact(Skip = "probably a good check to add")]
         public void CannotConstructWithNullLogger() {
-            Assert.Throws<ArgumentNullException>(() => new TestTimedHostedService(default, true, 5000, false));
+            Assert.Throws<ArgumentNullException>(() => new TestTimedHostedService(default, true, 5000));
         }
 
         [Fact]

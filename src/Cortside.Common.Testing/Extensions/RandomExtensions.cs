@@ -9,8 +9,9 @@ namespace Cortside.Common.Testing.Extensions {
         /// <param name="min">The inclusive minimum bound</param>
         /// <param name="max">The exclusive maximum bound.  Must be greater than min</param>
         public static long NextLong(this Random random, long min = long.MinValue, long max = long.MaxValue) {
-            if (max <= min)
+            if (max <= min) {
                 throw new ArgumentOutOfRangeException("max", "max must be > min!");
+            }
 
             //Working with ulong so that modulo works correctly with values > long.MaxValue
             ulong uRange = (ulong)(max - min);

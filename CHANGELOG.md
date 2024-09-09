@@ -1,3 +1,66 @@
+# Release 6.3
+
+* Update nuget dependencies to latest stable versions
+* Added extension methods to make registration simpler
+    * AddScopedInterfacesBySuffix
+	```csharp
+	typeof(OrderService).GetTypeInfo().Assembly.GetTypes()
+		.Where(x => (x.Name.EndsWith("Service"))
+			&& x.GetTypeInfo().IsClass
+			&& !x.GetTypeInfo().IsAbstract
+			&& x.GetInterfaces().Length > 0)
+		.ToList().ForEach(x => {
+			x.GetInterfaces().ToList()
+				.ForEach(i => services.AddScoped(i, x));
+		});	
+	```
+	
+    	becomes
+	
+	```csharp
+	services.AddScopedInterfacesBySuffix<OrderService>("Service");	
+	```
+    * AddSingletonClassesBySuffix
+	```csharp
+	typeof(OrderMapper).GetTypeInfo().Assembly.GetTypes()
+		.Where(x => (x.Name.EndsWith("Mapper"))
+			&& x.GetTypeInfo().IsClass
+			&& !x.GetTypeInfo().IsAbstract)
+		.ToList()
+		.ForEach(x => services.AddSingleton(x));
+	```
+
+    	becomes
+
+	```csharp
+	services.AddSingletonClassesBySuffix<OrderMapper>("Mapper");
+	```
+* MessageExceptionResponseFilter, ValidationFailedResult, ErrorsModel and ErrorModel moved to Cortside.AspNetCore
+* Added DbSet extensions for adding data in tests
+    * SeedFromFileAsync<T>
+	* DataFromFile<T>
+
+
+|Commit|Date|Author|Message|
+|---|---|---|---|
+| 69ce3c9 | <span style="white-space:nowrap;">2024-01-09</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update version
+| 853216a | <span style="white-space:nowrap;">2024-01-09</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'master' into develop
+| 34b9179 | <span style="white-space:nowrap;">2024-01-23</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'master' into develop
+| e0a1ef2 | <span style="white-space:nowrap;">2024-03-25</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add new package for ef based testing classes
+| de06447 | <span style="white-space:nowrap;">2024-04-23</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add extension method to ease registering classes in bootstrap installers
+| 3644b54 | <span style="white-space:nowrap;">2024-04-23</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add extension method to ease registering classes in bootstrap installers
+| 26dda9c | <span style="white-space:nowrap;">2024-04-23</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add extension method to ease registering classes in bootstrap installers
+| aaa136f | <span style="white-space:nowrap;">2024-07-17</span> | <span style="white-space:nowrap;">Braden Edmunds</span> |  remove aspnetcore references from solution
+| 4a2bdb9 | <span style="white-space:nowrap;">2024-07-22</span> | <span style="white-space:nowrap;">bradenedmunds</span> |  Merge branch 'develop' into separate-aspnetcore
+| c9640af | <span style="white-space:nowrap;">2024-07-22</span> | <span style="white-space:nowrap;">Braden Edmunds</span> |  remove test, moved to aspnetcore project
+| df803d7 | <span style="white-space:nowrap;">2024-07-22</span> | <span style="white-space:nowrap;">Braden Edmunds</span> |  fix static analysis warning
+| 2394f17 | <span style="white-space:nowrap;">2024-07-23</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge pull request #58 from cortside/separate-aspnetcore
+| 83f90c8 | <span style="white-space:nowrap;">2024-07-31</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update scripts from template
+| cdcf755 | <span style="white-space:nowrap;">2024-07-31</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  format source
+| 7539593 | <span style="white-space:nowrap;">2024-07-31</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update nuget packages
+| dc30266 | <span style="white-space:nowrap;">2024-07-31</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  (HEAD -> release/6.3, origin/develop, origin/HEAD, develop) update scripts from template
+****
+
 # Release 6.2
 
 * Update and cleanup nuget dependencies to latest stable versions
