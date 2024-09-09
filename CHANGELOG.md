@@ -1,5 +1,16 @@
 # Release 6.3
 
+## Breaking changes
+
+* CorrelationContext.SetFromHttpContext was moved to Cortside.AspNetCore.HttpCorrelationContext
+* Classes moved to Cortside.AspNetCore
+    * MessageExceptionResponseFilter
+    * ValidationFailedResult
+    * ErrorsModel and ErrorModel
+    * CorrelationMiddleware
+
+## Changes
+
 * Update nuget dependencies to latest stable versions
 * Added extension methods to make registration simpler
     * AddScopedInterfacesBySuffix
@@ -35,7 +46,6 @@
 	```csharp
 	services.AddSingletonClassesBySuffix<OrderMapper>("Mapper");
 	```
-* MessageExceptionResponseFilter, ValidationFailedResult, ErrorsModel and ErrorModel moved to Cortside.AspNetCore
 * Added DbSet extensions for adding data in tests
     * SeedFromFileAsync<T>
 	* DataFromFile<T>
