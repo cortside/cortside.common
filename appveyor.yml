@@ -12,16 +12,13 @@ platform: Any CPU
 pull_requests:  
   do_not_increment_build_number: true
   
-## Do not build feature branch with open Pull Requests
-#skip_branch_with_pr: true
-
 nuget:
   disable_publish_on_pr: true
   
 skip_commits:
   files:
     - CHANGELOG.md
-    - xappveyor.yml
+    - appveyor.yml
     - repository.json
     - src/version.json  
 
@@ -47,15 +44,16 @@ assembly_info:
   assembly_informational_version: '{version}'
 
 before_build:
-- appveyor-retry dotnet restore src -v Minimal
-- set DNX_BUILD_VERSION=%APPVEYOR_BUILD_NUMBER%
-- dotnet --info
-- ps: ./prebuild.ps1
+  - set DNX_BUILD_VERSION=%APPVEYOR_BUILD_NUMBER%
+  - ps: Invoke-WebRequest 'https://dot.net/v1/dotnet-install.ps1' -OutFile 'dotnet-install.ps1'
+  - ps: ./dotnet-install.ps1 -Channel 8.0 -Runtime aspnetcore -InstallDir 'C:\Program Files\dotnet\'
+  - ps: ./dotnet-install.ps1 -Channel 8.0 -InstallDir 'C:\Program Files\dotnet\'
+  - dotnet --info
+  - ps: ./prebuild.ps1
 
 build:
   publish_nuget: true
   publish_nuget_symbols: true
-  use_snupkg_format: true 
   include_nuget_references: true
   verbosity: minimal
 
