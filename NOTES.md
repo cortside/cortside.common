@@ -6,5 +6,4 @@
 // https://gist.github.com/PradeepLoganathan/bc4ae7daf64d5db4c4912000148011e2
 // https://github.com/FishBasketGordo/Creelio.Framework/blob/master/Creelio.Framework/Guard.cs
 
-
 https://kodify.net/csharp/strings/left-right-mid/
