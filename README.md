@@ -1,3 +1,7 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/1ym8qv6j8kbkda8l?svg=true)](https://ci.appveyor.com/project/cortside/cortside-common)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cortside_cortside.common&metric=alert_status)](https://sonarcloud.io/dashboard?id=cortside_cortside.common)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=cortside_cortside.common&metric=coverage)](https://sonarcloud.io/dashboard?id=cortside_cortside.common)
+
 # Cortside.Common
 
 ## Cortside.Common.Threading
