@@ -1,4 +1,9 @@
-﻿namespace Cortside.Common.Testing.Logging.Xunit {
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
+using Xunit.Abstractions;
+
+namespace Cortside.Common.Testing.Logging.Xunit {
     /// <summary>
     /// Extension methods for the <see cref="ILoggerFactory"/> class.
     /// </summary>
