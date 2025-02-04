@@ -61,6 +61,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Correlation
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Common.Correlation.Tests", "Cortside.Common.Correlation.Tests\Cortside.Common.Correlation.Tests.csproj", "{58003B10-A4C3-4EF7-A5B8-5A7C927406FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortside.Common.Logging", "Cortside.Common.Logging\Cortside.Common.Logging.csproj", "{ECE6C743-FCA4-47CA-97A2-645BAB61E1BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -167,6 +169,10 @@ Global
 		{58003B10-A4C3-4EF7-A5B8-5A7C927406FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58003B10-A4C3-4EF7-A5B8-5A7C927406FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58003B10-A4C3-4EF7-A5B8-5A7C927406FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECE6C743-FCA4-47CA-97A2-645BAB61E1BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECE6C743-FCA4-47CA-97A2-645BAB61E1BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECE6C743-FCA4-47CA-97A2-645BAB61E1BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECE6C743-FCA4-47CA-97A2-645BAB61E1BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,7 @@
 using System;
 
 namespace Cortside.Common.Testing.Extensions {
-    static class RandomExtensions {
+    public static class RandomExtensions {
         /// <summary>
         /// Returns a random long from min (inclusive) to max (exclusive)
         /// </summary>

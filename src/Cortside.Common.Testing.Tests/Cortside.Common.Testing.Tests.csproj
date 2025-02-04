@@ -21,6 +21,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cortside.Common.Logging\Cortside.Common.Logging.csproj" />
     <ProjectReference Include="..\Cortside.Common.Testing\Cortside.Common.Testing.csproj" />
   </ItemGroup>
 </Project>
