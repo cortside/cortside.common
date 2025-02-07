@@ -4,7 +4,7 @@ using Cortside.Common.Testing.Transactions;
 using Microsoft.Extensions.Logging;
 
 namespace Cortside.Common.Testing.Logging.LogEvent {
-    public class LogEventLogger : ILogger {
+    public class LogEventLogger<T> : ILogger<T> {
         public List<LogEvent> LogEvents { get; }
 
         public LogEventLogger() {
