@@ -49,8 +49,40 @@ namespace Cortside.Common.Testing.Tests.Logging.Xunit {
                 logger.LogError(ex, "An exception occurred.");
             }
 
+            using (logger.PushProperties(new Dictionary<string, object>() {
+                ["UserId"] = "xxx",
+                ["ExtraProperty"] = "yyy",
+            })) {
+                logger.LogDebug("logged messaged that should have 2 properties with it");
+            }
+        }
+
+        [Fact]
+        public void TestLoggerWithScope() {
+            var logger = new LogEventLogger();
+            Assert.NotNull(logger);
+
+            // Log some messages with different log levels and message templates
+            logger.LogTrace("This is a trace message.");
+            logger.LogDebug("This is a debug message.");
+            logger.LogInformation("Hello {Name}!", "World");
+            logger.LogWarning("This is a warning message.");
+            logger.LogError("This is an error message.");
+            logger.LogCritical("This is a critical message.");
+
+            // Use structured logging to capture complex data
+            var person = new Person { Name = "Alice", Age = 25 };
+            logger.LogInformation("Created a new person: {@Person}", person);
+
+            // Use exception logging to capture the details of an exception
+            try {
+                throw new Exception("Something went wrong.");
+            } catch (Exception ex) {
+                logger.LogError(ex, "An exception occurred.");
+            }
+
             // Use the logger to capture a log event
-            Assert.Equal(8, LogEventLogger.LogEvents.Count);
+            Assert.Equal(8, logger.LogEvents.Count);
 
             using (logger.PushProperties(new Dictionary<string, object>() {
                 ["UserId"] = "xxx",
@@ -60,8 +92,9 @@ namespace Cortside.Common.Testing.Tests.Logging.Xunit {
             }
 
             // 10, adding 1 for the actual log and 1 for the being scope
-            Assert.Equal(10, LogEventLogger.LogEvents.Count);
-            Assert.Equal("UserId=xxxExtraProperty=yyy", LogEventLogger.LogEvents.First(x => x.LogLevel == LogLevel.None).Message);
+            Assert.Equal(10, logger.LogEvents.Count);
+            Assert.Equal("UserId=xxxExtraProperty=yyy",
+                logger.LogEvents.First(x => x.LogLevel == LogLevel.None).Message);
         }
     }
 }

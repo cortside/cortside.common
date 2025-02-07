@@ -5,11 +5,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Cortside.Common.Testing.Logging.LogEvent {
     public class LogEventLogger : ILogger {
-        private readonly string name;
-        public static List<LogEvent> LogEvents { get; } = new List<LogEvent>();
+        public List<LogEvent> LogEvents { get; }
 
+        public LogEventLogger() {
+            LogEvents = new List<LogEvent>();
+        }
         public LogEventLogger(string name) {
-            this.name = name;
+            LogEvents = new List<LogEvent>();
         }
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter) {
