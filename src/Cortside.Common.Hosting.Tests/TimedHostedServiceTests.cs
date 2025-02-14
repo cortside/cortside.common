@@ -6,49 +6,61 @@ using Moq;
 using Xunit;
 
 namespace Cortside.Common.Hosting.Tests {
-    public class TimedHostedServiceTests {
-        private class TestTimedHostedService : TimedHostedService {
-            public TestTimedHostedService(ILogger logger, bool enabled, int interval) : base(logger, enabled, interval) {
-            }
-
-            public Task PublicExecuteAsync(CancellationToken stoppingToken) {
-                return base.ExecuteAsync(stoppingToken);
-            }
-
-            protected override Task ExecuteIntervalAsync() {
-                Executed = true;
-                return Task.CompletedTask;
-            }
-
-            public bool Executed { get; set; } = false;
-        }
-
-        private readonly TestTimedHostedService instance;
+    public partial class TimedHostedServiceTests {
         private readonly Mock<ILogger> logger;
 
         public TimedHostedServiceTests() {
             logger = new Mock<ILogger>();
-            instance = new TestTimedHostedService(logger.Object, true, 500);
         }
 
         [Fact(Skip = "probably a good check to add")]
         public void CannotConstructWithNullLogger() {
-            Assert.Throws<ArgumentNullException>(() => new TestTimedHostedService(default, true, 5000));
+            Assert.Throws<ArgumentNullException>(() => new TestTimedHostedService(default, true, 5));
         }
 
         [Fact]
         public async Task CanCallExecuteAsync() {
             // Arrange
             var stoppingToken = CancellationToken.None;
+            var instance = new TestTimedHostedService(logger.Object, true, 1);
 
             // Act
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             instance.PublicExecuteAsync(stoppingToken);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            await Task.Delay(1000);
+            await Task.Delay(100);
 
             // Assert
             Assert.True(instance.Executed);
+        }
+
+        [Fact]
+        public async Task ShouldNotTimeout() {
+            // Arrange
+            var stoppingToken = CancellationToken.None;
+            var interval = 1;
+            var service = new TestTimedHostedService(logger.Object, true, interval, 250);
+
+            // Act
+            service.PublicExecuteAsync(stoppingToken);
+            await Task.Delay(TimeSpan.FromSeconds(interval));
+
+            // Assert
+            Assert.True(service.Executed);
+        }
+
+        [Fact]
+        public async Task ShouldTimeout() {
+            // Arrange
+            var stoppingToken = CancellationToken.None;
+            var interval = 1;
+            var delay = Convert.ToInt32(TimeSpan.FromSeconds(interval).TotalMilliseconds + 250);
+            var service = new TestTimedHostedService(logger.Object, true, interval, delay);
+
+            // Act
+            service.PublicExecuteAsync(stoppingToken);
+            await Task.Delay(delay * 2);
+
+            // Assert
+            Assert.False(service.Executed);
         }
     }
 }

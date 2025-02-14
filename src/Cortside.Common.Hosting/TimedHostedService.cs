@@ -15,15 +15,17 @@ namespace Cortside.Common.Hosting {
         private readonly int interval;
         private readonly bool enabled;
         private readonly bool generateCorrelationId;
+        private readonly bool forceIntervalTimeout;
 
         /// <summary>
         /// Initializes new instance of the Hosted Service
         /// </summary>
-        protected TimedHostedService(ILogger logger, bool enabled, int interval, bool generateCorrelationId = true) {
+        protected TimedHostedService(ILogger logger, bool enabled, int interval, bool generateCorrelationId = true, bool forceIntervalTimeout = true) {
             this.logger = logger;
             this.interval = interval;
             this.enabled = enabled;
             this.generateCorrelationId = generateCorrelationId;
+            this.forceIntervalTimeout = forceIntervalTimeout;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken) {
@@ -48,15 +50,25 @@ namespace Cortside.Common.Hosting {
         }
 
         private async Task IntervalAsync() {
-            var correlationId = CorrelationContext.GetCorrelationId(generateCorrelationId);
-            using (logger.BeginScope(new Dictionary<string, object> { ["CorrelationId"] = correlationId })) {
-                logger.LogDebug($"{this.GetType().Name} is working");
+            var cts = new CancellationTokenSource();
 
-                try {
-                    await ExecuteIntervalAsync().ConfigureAwait(false);
-                } catch (Exception ex) {
-                    logger.LogError(ex, this.GetType().Name);
+            try {
+                if (forceIntervalTimeout) {
+                    cts.CancelAfter(Convert.ToInt32(TimeSpan.FromSeconds(interval).TotalMilliseconds));
                 }
+
+                var correlationId = CorrelationContext.GetCorrelationId(generateCorrelationId);
+                using (logger.BeginScope(new Dictionary<string, object> { ["CorrelationId"] = correlationId })) {
+                    logger.LogDebug($"{this.GetType().Name} is working");
+
+                    await ExecuteIntervalAsync().ConfigureAwait(false);
+                }
+            } catch (OperationCanceledException) {
+                logger.LogWarning($"{this.GetType().Name} is taking longer than {interval} seconds");
+            } catch (Exception ex) {
+                logger.LogError(ex, this.GetType().Name);
+            } finally {
+                cts.Dispose();
             }
         }
 
