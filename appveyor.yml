@@ -1,8 +1,10 @@
-## https://www.appveyor.com/docs/appveyor-yml/
+##
+# library build
+##
 
 image: Previous Visual Studio 2022
 
-version: 6.4.{build}
+version: 8.0.{build}
 
 configuration:
 - Debug
@@ -11,16 +13,6 @@ platform: Any CPU
 
 pull_requests:  
   do_not_increment_build_number: true
-  
-nuget:
-  disable_publish_on_pr: true
-  
-skip_commits:
-  files:
-    - CHANGELOG.md
-    - appveyor.yml
-    - repository.json
-    - src/version.json  
 
 environment:
   # Don't report back to the mothership
@@ -28,83 +20,39 @@ environment:
   JAVA_HOME: C:\Program Files\Java\jdk19
   SONAR_TOKEN:
     secure: fNmV/P8zSNwd3LWpzw2nnm807oe1Hr0gr11hTItGCXmnVQ0tHN1ESPUjLYjsXmpG
-  SONAR_PROJECT: cortside_cortside.common
   RESTRICTED_WORDS:
     secure: y2oCk9wYmgBAzk4m1tsSFUOlcEePEjozzMCfC0p6NQI=
 
-init:
+install:
+- ps: ./dotenv.ps1
 - ps: $Env:LABEL = "CI" + $Env:APPVEYOR_BUILD_NUMBER.PadLeft(5, "0")
 - ps: Get-ChildItem "Env:"
 
-assembly_info:
-  patch: true
-  file: '**\AssemblyInfo.*'
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: '{version}'
-
 before_build:
-  - appveyor-retry dotnet restore src -v Minimal
-  - set DNX_BUILD_VERSION=%APPVEYOR_BUILD_NUMBER%
-  - dotnet --info
-  - ps: ./prebuild.ps1
+- appveyor-retry dotnet restore src -v Minimal
+- set DNX_BUILD_VERSION=%APPVEYOR_BUILD_NUMBER%
+- dotnet --info
+- ps: ./prebuild.ps1
 
 build:
   publish_nuget: true
   publish_nuget_symbols: true
+  use_snupkg_format: true 
   include_nuget_references: true
   verbosity: minimal
 
 build_script:
-- ps: >-
-    $version = $env:APPVEYOR_BUILD_VERSION;
-    $analysisArgs = "";
-    if (-not (Test-Path env:APPVEYOR_PULL_REQUEST_NUMBER)) {
-        $branch = $Env:APPVEYOR_REPO_BRANCH;
-        $analysisArgs = "/d:sonar.branch.name=""$branch""";
-        if ($branch -ne "master") {
-            $target = "develop";
-            if ($branch -eq "develop" -or $branch -like "release/*" -or $branch -like "hotfix/*") {
-                $target = "master";
-            }
-            $analysisArgs += " /d:sonar.newCode.referenceBranch=""$target""";
-        }
-    } else {
-        $branch = $Env:APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH;
-        $target = $Env:APPVEYOR_REPO_BRANCH;
-        $commit = $Env:APPVEYOR_PULL_REQUEST_HEAD_COMMIT;
-        $pullRequestId = $Env:APPVEYOR_PULL_REQUEST_NUMBER;
-        $analysisArgs = "/d:sonar.scm.revision=""$commit"" /d:sonar.pullrequest.key=""$pullRequestId"" /d:sonar.pullrequest.base=""$target"" /d:sonar.pullrequest.branch=""$branch""";
-    }   
-    $env:SOURCE_BRANCH="$branch";
-    $env:TARGET_BRANCH="$target";
-    $env:SONAR_ARGUMENTS="$analysisArgs";
-    echo "building version $version from branch $branch targeting $target with analysis arguments of $analysisArgs";
-- dotnet tool install --global dotnet-sonarscanner
-- dotnet sonarscanner begin /n:"%SONAR_NAME%" /o:"cortside" /k:"%SONAR_PROJECT%" /v:"%APPVEYOR_BUILD_VERSION%" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="%SONAR_TOKEN%" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" %SONAR_ARGUMENTS%
-- dotnet build src --no-restore --configuration %Configuration% /property:"Version=%APPVEYOR_BUILD_VERSION%"
-- dotnet test src --no-restore --no-build --collect:"XPlat Code Coverage" --settings ./src/coverlet.runsettings.xml /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-- dotnet sonarscanner end /d:sonar.login="%SONAR_TOKEN%"
+- pwsh: .\appveyor-build.ps1
 
-after_build:
-- ps: >-
-    $branch = $ENV:APPVEYOR_REPO_BRANCH;
-    $fileVersion = $env:APPVEYOR_BUILD_VERSION;
-    if($branch -ne 'master') {
-        $fileVersion = "${fileVersion}-${branch}"; 
-    }
-    
-    $fileVersion = $fileVersion.replace("release/", "release-");
-    $fileVersion = $fileVersion.replace("feature/", "");
-    $fileVersion = $fileVersion.replace("bugfix/", "");
-    dotnet pack src --include-symbols -p:SymbolPackageFormat=snupkg --configuration $env:configuration -o ((get-location).Path + '\artifacts') /property:Version=$fileVersion 
-    
 artifacts:
 - path: artifacts\**\*.*
 
 cache:
 - '%USERPROFILE%\.nuget\packages'
-   
+  
+nuget:
+  disable_publish_on_pr: true
+  
 deploy:
 - provider: NuGet
   api_key:

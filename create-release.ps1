@@ -90,7 +90,7 @@ Function Update-Version {
 }
 
 # common repository functions
-Import-Module .\Repository.psm1
+Import-Module .\Repository.psm1 -Force
 
 Invoke-Exe -cmd git -args "checkout master"
 Invoke-Exe -cmd git -args "pull"

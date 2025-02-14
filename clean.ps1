@@ -78,7 +78,7 @@ Function Invoke-Cleanup {
 	}
 
 	# clean package, bin and obj folders
-	Get-ChildItem .\ -include packages,bin,obj,node_modules -Recurse | Where-Object {$_.FullName -NotMatch "BuildScripts"} | %{ 
+	Get-ChildItem .\ -include packages,bin,obj,node_modules,TestResults -Recurse | Where-Object {$_.FullName -NotMatch "BuildScripts"} | %{ 
 		Write-Host "Removing $($_.fullname)"; 
 		remove-item $_.fullname -Force -Recurse 
 	}
@@ -112,6 +112,9 @@ Function Invoke-Cleanup {
 	remove "OpenCover"
 	remove "Publish"
 	remove "TestBin"
+	remove "output"
+	remove "coveragereport"
+	remove ".sonarqube"
 }
 
 if ($force.IsPresent) {
@@ -120,6 +123,9 @@ if ($force.IsPresent) {
 
 	# cleanup all nuget resources
 	#dotnet nuget locals --clear all
+	
+	# remove the .vs folder
+	remove "src/.vs"
 }
 
 # remove all bin/obj folders
