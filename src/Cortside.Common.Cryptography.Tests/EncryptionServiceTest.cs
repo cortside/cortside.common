@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 
 namespace Cortside.Common.Cryptography.Tests {
@@ -25,16 +25,16 @@ namespace Cortside.Common.Cryptography.Tests {
             string response = encryptionService.EncryptObject(rebateSearchDto);
 
             // assert
-            response.Should().NotBeNullOrWhiteSpace();
+            response.ShouldNotBeNullOrWhiteSpace();
 
             // act
             RebateSearchDto rebateSearchDtoDecrypted = encryptionService.DecryptObject<RebateSearchDto>(response);
 
             // assert
-            rebateSearchDtoDecrypted.Should().NotBeNull();
-            rebateSearchDtoDecrypted.ContractorIds.Should().BeEquivalentTo(rebateSearchDto.ContractorIds);
-            rebateSearchDtoDecrypted.LoanId.Should().Be(rebateSearchDto.LoanId);
-            rebateSearchDtoDecrypted.RebateStatus.Should().Be(rebateSearchDto.RebateStatus);
+            rebateSearchDtoDecrypted.ShouldNotBeNull();
+            rebateSearchDtoDecrypted.ContractorIds.ShouldBeEquivalentTo(rebateSearchDto.ContractorIds);
+            rebateSearchDtoDecrypted.LoanId.ShouldBe(rebateSearchDto.LoanId);
+            rebateSearchDtoDecrypted.RebateStatus.ShouldBe(rebateSearchDto.RebateStatus);
         }
     }
 }
