@@ -1,3 +1,26 @@
+# Release 8.0
+
+|Commit|Date|Author|Message|
+|---|---|---|---|
+| 40d55e4 | <span style="white-space:nowrap;">2024-07-31</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update version
+| 006bbdc | <span style="white-space:nowrap;">2024-08-01</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'release/6.3' into develop
+| 3cc325b | <span style="white-space:nowrap;">2024-09-09</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'master' into develop
+| 45689e1 | <span style="white-space:nowrap;">2024-09-09</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  make testing.ef project a nuget package
+| b00e3a4 | <span style="white-space:nowrap;">2024-09-27</span> | <span style="white-space:nowrap;">Erik</span> |  add preconditionfailed exception for filter
+| 9d14027 | <span style="white-space:nowrap;">2024-09-27</span> | <span style="white-space:nowrap;">Erik</span> |  fix codacy issue
+| 1cb4be2 | <span style="white-space:nowrap;">2024-09-27</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge pull request #60 from cortside/feature/pre-condition-failed
+| c79ad28 | <span style="white-space:nowrap;">2024-09-27</span> | <span style="white-space:nowrap;">Erik</span> |  Merge remote-tracking branch 'remotes/origin/master' into develop
+| fef9747 | <span style="white-space:nowrap;">2024-12-30</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add badges to README.md
+| cc4d26c | <span style="white-space:nowrap;">2025-02-04</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add extension methods for ILogger to be able to push properties like serilog does without serilog; add more unit tests
+| b03463a | <span style="white-space:nowrap;">2025-02-04</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add extension methods for ILogger to be able to push properties like serilog does without serilog; add more unit tests
+| e38e940 | <span style="white-space:nowrap;">2025-02-06</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  revert some of the changes on LogEventLoger that were causing problems
+| fca77da | <span style="white-space:nowrap;">2025-02-07</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  revert changes to LogEventLoger
+| 98654af | <span style="white-space:nowrap;">2025-02-13</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update to net8
+| 13f79a9 | <span style="white-space:nowrap;">2025-02-13</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update to net8
+| 23e0530 | <span style="white-space:nowrap;">2025-02-18</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Use Shouldly instead of FluentAssertions because of new licensing
+| ff0aed2 | <span style="white-space:nowrap;">2025-03-13</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  (HEAD -> release/8.0, origin/develop, origin/HEAD, develop) update packages
+****
+
 # Release 6.3
 
 ## Breaking changes
