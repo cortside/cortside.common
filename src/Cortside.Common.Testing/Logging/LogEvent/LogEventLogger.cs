@@ -10,6 +10,9 @@ namespace Cortside.Common.Testing.Logging.LogEvent {
         public LogEventLogger() {
             LogEvents = new List<LogEvent>();
         }
+        public LogEventLogger(string name) {
+            LogEvents = new List<LogEvent>();
+        }
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter) {
             var log = new LogEvent() {
@@ -24,6 +27,16 @@ namespace Cortside.Common.Testing.Logging.LogEvent {
         }
 
         public IDisposable BeginScope<TState>(TState state) {
+            var s = string.Empty;
+            if (state is IEnumerable<KeyValuePair<string, object>>) {
+                var context = state as IEnumerable<KeyValuePair<string, object>>;
+                foreach (var kp in context) {
+                    s += kp.Key + "=" + kp.Value.ToString();
+                }
+
+                LogEvents.Add(new LogEvent() { LogLevel = LogLevel.None, Message = s });
+            }
+
             return NullScope.Instance;
         }
     }

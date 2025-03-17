@@ -61,7 +61,7 @@ Param (
 
 	$BuildObject | Add-Member -MemberType NoteProperty -Name Build -Value $build
 	
-	$BuildObject| convertto-json -depth 5 | out-file $buildjsonpath -force 
+	#$BuildObject| convertto-json -depth 5 | out-file $buildjsonpath -force 
 	
 	return $buildobject
 }
@@ -127,7 +127,7 @@ Param(
      $build.build.tag = $dockertag 
 	 $build.build.suffix = $suffix
   
-     $build | convertto-json -depth 5 | out-file $buildjsonpath -force 
+     #$build | convertto-json -depth 5 | out-file $buildjsonpath -force 
 	 
 	 # After the outfile as I do not need this on the JSON for build, only for CI 
 	 $build.build | Add-Member -MemberType NoteProperty -Name channel  -Value $OctopusChannel 
