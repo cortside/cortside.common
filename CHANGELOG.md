@@ -1,5 +1,15 @@
 # Release 8.0
 
+* Updated powershell scripts to latest versions from coeus/shoppingcart-api
+* Standardized library build files and resolved code coverage issues
+* Update target framework to net8.0
+* Update all dependency nuget packages
+* Add/Fix build badges
+* Transition to use Shouldly instead of FluentAssertions
+* Fixed annotation in Cortside.Common.Testing.EntityFramework to publish nuget package despite Test in the name
+* Add PreconditionFailedResponseException to be used by Cortside.AspNetCore MessageExceptionResponseFilter
+* Add Microsoft.Extensions.Logging ILogger extension methods to make adding properties to logging context (similar style to how it's done in Serilog, without having to rely on serilog deep into a solution)
+
 |Commit|Date|Author|Message|
 |---|---|---|---|
 | 40d55e4 | <span style="white-space:nowrap;">2024-07-31</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update version
