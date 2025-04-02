@@ -1,39 +1,24 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Cortside.Common.Hosting.Tests.Hosting;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
 namespace Cortside.Common.Hosting.Tests {
-    public class TimedHostedServiceTests {
-        private class TestTimedHostedService : TimedHostedService {
-            public TestTimedHostedService(ILogger logger, bool enabled, int interval) : base(logger, enabled, interval) {
-            }
-
-            public Task PublicExecuteAsync(CancellationToken stoppingToken) {
-                return base.ExecuteAsync(stoppingToken);
-            }
-
-            protected override Task ExecuteIntervalAsync() {
-                Executed = true;
-                return Task.CompletedTask;
-            }
-
-            public bool Executed { get; set; } = false;
-        }
-
+    public class TimedHostedServiceTest {
         private readonly TestTimedHostedService instance;
         private readonly Mock<ILogger> logger;
 
-        public TimedHostedServiceTests() {
+        public TimedHostedServiceTest() {
             logger = new Mock<ILogger>();
-            instance = new TestTimedHostedService(logger.Object, true, 500);
+            instance = new TestTimedHostedService(logger.Object, new TestTimedHostedConfiguration() { Enabled = true, Interval = 500 });
         }
 
         [Fact(Skip = "probably a good check to add")]
         public void CannotConstructWithNullLogger() {
-            Assert.Throws<ArgumentNullException>(() => new TestTimedHostedService(default, true, 5000));
+            Assert.Throws<ArgumentNullException>(() => new TestTimedHostedService(default, new TestTimedHostedConfiguration() { Enabled = true, Interval = 5000 }));
         }
 
         [Fact]
