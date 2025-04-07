@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,6 +15,7 @@ namespace Cortside.Common.Hosting {
         private readonly int interval;
         private readonly bool enabled;
         private readonly bool generateCorrelationId;
+        protected DateTime lastActivity = DateTime.UtcNow;
 
         /// <summary>
         /// Initializes new instance of the Hosted Service
@@ -28,17 +29,19 @@ namespace Cortside.Common.Hosting {
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken) {
             // force async so that hosted service does not block Startup
-#pragma warning disable _MissingConfigureAwait // Consider using .ConfigureAwait(false).
             await Task.Yield();
-#pragma warning restore _MissingConfigureAwait // Consider using .ConfigureAwait(false).
 
             if (enabled) {
                 logger.LogInformation($"{this.GetType().Name} is starting with interval of {interval} seconds");
-
                 stoppingToken.Register(() => logger.LogDebug($"{this.GetType().Name} is stopping."));
 
                 while (!stoppingToken.IsCancellationRequested) {
+                    // last execution set before and after interval to catch start and catch after sleep delay
+                    lastActivity = DateTime.UtcNow;
+
                     await IntervalAsync();
+                    lastActivity = DateTime.UtcNow;
+
                     await Task.Delay(TimeSpan.FromSeconds(interval), stoppingToken).ConfigureAwait(false);
                 }
                 logger.LogInformation($"{this.GetType().Name} is stopping");
@@ -61,5 +64,15 @@ namespace Cortside.Common.Hosting {
         }
 
         protected abstract Task ExecuteIntervalAsync();
+
+        /// <summary>
+        /// Last activity time for purposes of being able to monitor health
+        /// </summary>
+        public DateTime LastActivity => lastActivity;
+
+        /// <summary>
+        /// Sleep delay/interval between executions
+        /// </summary>
+        public TimeSpan Interval => TimeSpan.FromSeconds(interval);
     }
 }
