@@ -1,5 +1,0 @@
-query-filters:
-  - exclude:
-      id:
-        - cs/linq/missed-where
-        - cs/virtual-call-in-constructor
