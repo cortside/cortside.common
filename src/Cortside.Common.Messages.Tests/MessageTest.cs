@@ -1,4 +1,6 @@
+using System;
 using Cortside.Common.Messages.Formatters;
+using Cortside.Common.Messages.MessageExceptions;
 using Cortside.Common.Messages.Tests.Exceptions;
 using Xunit;
 
@@ -35,6 +37,28 @@ namespace Cortside.Common.Messages.Tests {
             MessageListException ex = new MessageListException(messages);
             string errorMessage = ex.Message;
             Assert.NotEqual(boringOldErrorMessage, errorMessage); // this is the undescriptive error message if we do not override it
+        }
+
+        [Theory]
+        [InlineData(typeof(BadRequestResponseException))]
+        [InlineData(typeof(ConflictResponseException))]
+        [InlineData(typeof(ForbiddenAccessResponseException))]
+        [InlineData(typeof(InternalServerErrorResponseException))]
+        [InlineData(typeof(NotFoundResponseException))]
+        [InlineData(typeof(PreconditionFailedResponseException))]
+        [InlineData(typeof(UnauthorizedResponseException))]
+        [InlineData(typeof(UnprocessableEntityResponseException))]
+        public void TestMessageListExceptionWithResponseExceptions(Type exceptionType) {
+            MessageList messages = new MessageList();
+            for (int i = 0; i < 3; i++) {
+                var ex = (MessageException)Activator.CreateInstance(exceptionType);
+                Assert.NotNull(ex);
+                messages.Add(ex);
+            }
+            Assert.Equal(3, messages.Count);
+
+            var messageListException = new MessageListException(messages);
+            Assert.Equal(3, messageListException.Messages.Count);
         }
     }
 }
