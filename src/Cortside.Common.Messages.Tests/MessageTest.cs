@@ -67,9 +67,10 @@ namespace Cortside.Common.Messages.Tests {
             Assert.NotNull(ex);
             messages.Add(ex);
 
-
+            // make sure all messages are added
             Assert.Equal(3, messages.Count);
 
+            // create MessageListException
             var messageListException = new MessageListException(messages);
             Assert.Equal(3, messageListException.Messages.Count);
         }
