@@ -49,12 +49,25 @@ namespace Cortside.Common.Messages.Tests {
         [InlineData(typeof(UnauthorizedResponseException))]
         [InlineData(typeof(UnprocessableEntityResponseException))]
         public void TestMessageListExceptionWithResponseExceptions(Type exceptionType) {
+            // gather list of message exceptions
             MessageList messages = new MessageList();
-            for (int i = 0; i < 3; i++) {
-                var ex = (MessageException)Activator.CreateInstance(exceptionType);
-                Assert.NotNull(ex);
-                messages.Add(ex);
-            }
+
+            // use empty constructor
+            var ex = (MessageException)Activator.CreateInstance(exceptionType);
+            Assert.NotNull(ex);
+            messages.Add(ex);
+
+            // constructor with message
+            ex = (MessageException)Activator.CreateInstance(exceptionType, "foo");
+            Assert.NotNull(ex);
+            messages.Add(ex);
+
+            // constructor with message and exception
+            ex = (MessageException)Activator.CreateInstance(exceptionType, new object[] { "foo", new TestMessage("abc", "123") });
+            Assert.NotNull(ex);
+            messages.Add(ex);
+
+
             Assert.Equal(3, messages.Count);
 
             var messageListException = new MessageListException(messages);
