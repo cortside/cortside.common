@@ -59,7 +59,7 @@ namespace Cortside.Common.Hosting {
                 try {
                     await ExecuteIntervalAsync().ConfigureAwait(false);
                 } catch (Exception ex) {
-                    logger.LogError(ex, GetType().Name);
+                    logger.LogError(ex, "Failed to execute interval in {Name}", GetType().Name);
                 }
             }
         }

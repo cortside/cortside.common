@@ -12,7 +12,6 @@ namespace Cortside.Common.Messages.MessageExceptions {
 
         public ValidationListException(string message, System.Exception innerException) : base(message, innerException) { }
 
-
         protected ValidationListException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         public ValidationListException(params MessageException[] messages) : base(messages) { }
