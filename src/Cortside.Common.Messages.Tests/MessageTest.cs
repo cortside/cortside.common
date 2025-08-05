@@ -8,10 +8,38 @@ using Xunit;
 namespace Cortside.Common.Messages.Tests {
     public class MessageTest {
         [Fact]
-        public void TestMissingFieldMessage() {
+        public void ShouldFormatWithSimpleFormatter() {
             TestMessageException messageException = new TestMessageException("Param1", "Param2");
             IMessageFormatter formatter = new SimpleFormatter();
             Assert.Equal("First parameter is Param1. Second parameter is Param2.", formatter.Format(messageException));
+        }
+
+        [Fact]
+        public void TestInvalidTypeFormatError() {
+            var messageException = new InvalidTypeFormatError("Field1", "123");
+            var formatter = new SimpleFormatter();
+            Assert.Equal("`123` is not a valid value for Field1.", formatter.Format(messageException));
+            Assert.Equal("Field1", messageException.Property);
+            Assert.Equal("123", messageException.Value);
+
+        }
+
+        [Fact]
+        public void TestInvalidValueError() {
+            var messageException = new InvalidValueError("Field1", "");
+            var formatter = new SimpleFormatter();
+            Assert.Equal("`` is not a valid value for Field1.", formatter.Format(messageException));
+            Assert.Equal("Field1", messageException.Property);
+            Assert.Equal("", messageException.Value);
+        }
+
+        [Fact]
+        public void TestMissingFieldMessage() {
+            var messageException = new MissingRequiredFieldError("Field1");
+            var formatter = new SimpleFormatter();
+            Assert.Equal("Field1 is required.", formatter.Format(messageException));
+            Assert.Equal("Field1", messageException.Property);
+            Assert.Equal("Field1", messageException.FieldName);
         }
 
         [Fact]
@@ -49,6 +77,7 @@ namespace Cortside.Common.Messages.Tests {
         [InlineData(typeof(PreconditionFailedResponseException))]
         [InlineData(typeof(UnauthorizedResponseException))]
         [InlineData(typeof(UnprocessableEntityResponseException))]
+        [InlineData(typeof(ValidationListException))]
         public void TestMessageListExceptionWithResponseExceptions(Type exceptionType) {
             // gather list of message exceptions
             MessageList messages = [];

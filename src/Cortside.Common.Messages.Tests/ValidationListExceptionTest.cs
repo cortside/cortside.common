@@ -13,7 +13,7 @@ namespace Cortside.Common.Messages.Tests {
             ];
 
             // act
-            MessageListException ex = new MessageListException(messages);
+            ValidationListException ex = new ValidationListException(messages);
 
             // assert
             Assert.True(ex.HasMessageOfType<TestMessageException>());
@@ -28,9 +28,16 @@ namespace Cortside.Common.Messages.Tests {
             for (var i = 0; i < 3; i++) {
                 messages.Add(new TestMessageException("Param1", "Param2"));
             }
-            MessageListException ex = new MessageListException(messages);
+            ValidationListException ex = new ValidationListException(messages);
             string errorMessage = ex.Message;
             Assert.NotEqual(boringOldErrorMessage, errorMessage);
+        }
+
+        [Fact]
+        public void CreateWithMessageException() {
+            MessageException ex = new TestMessageException("Param1", "Param2");
+            MessageListException exception = new ValidationListException(ex);
+            Assert.True(exception.HasMessageOfType<TestMessageException>());
         }
     }
 }

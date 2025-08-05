@@ -16,11 +16,5 @@ namespace Cortside.Common.Messages.MessageExceptions {
         public UnauthorizedResponseException(string message, Exception exception) : base(message, exception) { }
 
         protected UnauthorizedResponseException(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
-        protected UnauthorizedResponseException(string key, string property, params object[] properties) : base(key, property, properties) {
-        }
-
-        protected UnauthorizedResponseException(string message, string property) : base(message, property) {
-        }
     }
 }

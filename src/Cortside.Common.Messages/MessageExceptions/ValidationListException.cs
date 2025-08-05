@@ -1,29 +1,24 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Cortside.Common.Messages.MessageExceptions {
+    [Serializable]
     public class ValidationListException : MessageListException {
-        public ValidationListException() : base("Validation failed") {
-            Messages = [];
-        }
+        public ValidationListException() : base() { }
 
-        public ValidationListException(params MessageException[] messages) : this(messages.ToList()) { }
+        public ValidationListException(string message) : base(message) { }
+
+        public ValidationListException(string message, System.Exception innerException) : base(message, innerException) { }
+
+
+        protected ValidationListException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+        public ValidationListException(params MessageException[] messages) : base(messages) { }
 
         public ValidationListException(IEnumerable<MessageException> messages) : this() {
-            Messages = [];
-            Messages.AddRange(messages);
-        }
-
-        public ValidationListException(string message) : base(message) {
-        }
-
-        protected ValidationListException(string key, string property, params object[] properties) : base(key, property, properties) {
-        }
-
-        protected ValidationListException(string message, string property) : base(message, property) {
-        }
-
-        protected ValidationListException(string message, System.Exception innerException) : base(message, innerException) {
+            Messages = messages.ToList();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Cortside.Common.Messages {
         protected MessageException(string message, Exception innerException) : base(message, innerException) { }
         protected MessageException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-        public string Key { get; } = string.Empty;
+        public string Key { get; }
 
         public object[] Properties { get; } = [];
         public string Property { get; protected set; }

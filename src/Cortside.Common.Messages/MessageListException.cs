@@ -8,7 +8,7 @@ namespace Cortside.Common.Messages {
     public class MessageListException : MessageException {
         public List<MessageException> Messages { get; protected set; }
 
-        public MessageListException() : base("One or more error occurred.") {
+        public MessageListException() : base("One or more errors occurred.") {
             Messages = [];
         }
 
@@ -18,7 +18,7 @@ namespace Cortside.Common.Messages {
 
         public MessageListException(params MessageException[] messages) : this(messages.ToList()) { }
 
-        public MessageListException(IEnumerable<MessageException> messages) {
+        public MessageListException(IEnumerable<MessageException> messages) : this() {
             Messages = [];
             Messages.AddRange(messages);
         }
