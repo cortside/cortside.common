@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Runtime.Serialization;
 
 namespace Cortside.Common.Messages {
+    [Serializable]
     public abstract class MessageException : Exception {
         protected MessageException(string key, string property, params object[] properties) : base(key) {
             Key = key;
@@ -21,7 +22,7 @@ namespace Cortside.Common.Messages {
 
         public string Key { get; } = string.Empty;
 
-        public object[] Properties { get; } = new object[0];
+        public object[] Properties { get; } = [];
         public string Property { get; protected set; }
     }
 }

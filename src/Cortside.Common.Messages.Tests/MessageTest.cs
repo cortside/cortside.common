@@ -2,22 +2,23 @@ using System;
 using Cortside.Common.Messages.Formatters;
 using Cortside.Common.Messages.MessageExceptions;
 using Cortside.Common.Messages.Tests.Exceptions;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace Cortside.Common.Messages.Tests {
     public class MessageTest {
         [Fact]
         public void TestMissingFieldMessage() {
-            TestMessage message = new TestMessage("Param1", "Param2");
+            TestMessageException messageException = new TestMessageException("Param1", "Param2");
             IMessageFormatter formatter = new SimpleFormatter();
-            Assert.Equal("First parameter is Param1. Second parameter is Param2.", formatter.Format(message));
+            Assert.Equal("First parameter is Param1. Second parameter is Param2.", formatter.Format(messageException));
         }
 
         [Fact]
         public void TestMessageListException() {
-            MessageList messages = new MessageList();
+            MessageList messages = [];
             for (int i = 0; i < 3; i++) {
-                messages.Add(new TestMessage("Param1", "Param2"));
+                messages.Add(new TestMessageException("Param1", "Param2"));
             }
             MessageListException ex = new MessageListException(messages);
             Assert.Equal(3, ex.Messages.Count);
@@ -30,9 +31,9 @@ namespace Cortside.Common.Messages.Tests {
         [Fact]
         public void TestMessageListExceptionString() {
             const string boringOldErrorMessage = "Error in the application.";
-            MessageList messages = new MessageList();
+            MessageList messages = [];
             for (int i = 0; i < 3; i++) {
-                messages.Add(new TestMessage("Param1", "Param2"));
+                messages.Add(new TestMessageException("Param1", "Param2"));
             }
             MessageListException ex = new MessageListException(messages);
             string errorMessage = ex.Message;
@@ -50,7 +51,7 @@ namespace Cortside.Common.Messages.Tests {
         [InlineData(typeof(UnprocessableEntityResponseException))]
         public void TestMessageListExceptionWithResponseExceptions(Type exceptionType) {
             // gather list of message exceptions
-            MessageList messages = new MessageList();
+            MessageList messages = [];
 
             // use empty constructor
             var ex = (MessageException)Activator.CreateInstance(exceptionType);
@@ -63,7 +64,7 @@ namespace Cortside.Common.Messages.Tests {
             messages.Add(ex);
 
             // constructor with message and exception
-            ex = (MessageException)Activator.CreateInstance(exceptionType, new object[] { "foo", new TestMessage("abc", "123") });
+            ex = (MessageException)Activator.CreateInstance(exceptionType, ["foo", new ArgumentException("abc")]);
             Assert.NotNull(ex);
             messages.Add(ex);
 
@@ -73,6 +74,13 @@ namespace Cortside.Common.Messages.Tests {
             // create MessageListException
             var messageListException = new MessageListException(messages);
             Assert.Equal(3, messageListException.Messages.Count);
+
+            // should be serializable
+            var json = JsonConvert.SerializeObject(ex);
+            var deserialized = (MessageException)JsonConvert.DeserializeObject(json, exceptionType);
+            Assert.NotNull(deserialized);
+            Assert.NotNull(deserialized.Message);
+            Assert.Equal(ex.Message, deserialized.Message);
         }
     }
 }

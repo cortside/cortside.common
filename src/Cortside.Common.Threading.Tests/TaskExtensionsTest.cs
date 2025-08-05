@@ -5,11 +5,11 @@ using Xunit;
 
 namespace Cortside.Common.Threading.Tests {
     public class TaskExtensionsTest {
-        private Task DoStuffAsync() {
+        private static Task DoStuffAsync() {
             return Task.Delay(TimeSpan.FromMilliseconds(200));
         }
 
-        private async Task<bool> DoBoolStuffAsync() {
+        private static async Task<bool> DoBoolStuffAsync() {
             await Task.Delay(TimeSpan.FromMilliseconds(200)).ConfigureAwait(false);
             return true;
         }

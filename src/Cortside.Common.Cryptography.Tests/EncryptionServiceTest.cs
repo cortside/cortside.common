@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Shouldly;
 using Xunit;
 
@@ -16,7 +15,7 @@ namespace Cortside.Common.Cryptography.Tests {
         public void ShouldEncryptAndDecryptSearchObject() {
             // arrange
             RebateSearchDto rebateSearchDto = new RebateSearchDto {
-                ContractorIds = new List<int> { 1 },
+                ContractorIds = [1],
                 LoanId = Guid.NewGuid(),
                 RebateStatus = RebateRequestStatus.Created
             };

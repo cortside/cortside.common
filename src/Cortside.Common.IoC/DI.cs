@@ -3,28 +3,22 @@ using Microsoft.Extensions.Configuration;
 
 namespace Cortside.Common.IoC {
     public static class DI {
-        private static IServiceProvider serviceProvider;
         private static readonly object lockObject = new object();
-        private static IConfiguration configuration;
 
         public static void SetContainer(IServiceProvider instance) {
             lock (lockObject) {
-                serviceProvider = instance;
+                Container = instance;
             }
         }
 
-        public static IServiceProvider Container {
-            get { return serviceProvider; }
-        }
+        public static IServiceProvider Container { get; private set; }
 
         public static void SetConfiguration(IConfiguration instance) {
             lock (lockObject) {
-                DI.configuration = instance;
+                Configuration = instance;
             }
         }
 
-        public static IConfiguration Configuration {
-            get { return configuration; }
-        }
+        public static IConfiguration Configuration { get; private set; }
     }
 }

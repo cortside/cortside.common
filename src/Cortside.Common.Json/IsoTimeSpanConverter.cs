@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Globalization;
 using Newtonsoft.Json;
 
 namespace Cortside.Common.Json {
@@ -34,7 +35,7 @@ namespace Cortside.Common.Json {
             }
         }
 
-        private bool IsNullableType(Type objectType) {
+        private static bool IsNullableType(Type objectType) {
             return objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
 
@@ -59,10 +60,10 @@ namespace Cortside.Common.Json {
 
             if (reader.TokenType == JsonToken.String) {
                 var timeSpanText = reader.Value.ToString();
-                if (timeSpanText.StartsWith("P")) {
-                    return System.Xml.XmlConvert.ToTimeSpan(timeSpanText);
+                if (!timeSpanText.StartsWith('P')) {
+                    return TimeSpan.Parse(timeSpanText, CultureInfo.CurrentCulture);
                 } else {
-                    return TimeSpan.Parse(timeSpanText);
+                    return System.Xml.XmlConvert.ToTimeSpan(timeSpanText);
                 }
             }
 

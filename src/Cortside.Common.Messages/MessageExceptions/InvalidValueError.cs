@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Runtime.Serialization;
 
 namespace Cortside.Common.Messages.MessageExceptions {
     [Serializable]
@@ -22,8 +23,10 @@ namespace Cortside.Common.Messages.MessageExceptions {
         protected InvalidValueError(string message) : base(message) {
         }
 
-        protected InvalidValueError(string message, System.Exception innerException) : base(message, innerException) {
+        protected InvalidValueError(string message, Exception innerException) : base(message, innerException) {
         }
+
+        protected InvalidValueError(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         public string Value { get; }
     }

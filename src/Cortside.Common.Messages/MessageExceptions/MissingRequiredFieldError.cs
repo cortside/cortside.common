@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 
 namespace Cortside.Common.Messages.MessageExceptions {
     [Serializable]
@@ -19,6 +20,8 @@ namespace Cortside.Common.Messages.MessageExceptions {
 
         protected MissingRequiredFieldError(string message, Exception innerException) : base(message, innerException) {
         }
+
+        protected MissingRequiredFieldError(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         public string FieldName { get; }
     }

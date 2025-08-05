@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Cortside.Common.Testing.Transactions;
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
@@ -21,18 +21,15 @@ namespace Cortside.Common.Testing.Logging.Xunit {
             this.output = output;
         }
 
-        /// <inheritdoc />
         public IDisposable BeginScope<TState>(TState state) where TState : notnull {
             return NullScope.Instance;
         }
 
-        /// <inheritdoc />
         public bool IsEnabled(LogLevel logLevel) {
             // Everything is enabled unless the debugger is not attached
             return logLevel != LogLevel.None;
         }
 
-        /// <inheritdoc />
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter) {
             if (formatter == null) {
                 throw new ArgumentNullException(nameof(formatter));
