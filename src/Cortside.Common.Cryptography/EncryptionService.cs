@@ -24,7 +24,7 @@ namespace Cortside.Common.Cryptography {
         public T DecryptObject<T>(string cipherText) {
             string decryptedString = DecryptString(cipherText);
             var response = JsonConvert.DeserializeObject<T>(decryptedString);
-            if (Equals(response, default(T))) {
+            if (response == null) {
                 throw new JsonSerializationException("Unable to deserialize string");
             }
             return response;
