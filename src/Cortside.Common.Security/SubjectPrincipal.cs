@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -9,7 +9,7 @@ namespace Cortside.Common.Security {
     /// Subject principal class
     /// </summary>
     public class SubjectPrincipal : ISubjectPrincipal {
-        private readonly List<ClaimsIdentity> identities = new List<ClaimsIdentity>();
+        private readonly List<ClaimsIdentity> identities = [];
         private SubjectPrincipal actor;
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Cortside.Common.Security {
         /// SafeCritical since it access m_identities
         public IEnumerable<SubjectClaim> Claims {
             get {
-                List<Claim> claims = new List<Claim>();
+                List<Claim> claims = [];
 
                 foreach (ClaimsIdentity identity in identities) {
                     if (identity != null) {

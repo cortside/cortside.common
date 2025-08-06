@@ -1,6 +1,3 @@
-﻿// TODO: ability to populate lists with loaded values, i.e. json file??  could even be just set them
-// TODO: ability to get instance that differs from static??
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,18 +5,29 @@ using System.Linq;
 namespace Cortside.Common.Testing {
     public static class RandomValues {
         private static readonly Random random = new Random();
-        private static readonly List<string> firstNameList = new List<string> { "Linda", "Bob", "Peter", "Michelle", "Zack", "James", "John", "Robert", "William", "David", "Joseph", "Thomas", "Charles", "Michael", "Emma", "Olivia", "Isabella", "Sophia", "Hannah", "Mary", "Jane", "Emily", "Victoria" };
-        private static readonly List<string> lastNameList = new List<string> { "Anderson", "Smith", "Richards", "Howell", "Fleming", "Johnson", "Williams", "Brown", "Jones", "Miller", "Davis", "Garcia", "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", "Wilson" };
-        private static readonly List<string> cityList = new List<string> { "Maryland", "New York", "Miami", "Salt Lake City", "Portland", "Seattle", "Las Vegas", "San Francisco", "Austin", "Boston", "Los Angeles", "Denver", "San Diego", "Minneapolis", "Kansas City", "Orlando" };
-        private static readonly List<string> stateList = new List<string> { "TX", "AK", "ID", "VA", "TN", "FL", "AL", "GA", "CO", "NM", "CA", "NY", "MT", "KY", "AZ", "RI" };
-        private static readonly List<string> streetList = new List<string> { "Elm", "Main", "State", "Constitution", "Washington", "Park", "Lake", "Hill" };
-        private static readonly List<string> streetSuffixList = new List<string> { "ST", "BLVD", "LN", "CT", "DR", "HWY", "LOOP", "WAY" };
+        private static readonly List<string> firstNameList = [
+            "Linda", "Bob", "Peter", "Michelle", "Zack", "James", "John", "Robert", "William", "David", "Joseph",
+            "Thomas", "Charles", "Michael", "Emma", "Olivia", "Isabella", "Sophia", "Hannah", "Mary", "Jane", "Emily",
+            "Victoria"
+        ];
+        private static readonly List<string> lastNameList = [
+            "Anderson", "Smith", "Richards", "Howell", "Fleming", "Johnson", "Williams", "Brown", "Jones", "Miller",
+            "Davis", "Garcia", "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", "Wilson"
+        ];
+        private static readonly List<string> cityList = [
+            "Maryland", "New York", "Miami", "Salt Lake City", "Portland", "Seattle", "Las Vegas", "San Francisco",
+            "Austin", "Boston", "Los Angeles", "Denver", "San Diego", "Minneapolis", "Kansas City", "Orlando"
+        ];
+        private static readonly List<string> stateList =
+            ["TX", "AK", "ID", "VA", "TN", "FL", "AL", "GA", "CO", "NM", "CA", "NY", "MT", "KY", "AZ", "RI"];
+        private static readonly List<string> streetList =
+            ["Elm", "Main", "State", "Constitution", "Washington", "Park", "Lake", "Hill"];
+        private static readonly List<string> streetSuffixList = ["ST", "BLVD", "LN", "CT", "DR", "HWY", "LOOP", "WAY"];
 
         public static string CreateRandomNumberString(int length = 10) {
             const string chars = "1234567890";
 
-            string str = new string(Enumerable.Repeat(chars, length)
-               .Select(s => s[random.Next(s.Length)]).ToArray());
+            string str = new string([.. Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)])]);
 
             return str;
         }
@@ -27,8 +35,7 @@ namespace Cortside.Common.Testing {
         public static string CreateRandomString(int lengthStart = 10, int lengthEnd = 20, bool useSpecialChars = false) {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
 
-            string str = new string(Enumerable.Repeat(chars, random.Next(lengthStart, lengthEnd))
-               .Select(s => s[random.Next(s.Length)]).ToArray());
+            string str = new string([.. Enumerable.Repeat(chars, random.Next(lengthStart, lengthEnd)).Select(s => s[random.Next(s.Length)])]);
 
             if (!useSpecialChars || str.Length == 0) {
                 return str;

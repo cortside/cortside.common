@@ -1,21 +1,52 @@
+using System;
 using Cortside.Common.Messages.Formatters;
+using Cortside.Common.Messages.MessageExceptions;
 using Cortside.Common.Messages.Tests.Exceptions;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace Cortside.Common.Messages.Tests {
     public class MessageTest {
         [Fact]
-        public void TestMissingFieldMessage() {
-            TestMessage message = new TestMessage("Param1", "Param2");
+        public void ShouldFormatWithSimpleFormatter() {
+            TestMessageException messageException = new TestMessageException("Param1", "Param2");
             IMessageFormatter formatter = new SimpleFormatter();
-            Assert.Equal("First parameter is Param1. Second parameter is Param2.", formatter.Format(message));
+            Assert.Equal("First parameter is Param1. Second parameter is Param2.", formatter.Format(messageException));
+        }
+
+        [Fact]
+        public void TestInvalidTypeFormatError() {
+            var messageException = new InvalidTypeFormatError("Field1", "123");
+            var formatter = new SimpleFormatter();
+            Assert.Equal("`123` is not a valid value for Field1.", formatter.Format(messageException));
+            Assert.Equal("Field1", messageException.Property);
+            Assert.Equal("123", messageException.Value);
+
+        }
+
+        [Fact]
+        public void TestInvalidValueError() {
+            var messageException = new InvalidValueError("Field1", "");
+            var formatter = new SimpleFormatter();
+            Assert.Equal("`` is not a valid value for Field1.", formatter.Format(messageException));
+            Assert.Equal("Field1", messageException.Property);
+            Assert.Equal("", messageException.Value);
+        }
+
+        [Fact]
+        public void TestMissingFieldMessage() {
+            var messageException = new MissingRequiredFieldError("Field1");
+            var formatter = new SimpleFormatter();
+            Assert.Equal("Field1 is required.", formatter.Format(messageException));
+            Assert.Equal("Field1", messageException.Property);
+            Assert.Equal("Field1", messageException.FieldName);
         }
 
         [Fact]
         public void TestMessageListException() {
-            MessageList messages = new MessageList();
+            MessageList messages = [];
             for (int i = 0; i < 3; i++) {
-                messages.Add(new TestMessage("Param1", "Param2"));
+                messages.Add(new TestMessageException("Param1", "Param2"));
             }
             MessageListException ex = new MessageListException(messages);
             Assert.Equal(3, ex.Messages.Count);
@@ -28,13 +59,57 @@ namespace Cortside.Common.Messages.Tests {
         [Fact]
         public void TestMessageListExceptionString() {
             const string boringOldErrorMessage = "Error in the application.";
-            MessageList messages = new MessageList();
+            MessageList messages = [];
             for (int i = 0; i < 3; i++) {
-                messages.Add(new TestMessage("Param1", "Param2"));
+                messages.Add(new TestMessageException("Param1", "Param2"));
             }
             MessageListException ex = new MessageListException(messages);
             string errorMessage = ex.Message;
             Assert.NotEqual(boringOldErrorMessage, errorMessage); // this is the undescriptive error message if we do not override it
+        }
+
+        [Theory]
+        [InlineData(typeof(BadRequestResponseException))]
+        [InlineData(typeof(ConflictResponseException))]
+        [InlineData(typeof(ForbiddenAccessResponseException))]
+        [InlineData(typeof(InternalServerErrorResponseException))]
+        [InlineData(typeof(NotFoundResponseException))]
+        [InlineData(typeof(PreconditionFailedResponseException))]
+        [InlineData(typeof(UnauthorizedResponseException))]
+        [InlineData(typeof(UnprocessableEntityResponseException))]
+        [InlineData(typeof(ValidationListException))]
+        public void TestMessageListExceptionWithResponseExceptions(Type exceptionType) {
+            // gather list of message exceptions
+            MessageList messages = [];
+
+            // use empty constructor
+            var ex = (MessageException)Activator.CreateInstance(exceptionType);
+            Assert.NotNull(ex);
+            messages.Add(ex);
+
+            // constructor with message
+            ex = (MessageException)Activator.CreateInstance(exceptionType, "foo");
+            Assert.NotNull(ex);
+            messages.Add(ex);
+
+            // constructor with message and exception
+            ex = (MessageException)Activator.CreateInstance(exceptionType, ["foo", new ArgumentException("abc")]);
+            Assert.NotNull(ex);
+            messages.Add(ex);
+
+            // make sure all messages are added
+            Assert.Equal(3, messages.Count);
+
+            // create MessageListException
+            var messageListException = new MessageListException(messages);
+            Assert.Equal(3, messageListException.Messages.Count);
+
+            // should be serializable
+            var json = JsonConvert.SerializeObject(ex);
+            var deserialized = (MessageException)JsonConvert.DeserializeObject(json, exceptionType);
+            Assert.NotNull(deserialized);
+            Assert.NotNull(deserialized.Message);
+            Assert.Equal(ex.Message, deserialized.Message);
         }
     }
 }

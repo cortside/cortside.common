@@ -14,6 +14,9 @@ namespace Cortside.Common.BootStrap {
         }
 
         public virtual void AddInstaller(IInstaller installer) {
+            if (installer == null) {
+                throw new ArgumentNullException(nameof(installer), "Installer cannot be null.");
+            }
             installers.Add(installer);
         }
 
@@ -22,15 +25,21 @@ namespace Cortside.Common.BootStrap {
         /// </summary>
         /// <param name="installers">A list of installers to register with the IoC.</param>
         public virtual IServiceProvider InitIoCContainer(params IInstaller[] installers) {
+            if (installers == null) {
+                throw new ArgumentNullException(nameof(installers), "Installers cannot be null");
+            }
             IServiceProvider container = InternalInitialize(installers);
             return container;
         }
 
         /// <summary>
-        /// Installs all of the interally specified installers, while adding the [applicationInstaller]
+        /// Installs all the internally specified installers, while adding the [applicationInstaller]
         /// </summary>
         /// <param name="applicationInstaller">The additional installer for the root level application.</param>
         public virtual IServiceProvider InitIoCContainer(IInstaller applicationInstaller) {
+            if (applicationInstaller == null) {
+                throw new ArgumentNullException(nameof(applicationInstaller), "Application installer cannot be null");
+            }
             installers.Add(applicationInstaller);
             return InternalInitialize(installers.ToArray());
         }
@@ -40,13 +49,25 @@ namespace Cortside.Common.BootStrap {
         }
 
         public virtual IServiceProvider InitIoCContainer(IServiceCollection services) {
+            if (services == null) {
+                throw new ArgumentNullException(nameof(services), "Service collection cannot be null");
+            }
             return InternalInitialize(services, installers.ToArray());
         }
 
         public virtual IServiceProvider InitIoCContainer(IConfigurationBuilder config, IServiceCollection services) {
+            if (config == null) {
+                throw new ArgumentNullException(nameof(config), "Configuration builder cannot be null");
+            }
             return InternalInitialize(config, services, installers.ToArray());
         }
         public virtual IServiceProvider InitIoCContainer(IConfiguration configuration, IServiceCollection services) {
+            if (configuration == null) {
+                throw new ArgumentNullException(nameof(configuration), "Configuration cannot be null");
+            }
+            if (services == null) {
+                throw new ArgumentNullException(nameof(services), "Service collection cannot be null");
+            }
             return InternalInitialize(configuration, services, installers.ToArray());
         }
 
@@ -62,7 +83,7 @@ namespace Cortside.Common.BootStrap {
 
         protected internal virtual IServiceProvider InternalInitialize(IServiceCollection services, IInstaller[] installers) {
             var configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json");
+                .AddJsonFile("appsettings.json");
             return InternalInitialize(configuration, services, installers);
         }
 

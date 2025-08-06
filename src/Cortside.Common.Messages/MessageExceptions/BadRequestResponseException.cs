@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.Serialization;
 
 namespace Cortside.Common.Messages.MessageExceptions {
@@ -11,11 +11,5 @@ namespace Cortside.Common.Messages.MessageExceptions {
         public BadRequestResponseException(string message, Exception exception) : base(message, exception) { }
 
         protected BadRequestResponseException(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
-        protected BadRequestResponseException(string key, string property, params object[] properties) : base(key, property, properties) {
-        }
-
-        protected BadRequestResponseException(string message, string property) : base(message, property) {
-        }
     }
 }

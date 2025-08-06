@@ -99,7 +99,7 @@ namespace Cortside.Common.Threading {
                 Task finishedTask = await Task.WhenAny(waitTask, timeoutTask).ConfigureAwait(false);
 
                 if (!ct.IsCancellationRequested) {
-                    cts.Cancel();                            // Cancel unfinished task
+                    await cts.CancelAsync();                            // Cancel unfinished task
                     await finishedTask.ConfigureAwait(false); // Propagate exceptions
                     if (finishedTask == timeoutTask) {
                         throw new TimeoutException();
@@ -167,7 +167,7 @@ namespace Cortside.Common.Threading {
                 Task finishedTask = await Task.WhenAny(waitTask, timeoutTask).ConfigureAwait(false);
 
                 if (!ct.IsCancellationRequested) {
-                    cts.Cancel();                            // Cancel unfinished task
+                    await cts.CancelAsync();                            // Cancel unfinished task
                     await finishedTask.ConfigureAwait(false); // Propagate exceptions
                     if (finishedTask == timeoutTask) {
                         throw new TimeoutException();
