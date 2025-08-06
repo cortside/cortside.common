@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace Cortside.Common.Messages.MessageExceptions {
     [Serializable]
     public class ValidationListException : MessageListException {
-        public ValidationListException() : base() { }
+        public ValidationListException() { }
 
         public ValidationListException(string message) : base(message) { }
 

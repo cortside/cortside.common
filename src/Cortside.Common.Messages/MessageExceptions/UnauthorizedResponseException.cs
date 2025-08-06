@@ -9,7 +9,7 @@ namespace Cortside.Common.Messages.MessageExceptions {
     /// </summary>
     [Serializable]
     public class UnauthorizedResponseException : MessageException {
-        public UnauthorizedResponseException() : base() { }
+        public UnauthorizedResponseException() { }
 
         public UnauthorizedResponseException(string message) : base(message) { }
 

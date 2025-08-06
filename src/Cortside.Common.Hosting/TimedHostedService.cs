@@ -45,7 +45,6 @@ namespace Cortside.Common.Hosting {
                     await Task.Delay(TimeSpan.FromSeconds(interval), stoppingToken).ConfigureAwait(false);
                 }
                 logger.LogInformation("{Name} is stopping", GetType().Name);
-                stoppingToken.ThrowIfCancellationRequested();
             } else {
                 logger.LogInformation("{Name} is disabled", GetType().Name);
             }
