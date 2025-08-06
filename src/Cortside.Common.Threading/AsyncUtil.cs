@@ -1,4 +1,4 @@
-﻿#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
+#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
 #pragma warning disable AsyncFixer04 //cts, a disposable object, is used in a fire-and-forget async call in an using block, causing potential exception error or wrong result
 
 using System;
@@ -99,7 +99,7 @@ namespace Cortside.Common.Threading {
                 Task finishedTask = await Task.WhenAny(waitTask, timeoutTask).ConfigureAwait(false);
 
                 if (!ct.IsCancellationRequested) {
-                    await cts.CancelAsync();                            // Cancel unfinished task
+                    await cts.CancelAsync(); // Cancel unfinished task
                     await finishedTask.ConfigureAwait(false); // Propagate exceptions
                     if (finishedTask == timeoutTask) {
                         throw new TimeoutException();
@@ -167,7 +167,7 @@ namespace Cortside.Common.Threading {
                 Task finishedTask = await Task.WhenAny(waitTask, timeoutTask).ConfigureAwait(false);
 
                 if (!ct.IsCancellationRequested) {
-                    await cts.CancelAsync();                            // Cancel unfinished task
+                    await cts.CancelAsync(); // Cancel unfinished task
                     await finishedTask.ConfigureAwait(false); // Propagate exceptions
                     if (finishedTask == timeoutTask) {
                         throw new TimeoutException();

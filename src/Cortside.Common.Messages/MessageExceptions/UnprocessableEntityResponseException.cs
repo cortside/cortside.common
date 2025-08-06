@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Cortside.Common.Messages.MessageExceptions {
     [Serializable]
     public class UnprocessableEntityResponseException : MessageException {
-        public UnprocessableEntityResponseException() : base() { }
+        public UnprocessableEntityResponseException() { }
 
         public UnprocessableEntityResponseException(string message) : base(message) { }
 

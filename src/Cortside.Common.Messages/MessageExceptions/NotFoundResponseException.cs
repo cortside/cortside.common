@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Cortside.Common.Messages.MessageExceptions {
     [Serializable]
     public class NotFoundResponseException : MessageException {
-        public NotFoundResponseException() : base() { }
+        public NotFoundResponseException() { }
 
         public NotFoundResponseException(string message) : base(message) { }
 
