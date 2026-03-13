@@ -8,6 +8,18 @@ namespace Cortside.Common.Messages.MessageExceptions {
             Value = value;
         }
 
+        protected InvalidTypeFormatError(string key, string property, params object[] properties) : base(key, property, properties) {
+        }
+
+        protected InvalidTypeFormatError() : base() {
+        }
+
+        protected InvalidTypeFormatError(string message) : base(message) {
+        }
+
+        protected InvalidTypeFormatError(string message, Exception innerException) : base(message, innerException) {
+        }
+
         public string Value { get; }
     }
 }

@@ -8,6 +8,18 @@ namespace Cortside.Common.Messages.MessageExceptions {
             Value = value;
         }
 
+        protected InvalidValueError(string key, string property, params object[] properties) : base(key, property, properties) {
+        }
+
+        protected InvalidValueError() : base() {
+        }
+
+        protected InvalidValueError(string message) : base(message) {
+        }
+
+        protected InvalidValueError(string message, Exception innerException) : base(message, innerException) {
+        }
+
         public string Value { get; }
     }
 }

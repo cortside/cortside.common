@@ -19,5 +19,11 @@ namespace Cortside.Common.Messages.MessageExceptions {
         public ValidationListException(IEnumerable<MessageException> messages) : this() {
             Messages = messages.ToList();
         }
+
+        protected ValidationListException(string key, string property, params object[] properties) : base(key, property, properties) {
+        }
+
+        protected ValidationListException(string message, string property) : base(message, property) {
+        }
     }
 }

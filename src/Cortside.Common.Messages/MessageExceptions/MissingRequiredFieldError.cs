@@ -7,6 +7,18 @@ namespace Cortside.Common.Messages.MessageExceptions {
             FieldName = fieldName;
         }
 
+        protected MissingRequiredFieldError(string key, string property, params object[] properties) : base(key, property, properties) {
+        }
+
+        protected MissingRequiredFieldError() : base() {
+        }
+
+        protected MissingRequiredFieldError(string message, string property) : base(message, property) {
+        }
+
+        protected MissingRequiredFieldError(string message, Exception innerException) : base(message, innerException) {
+        }
+
         public string FieldName { get; }
     }
 }
