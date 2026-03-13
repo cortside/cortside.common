@@ -131,3 +131,8 @@ Dockerfile        text
 *.props      text eol=crlf
 *.filters    text eol=crlf
 *.vcxitems   text eol=crlf
+*.cs         text eol=crlf
+*.csx        text eol=crlf
+*.targets    text eol=crlf
+*.config     text eol=crlf
+*.json       text eol=crlf

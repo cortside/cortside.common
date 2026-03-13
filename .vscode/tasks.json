@@ -1,0 +1,139 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "dotnet: restore",
+      "type": "shell",
+      "command": "dotnet",
+      "options": {
+        "cwd": "${workspaceFolder}/src"
+      },
+      "args": [
+        "restore",
+        "${workspaceFolder}/src/Cortside.Common.sln"
+      ],
+      "group": "build",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "dotnet: build",
+      "type": "shell",
+      "command": "dotnet",
+      "options": {
+        "cwd": "${workspaceFolder}/src"
+      },
+      "args": [
+        "build",
+        "${workspaceFolder}/src/Cortside.Common.sln",
+        "-c",
+        "Debug"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "dependsOn": "dotnet: restore",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "dotnet: test",
+      "type": "shell",
+      "command": "dotnet",
+      "options": {
+        "cwd": "${workspaceFolder}/src"
+      },
+      "args": [
+        "test",
+        "${workspaceFolder}/src/Cortside.Common.sln",
+        "-c",
+        "Debug",
+        "--no-build"
+      ],
+      "group": "test",
+      "dependsOn": "dotnet: build",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "dotnet: clean",
+      "type": "shell",
+      "command": "dotnet",
+      "options": {
+        "cwd": "${workspaceFolder}/src"
+      },
+      "args": [
+        "clean",
+        "${workspaceFolder}/src/Cortside.Common.sln"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "dotnet: format",
+      "type": "shell",
+      "command": "dotnet",
+      "options": {
+        "cwd": "${workspaceFolder}/src"
+      },
+      "args": [
+        "format",
+        "${workspaceFolder}/src/Cortside.Common.sln"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "dotnet: format (verify)",
+      "type": "shell",
+      "command": "dotnet",
+      "options": {
+        "cwd": "${workspaceFolder}/src"
+      },
+      "args": [
+        "format",
+        "${workspaceFolder}/src/Cortside.Common.sln",
+        "--verify-no-changes"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "line-endings: preview (src)",
+      "type": "shell",
+      "command": "git",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "args": [
+        "ls-files",
+        "--eol",
+        "src"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "line-endings: normalize (src)",
+      "type": "shell",
+      "command": "git",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "args": [
+        "add",
+        "--renormalize",
+        "src"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "line-endings: unstage",
+      "type": "shell",
+      "command": "git",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "args": [
+        "reset",
+        "HEAD",
+        "--"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "editor.formatOnSave": false,
+  "editor.useEditorConfig": true,
+  "editor.detectIndentation": false,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "[csharp]": {
+    "editor.formatOnSave": true
+  },
+  "dotnet.defaultSolution": "src/*.sln"
+}

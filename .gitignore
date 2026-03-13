@@ -249,7 +249,6 @@ coverage.opencover.xml
 *.ncrunchproject
 
 *.zip
-.vscode/*
 
 *.local.json
 .refsignored
