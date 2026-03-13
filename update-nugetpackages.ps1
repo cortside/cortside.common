@@ -5,32 +5,64 @@ param(
 	[switch]$cortside
 )
 
+function Remove-NuGetPackageFromProjects {
+    param (
+        [string]$RootPath = ".",
+        [string]$filter = "*.csproj",
+        [string]$PackageName
+    )
+
+    Get-ChildItem -Filter $filter -Recurse | ForEach-Object {
+        $file = $_
+        if (Select-String -Path $file.FullName -Pattern $PackageName) {
+            Write-Host "Removing '$PackageName' from $($file.FullName)"
+            dotnet remove $file.FullName package $PackageName
+        }
+    }
+}
+
+function Add-NuGetPackageToProjects {
+    param (
+        [string]$RootPath = ".",
+        [string]$filter = "*.csproj",
+        [string]$PackageName
+    )
+
+    Get-ChildItem -Filter $filter -Recurse | ForEach-Object {
+        $file = $_
+		if (-not (Select-String -Path $file.FullName -Pattern $PackageName)) {
+            Write-Host "Adding '$PackageName' to $($file.FullName)"
+            dotnet add $file.FullName package $PackageName
+        }
+    }
+}
+
+# install tool for updating outdated packages
 dotnet tool update --global dotnet-outdated-tool
-dotnet tool update --global dotnet-tools-outdated
 
 # remove older analyzers from projects
-gci *.csproj -Recurse | %{ if (select-string -inputobject $_ -Pattern "AsyncAnalyzers") { echo "remove AsyncAnalyzers from $_.Fullname"; dotnet remove $_.FullName package AsyncAnalyzers } }
-gci *.csproj -Recurse | %{ if (select-string -inputobject $_ -Pattern "Lindhart.Analyser.MissingAwaitWarning") { echo "remove Lindhart.Analyser.MissingAwaitWarning from $_.Fullname"; dotnet remove $_.FullName package Lindhart.Analyser.MissingAwaitWarning } }
+Remove-NuGetPackageFromProjects -PackageName "AsyncAnalyzers"
+Remove-NuGetPackageFromProjects -PackageName "Lindhart.Analyser.MissingAwaitWarning"
 
 # analyzers for all projects
-gci *.csproj -Recurse | %{ if (-not (select-string -inputobject $_ -Pattern "Microsoft.VisualStudio.Threading.Analyzers")){ echo "add Microsoft.VisualStudio.Threading.Analyzers to $_.Fullname"; dotnet add $_.FullName package Microsoft.VisualStudio.Threading.Analyzers }}
-gci *.csproj -Recurse | %{ if (-not (select-string -inputobject $_ -Pattern "SonarAnalyzer.CSharp")){ echo "add SonarAnalyzer.CSharp to $_.Fullname"; dotnet add $_.FullName package SonarAnalyzer.CSharp }}
-gci *.csproj -Recurse | %{ if (-not (select-string -inputobject $_ -Pattern "Roslynator.Analyzers")){ echo "add Roslynator.Analyzers to $_.Fullname"; dotnet add $_.FullName package Roslynator.Analyzers }}
-#gci *.csproj -Recurse | %{ if (-not (select-string -inputobject $_ -Pattern "AsyncFixer")){ echo "add AsyncFixer to $_.Fullname"; dotnet add $_.FullName package AsyncFixer }}
-#gci *.csproj -Recurse | %{ if (-not (select-string -inputobject $_ -Pattern "ParallelHelper")){ echo "add ParallelHelper to $_.Fullname"; dotnet add $_.FullName package ParallelHelper }}
+Add-NuGetPackageToProjects -PackageName "Microsoft.VisualStudio.Threading.Analyzers"
+Add-NuGetPackageToProjects -PackageName "SonarAnalyzer.CSharp"
+Add-NuGetPackageToProjects -PackageName "Roslynator.Analyzers"
+Add-NuGetPackageToProjects -PackageName "ReferenceTrimmer"
+
 
 # remove older packages for test projects
-gci *Test*.csproj -Recurse | %{ if (select-string -inputobject $_ -Pattern "coverlet.msbuild") { echo "remove coverlet.msbuild from $_.Fullname"; dotnet remove $_.FullName package coverlet.msbuild } }
-gci *Test*.csproj -Recurse | %{ if (select-string -inputobject $_ -Pattern "xunit.runner.console") { echo "remove coverlet.msbuild from $_.Fullname"; dotnet remove $_.FullName package xunit.runner.console } }
+Remove-NuGetPackageFromProjects -filter "*Test*.csproj" -PackageName "coverlet.msbuild"
+Remove-NuGetPackageFromProjects -filter "*Test*.csproj" -PackageName "xunit.runner.console"
 
 # packages for test projects
-gci *Test*.csproj -Recurse | %{ if (-not (select-string -inputobject $_ -Pattern "coverlet.collector")){ echo "add coverlet.collector to $_.Fullname"; dotnet add $_.FullName package coverlet.collector }}
-gci *Test*.csproj -Recurse | %{ if (-not (select-string -inputobject $_ -Pattern """xunit""")){ echo "add xunit to $_.Fullname"; dotnet add $_.FullName package xunit }}
-gci *Test*.csproj -Recurse | %{ if (-not (select-string -inputobject $_ -Pattern "xunit.runner.visualstudio")){ echo "add xunit.runner.visualstudio to $_.Fullname"; dotnet add $_.FullName package xunit.runner.visualstudio }}
-gci *Test*.csproj -Recurse | %{ if (-not (select-string -inputobject $_ -Pattern "Microsoft.NET.Test.Sdk")){ echo "add Microsoft.NET.Test.Sdk to $_.Fullname"; dotnet add $_.FullName package Microsoft.NET.Test.Sdk }}
+Add-NuGetPackageToProjects -filter "*Test*.csproj" -PackageName "coverlet.collector"
+Add-NuGetPackageToProjects -filter "*Test*.csproj" -PackageName "xunit"
+Add-NuGetPackageToProjects -filter "*Test*.csproj" -PackageName "xunit.runner.visualstudio"
+Add-NuGetPackageToProjects -filter "*Test*.csproj" -PackageName "Microsoft.NET.Test.Sdk"
 
 if ((Test-Path env:BUILD_SERVER) -And ($env:BUILD_SERVER -eq "TeamCity")) {
-	gci *Test*.csproj -Recurse | %{ if (-not (select-string -inputobject $_ -Pattern "TeamCity.VSTest.TestAdapter")){ echo "add TeamCity.VSTest.TestAdapter to $_.Fullname"; dotnet add $_.FullName package TeamCity.VSTest.TestAdapter }}
+    Add-NuGetPackageToProjects -filter "*Test*.csproj" -PackageName "TeamCity.VSTest.TestAdapter"
 }
 
 if ($NoVersionLock.IsPresent) {

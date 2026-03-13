@@ -104,7 +104,7 @@ Function Invoke-Cleanup {
 		$dir = "$($_.DirectoryName)\dist"; 
 		If (Test-Path $dir ){ 
 			Write-Output "Removing $dir"; 
-			rm $dir -force -recurse  
+			Remove-Item $dir -force -recurse  
 		} 
 	}
 

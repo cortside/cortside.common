@@ -101,7 +101,7 @@ Invoke-Exe -cmd git -args "push"
 
 $version = Get-Version
 $branch = "release/$($version)"
-echo $branch
+Write-Output $branch
 
 $exists = (git ls-remote origin $branch)
 if ($exists.Length -eq 0) {
@@ -118,8 +118,8 @@ if ($exists.Length -eq 0) {
 		gh repo set-default
 		gh pr create --title "Release $version" --body "$releaseNotes" --base master
 	} else {
-		echo "should create the pr here -- everything passed - $branch"	
-		echo $body	
+		Write-Output "should create the pr here -- everything passed - $branch"	
+		Write-Output $body	
 	}
 
 	git checkout develop
@@ -127,5 +127,5 @@ if ($exists.Length -eq 0) {
 	Update-Version
 	git push
 } else {
-	echo "release branch already exists"
+	Write-Output "release branch already exists"
 }

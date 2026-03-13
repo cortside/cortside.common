@@ -1,8 +1,8 @@
-# After committing the .gitattributes file, your changes won’t take effect immediately for files checked into
+# After committing the .gitattributes file, your changes won’t take effect immediately for files checked into 
 # Git prior to the addition of .gitattributes. To force an update, you can use the following command
 # git add --renormalize .
 
-# If you want to verify that the files in your repo are using the correct line endings after all of these steps, you can
+# If you want to verify that the files in your repo are using the correct line endings after all of these steps, you can 
 # run the following command:
 # git ls-files --eol
 
@@ -131,8 +131,3 @@ Dockerfile        text
 *.props      text eol=crlf
 *.filters    text eol=crlf
 *.vcxitems   text eol=crlf
-*.cs         text eol=crlf
-*.csx        text eol=crlf
-*.targets    text eol=crlf
-*.config     text eol=crlf
-*.json       text eol=crlf
