@@ -1,3 +1,37 @@
+# Release 8.1
+
+|Commit|Date|Author|Message|
+|---|---|---|---|
+| 57badc0 | <span style="white-space:nowrap;">2025-03-13</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update version
+| 52be862 | <span style="white-space:nowrap;">2025-03-17</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'master' into develop
+| 5898a5d | <span style="white-space:nowrap;">2025-04-07</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'master' into develop
+| 219bf57 | <span style="white-space:nowrap;">2025-05-29</span> | <span style="white-space:nowrap;">Owoose Ohenhen</span> |  Added unauthorized response exception
+| 1d7fe47 | <span style="white-space:nowrap;">2025-08-04</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  added serializable attrtibute to new class per lint analysis; removed github build that creating noise
+| d3de45b | <span style="white-space:nowrap;">2025-08-04</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Update src/Cortside.Common.Messages/MessageExceptions/UnauthorizedResponseException.cs
+| 29b7dc2 | <span style="white-space:nowrap;">2025-08-04</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add unit test to test instanciation of exception and addition to MessageListException
+| 98c2efc | <span style="white-space:nowrap;">2025-08-04</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'feature/EBSVC-3503' of github.com:cortside/cortside.common into feature/EBSVC-3503
+| 13f84aa | <span style="white-space:nowrap;">2025-08-04</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add unit test to test instanciation of exception and addition to MessageListException
+| c70fe08 | <span style="white-space:nowrap;">2025-08-04</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add unit test to test instanciation of exception and addition to MessageListException
+| d26ef9a | <span style="white-space:nowrap;">2025-08-04</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  cleanup; serialization tests for exceptions
+| 36161ad | <span style="white-space:nowrap;">2025-08-05</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  cleanup; tests for exceptions
+| 992d595 | <span style="white-space:nowrap;">2025-08-05</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  (origin/messageexception-serialization, messageexception-serialization) deal with lint warnings
+| ab038b8 | <span style="white-space:nowrap;">2025-08-05</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Update src/Cortside.Common.Cryptography/EncryptionService.cs
+| 2663622 | <span style="white-space:nowrap;">2025-08-05</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  (origin/feature/EBSVC-3503, feature/EBSVC-3503) deal with lint warnings
+| 531c078 | <span style="white-space:nowrap;">2025-08-05</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add coding standards instructions for copilot chat and pr review
+| 8ab502d | <span style="white-space:nowrap;">2025-08-05</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  resolve copilot review warnings
+| df75142 | <span style="white-space:nowrap;">2025-08-05</span> | <span style="white-space:nowrap;">John W Stokes</span> |  Merge pull request #64 from cortside/feature/EBSVC-3503
+| b33b244 | <span style="white-space:nowrap;">2025-08-05</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge branch 'develop' into copilot-instructions
+| a3ca9ec | <span style="white-space:nowrap;">2025-08-05</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  set cancellation token handling back to sync as it was originally per copilot review
+| 5793db7 | <span style="white-space:nowrap;">2025-08-05</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  (origin/copilot-instructions, copilot-instructions) set cancellation token handling back to async given net8+
+| 263542a | <span style="white-space:nowrap;">2025-08-05</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  Merge pull request #65 from cortside/copilot-instructions
+| 6eb5b34 | <span style="white-space:nowrap;">2026-03-12</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  making things easier for coding in vs code
+| 719f030 | <span style="white-space:nowrap;">2026-03-12</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  wip update to latest
+| b14e894 | <span style="white-space:nowrap;">2026-03-12</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  update latest packages and scripts
+| 3070f49 | <span style="white-space:nowrap;">2026-03-12</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  format files; fix pwsh aliases
+| cb58c58 | <span style="white-space:nowrap;">2026-03-13</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  add vs code config
+| 46e366c | <span style="white-space:nowrap;">2026-03-14</span> | <span style="white-space:nowrap;">Cort Schaefer</span> |  (HEAD -> release/8.1, origin/develop, origin/HEAD, develop) Merge branch 'master' into develop
+****
+
 # Release 8.0
 
 * Updated powershell scripts to latest versions from coeus/shoppingcart-api
