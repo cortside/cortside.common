@@ -1,13 +1,11 @@
+using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Moq;
+using Xunit;
 
 namespace Cortside.Common.BootStrap.Tests {
-    using System;
-    using Cortside.Common.BootStrap;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Moq;
-    using Xunit;
-
     public class BootStrapperTests {
         private readonly BootStrapper instance;
 
@@ -18,10 +16,10 @@ namespace Cortside.Common.BootStrap.Tests {
         [Fact]
         public void CanConstruct() {
             // Act
-            var instance = new BootStrapper();
+            var bootStrapper = new BootStrapper();
 
             // Assert
-            Assert.NotNull(instance);
+            Assert.NotNull(bootStrapper);
         }
 
         [Fact]
@@ -35,9 +33,9 @@ namespace Cortside.Common.BootStrap.Tests {
             // Assert
         }
 
-        [Fact(Skip = "probably a good check to add")]
+        [Fact]
         public void CannotCallAddInstallerWithNullInstaller() {
-            Assert.Throws<ArgumentNullException>(() => instance.AddInstaller(default(IInstaller)));
+            Assert.Throws<ArgumentNullException>(() => instance.AddInstaller(null));
         }
 
         [Fact]
@@ -46,12 +44,12 @@ namespace Cortside.Common.BootStrap.Tests {
             var installers = new[] { new Mock<IInstaller>().Object, new Mock<IInstaller>().Object, new Mock<IInstaller>().Object };
 
             // Act
-            var result = instance.InitIoCContainer(installers);
+            instance.InitIoCContainer(installers);
 
             // Assert
         }
 
-        [Fact(Skip = "probably a good check to add")]
+        [Fact]
         public void CannotCallInitIoCContainerWithInstallersWithNullInstallers() {
             Assert.Throws<ArgumentNullException>(() => instance.InitIoCContainer(default(IInstaller[])));
         }
@@ -62,12 +60,12 @@ namespace Cortside.Common.BootStrap.Tests {
             var applicationInstaller = new Mock<IInstaller>().Object;
 
             // Act
-            var result = instance.InitIoCContainer(applicationInstaller);
+            instance.InitIoCContainer(applicationInstaller);
 
             // Assert
         }
 
-        [Fact(Skip = "probably a good check to add")]
+        [Fact]
         public void CannotCallInitIoCContainerWithApplicationInstallerWithNullApplicationInstaller() {
             Assert.Throws<ArgumentNullException>(() => instance.InitIoCContainer(default(IInstaller)));
         }
@@ -75,7 +73,7 @@ namespace Cortside.Common.BootStrap.Tests {
         [Fact]
         public void CanCallInitIoCContainerWithNoParameters() {
             // Act
-            var result = instance.InitIoCContainer();
+            instance.InitIoCContainer();
 
             // Assert
         }
@@ -86,7 +84,7 @@ namespace Cortside.Common.BootStrap.Tests {
             var services = new Mock<IServiceCollection>().Object;
 
             // Act
-            var result = instance.InitIoCContainer(services);
+            instance.InitIoCContainer(services);
 
             // Assert
         }
@@ -111,19 +109,19 @@ namespace Cortside.Common.BootStrap.Tests {
             var services = new Mock<IServiceCollection>().Object;
 
             // Act
-            var result = instance.InitIoCContainer(config, services);
+            instance.InitIoCContainer(config, services);
 
             // Assert
         }
 
-        [Fact(Skip = "probably a good check to add")]
+        [Fact]
         public void CannotCallInitIoCContainerWithConfigAndServicesWithNullConfig() {
             Assert.Throws<ArgumentNullException>(() => instance.InitIoCContainer(default(IConfigurationBuilder), new Mock<IServiceCollection>().Object));
         }
 
         [Fact]
         public void CannotCallInitIoCContainerWithConfigAndServicesWithNullServices() {
-            Assert.Throws<ArgumentNullException>(() => instance.InitIoCContainer(new Mock<IConfigurationBuilder>().Object, default(IServiceCollection)));
+            Assert.Throws<ArgumentNullException>(() => instance.InitIoCContainer(new Mock<IConfigurationBuilder>().Object, null));
         }
 
         [Fact]
@@ -133,7 +131,7 @@ namespace Cortside.Common.BootStrap.Tests {
             var services = new Mock<IServiceCollection>().Object;
 
             // Act
-            var result = instance.InitIoCContainer(configuration, services);
+            instance.InitIoCContainer(configuration, services);
 
             // Assert
         }
@@ -145,7 +143,7 @@ namespace Cortside.Common.BootStrap.Tests {
 
         [Fact]
         public void CannotCallInitIoCContainerWithConfigurationAndServicesWithNullServices() {
-            Assert.Throws<ArgumentNullException>(() => instance.InitIoCContainer(new Mock<IConfiguration>().Object, default(IServiceCollection)));
+            Assert.Throws<ArgumentNullException>(() => instance.InitIoCContainer(new Mock<IConfiguration>().Object, null));
         }
     }
 }

@@ -5,4 +5,4 @@ dotnet test src --collect:"XPlat Code Coverage" --settings src/coverlet.runsetti
 dotnet-coverage merge *.cobertura.xml --recursive --output coverage.cobertura.xml --output-format cobertura
 reportgenerator -reports:"coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Html
 
-rm coverage.cobertura.xml
+Remove-Item coverage.cobertura.xml

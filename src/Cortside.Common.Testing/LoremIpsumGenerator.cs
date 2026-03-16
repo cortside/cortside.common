@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Cortside.Common.Testing {
     public class LoremIpsumGenerator {
-        private const string text =
+        private readonly string text =
 @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nulla neque, efficitur eget elit ac, feugiat semper mauris. Vestibulum aliquam lorem elit, sed sollicitudin lectus eleifend vitae. Duis vestibulum nec orci sed lacinia. Aliquam ut justo nulla. Proin ut lectus velit. Fusce auctor, mauris quis dapibus vehicula, augue leo volutpat libero, in consectetur diam leo non felis. Curabitur volutpat consequat leo non accumsan. Proin nec faucibus nisl.
 
 Donec accumsan diam sed velit aliquam vestibulum. Aliquam venenatis mi massa, in lacinia massa molestie in. Quisque sed ante nec odio facilisis euismod feugiat nec nibh. Quisque quis orci varius, viverra lacus vel, accumsan mi. Suspendisse sit amet felis vestibulum, tempus dolor in, tincidunt nisl. Suspendisse eu nisi elementum, porttitor justo non, gravida quam. Fusce lobortis consectetur ultricies. In pharetra, nulla vel fringilla lacinia, justo nulla viverra orci, quis elementum diam arcu ut sapien. In sit amet lacinia enim, sit amet facilisis eros. Phasellus vulputate odio nec mauris semper, aliquet auctor dui lobortis. Quisque sapien nisi, tempus et elit eget, sodales auctor justo.
@@ -15,22 +15,22 @@ Vivamus interdum at purus non mattis. Proin pulvinar commodo luctus. Aenean risu
 
 Aliquam a libero sed orci finibus pulvinar nec eget leo. Mauris ut dignissim nibh. Integer malesuada tempus pulvinar. In elementum placerat nisl, ornare dapibus purus porttitor vitae. Donec at lacus at tellus gravida vestibulum nec eleifend lacus. Curabitur malesuada lorem non gravida pharetra. Donec lacus ligula, tincidunt bibendum ultricies placerat, pellentesque id elit. Nulla scelerisque sodales tempus. Quisque maximus non urna eget consequat. Nunc quis tincidunt augue, a aliquam nulla. Integer dolor ligula, lacinia eget orci id, consequat vulputate nibh. Integer congue tellus aliquet felis ullamcorper, quis molestie neque convallis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam iaculis pharetra mi, eu sodales mi euismod eget.
 ";
-        private readonly List<string> words = new List<string>();
-        private readonly List<string> sentences = new List<string>();
+        private readonly List<string> words = [];
+        private readonly List<string> sentences = [];
         private readonly List<string> paragraphs;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoremIpsumGenerator"/> class.
         /// </summary>
         public LoremIpsumGenerator() {
-            paragraphs = Regex.Split(text.ReplaceLineEndings(), @"[\n]+", RegexOptions.Compiled).Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim()).ToList();
+            paragraphs = [.. Regex.Split(text.ReplaceLineEndings(), @"[\n]+", RegexOptions.Compiled).Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim())];
 
             foreach (var s in paragraphs) {
-                sentences.AddRange(Regex.Split(s, @"[.]+", RegexOptions.Compiled).Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim() + ".").ToList());
+                sentences.AddRange([.. Regex.Split(s, "[.]+", RegexOptions.Compiled).Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim() + ".")]);
             }
 
             foreach (var s in paragraphs) {
-                words.AddRange(Regex.Split(s, @"\W+").Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim()).ToList());
+                words.AddRange([.. Regex.Split(s, @"\W+").Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim())]);
             }
         }
 
@@ -40,7 +40,7 @@ Aliquam a libero sed orci finibus pulvinar nec eget leo. Mauris ut dignissim nib
         /// <param name="length">The length.</param>
         /// <returns>A lorem ipsum string with a given length.</returns>
         public string GetLetters(int length) {
-            return text.Substring(0, length);
+            return text[..length];
         }
 
         /// <summary>

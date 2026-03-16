@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Runtime.Serialization;
 
 namespace Cortside.Common.Messages.MessageExceptions {
     [Serializable]
     public class InternalServerErrorResponseException : MessageException {
-        public InternalServerErrorResponseException() : base() { }
+        public InternalServerErrorResponseException() { }
 
         public InternalServerErrorResponseException(string message) : base(message) { }
 

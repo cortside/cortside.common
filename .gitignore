@@ -135,7 +135,7 @@ DocProject/Help/Html2
 DocProject/Help/html
 
 # Click-Once directory
-publish/
+#publish/
 
 # Publish Web Output
 *.[Pp]ublish.xml
@@ -249,8 +249,11 @@ coverage.opencover.xml
 *.ncrunchproject
 
 *.zip
-.vscode/*
 
 *.local.json
 .refsignored
 .env.local
+
+amqptools.json
+event.json
+event-json/**

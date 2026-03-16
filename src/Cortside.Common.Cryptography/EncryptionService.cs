@@ -16,23 +16,23 @@ namespace Cortside.Common.Cryptography {
             aesIV = MD5.Create().ComputeHash(passwordBytes);
         }
 
-        public string EncryptObject<T>(T objectToEncrypt) {
+        public string EncryptObject<T>(T objectToEncrypt) where T : class {
             string objectString = JsonConvert.SerializeObject(objectToEncrypt);
             return EncryptString(objectString);
         }
 
-        public T DecryptObject<T>(string cipherText) {
+        public T DecryptObject<T>(string cipherText) where T : class {
             string decryptedString = DecryptString(cipherText);
             var response = JsonConvert.DeserializeObject<T>(decryptedString);
             if (response == null) {
-                throw new JsonSerializationException("Unable to deserialize string");
+                throw new JsonSerializationException("Unable to deserialize cipher text");
             }
             return response;
         }
 
         public string EncryptString(string plainText) {
             // Check arguments.
-            if (string.IsNullOrEmpty(plainText)) {
+            if (plainText == null) {
                 throw new ArgumentNullException(nameof(plainText));
             }
             byte[] encrypted;

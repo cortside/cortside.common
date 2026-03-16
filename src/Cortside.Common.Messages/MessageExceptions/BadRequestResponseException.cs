@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Runtime.Serialization;
 
 namespace Cortside.Common.Messages.MessageExceptions {
     [Serializable]
     public class BadRequestResponseException : MessageException {
-        public BadRequestResponseException() : base() { }
+        public BadRequestResponseException() { }
 
         public BadRequestResponseException(string message) : base(message) { }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+using System;
+using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 
 namespace Cortside.Common.Testing.Logging.Xunit {
@@ -13,13 +14,16 @@ namespace Cortside.Common.Testing.Logging.Xunit {
             this.output = output;
         }
 
-        /// <inheritdoc />
-        public ILogger CreateLogger(string name) {
-            return new XunitLogger(name, output);
+        public ILogger CreateLogger(string categoryName) {
+            return new XunitLogger(categoryName, output);
         }
 
-        /// <inheritdoc />
         public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing) {
         }
     }
 }

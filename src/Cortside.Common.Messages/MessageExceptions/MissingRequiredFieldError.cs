@@ -3,11 +3,7 @@ using System;
 namespace Cortside.Common.Messages.MessageExceptions {
     [Serializable]
     public class MissingRequiredFieldError : MessageException {
-        public MissingRequiredFieldError(string fieldName) : base(string.Format("{0} is required.", fieldName), fieldName, null) {
-            FieldName = fieldName;
-        }
-
-        public MissingRequiredFieldError(string fieldName, string isrequired) : base(string.Format("{0}", fieldName), fieldName, null) {
+        public MissingRequiredFieldError(string fieldName) : base(string.Format("{0} is required.", fieldName), fieldName) {
             FieldName = fieldName;
         }
 
@@ -15,6 +11,9 @@ namespace Cortside.Common.Messages.MessageExceptions {
         }
 
         protected MissingRequiredFieldError() : base() {
+        }
+
+        protected MissingRequiredFieldError(string message, string property) : base(message, property) {
         }
 
         protected MissingRequiredFieldError(string message, Exception innerException) : base(message, innerException) {

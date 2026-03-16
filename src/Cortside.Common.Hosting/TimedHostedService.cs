@@ -32,8 +32,8 @@ namespace Cortside.Common.Hosting {
             await Task.Yield();
 
             if (enabled) {
-                logger.LogInformation($"{this.GetType().Name} is starting with interval of {interval} seconds");
-                stoppingToken.Register(() => logger.LogDebug($"{this.GetType().Name} is stopping."));
+                logger.LogInformation("{Name} is starting with interval of {I} seconds", GetType().Name, interval);
+                stoppingToken.Register(() => logger.LogDebug("{Name} is stopping.", GetType().Name));
 
                 while (!stoppingToken.IsCancellationRequested) {
                     // last execution set before and after interval to catch start and catch after sleep delay
@@ -44,21 +44,21 @@ namespace Cortside.Common.Hosting {
 
                     await Task.Delay(TimeSpan.FromSeconds(interval), stoppingToken).ConfigureAwait(false);
                 }
-                logger.LogInformation($"{this.GetType().Name} is stopping");
+                logger.LogInformation("{Name} is stopping", GetType().Name);
             } else {
-                logger.LogInformation($"{this.GetType().Name} is disabled");
+                logger.LogInformation("{Name} is disabled", GetType().Name);
             }
         }
 
         private async Task IntervalAsync() {
             var correlationId = CorrelationContext.GetCorrelationId(generateCorrelationId);
             using (logger.BeginScope(new Dictionary<string, object> { ["CorrelationId"] = correlationId })) {
-                logger.LogDebug($"{this.GetType().Name} is working");
+                logger.LogDebug("{Name} is working", GetType().Name);
 
                 try {
                     await ExecuteIntervalAsync().ConfigureAwait(false);
                 } catch (Exception ex) {
-                    logger.LogError(ex, this.GetType().Name);
+                    logger.LogError(ex, "Failed to execute interval in {Name}", GetType().Name);
                 }
             }
         }

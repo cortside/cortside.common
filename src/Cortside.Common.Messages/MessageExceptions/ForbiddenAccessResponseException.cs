@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Runtime.Serialization;
 
 namespace Cortside.Common.Messages.MessageExceptions {
     [Serializable]
     public class ForbiddenAccessResponseException : MessageException {
-        public ForbiddenAccessResponseException() : base() { }
+        public ForbiddenAccessResponseException() { }
 
         public ForbiddenAccessResponseException(string message) : base(message) { }
 

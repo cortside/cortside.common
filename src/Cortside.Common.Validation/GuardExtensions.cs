@@ -1,4 +1,4 @@
-﻿#pragma warning disable RCS1175 // Unused 'this' parameter.
+#pragma warning disable RCS1175 // Unused 'this' parameter.
 
 using System;
 using System.Reflection;
@@ -17,8 +17,8 @@ namespace Cortside.Common.Validation {
             }
 
             Type classType = typeof(T);
-            ConstructorInfo classConstructor = classType.GetConstructor(new Type[] { typeof(string) });
-            T ex = (T)classConstructor.Invoke(parameters: new object[] { errorMessage });
+            ConstructorInfo classConstructor = classType.GetConstructor([typeof(string)]);
+            T ex = (T)classConstructor.Invoke(parameters: [errorMessage]);
             throw ex;
         }
 
