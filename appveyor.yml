@@ -2,9 +2,9 @@
 # library build
 ##
 
-image: Previous Visual Studio 2022
+image: Visual Studio 2022
 
-version: 8.2.{build}
+version: 10.0.{build}
 
 configuration:
 - Debug
@@ -31,6 +31,9 @@ environment:
     secure: y2oCk9wYmgBAzk4m1tsSFUOlcEePEjozzMCfC0p6NQI=
 
 install:
+- ps: |
+    Invoke-WebRequest -Uri 'https://dot.net/v1/dotnet-install.ps1' -UseBasicParsing -OutFile "$env:temp\dotnet-install.ps1"
+    & $env:temp\dotnet-install.ps1 -Architecture x64 -Version '10.0.100' -InstallDir "$env:ProgramFiles\dotnet"
 - ps: ./dotenv.ps1
 - ps: $Env:LABEL = "CI" + $Env:APPVEYOR_BUILD_NUMBER.PadLeft(5, "0")
 - ps: Get-ChildItem "Env:"
